@@ -17,7 +17,6 @@ public class EnemyMouvementController : MonoBehaviour
     private Vector2 destinationDirection;
     private Rigidbody2D enemyRb;
     private bool isAlive = true;
-    private bool isGamePaused = true;
     private int instanceId;
 
     // Start is called before the first frame update
@@ -27,8 +26,6 @@ public class EnemyMouvementController : MonoBehaviour
         enemyRb = GetComponent<Rigidbody2D>();
         instanceId = gameObject.GetInstanceID();
         eventManager.onEnemyDie += HandleEnemyDie;
-        eventManager.onResumeGame += HandleResumeGame;
-        eventManager.onPauseGame += HandlePauseGame;
         lookDirectionObject = transform.GetChild(0).gameObject;
         xFirstDestination = transform.position.x + xMinDistance;
         xSecondDestination = transform.position.x + xMaxDistance;
@@ -40,18 +37,6 @@ public class EnemyMouvementController : MonoBehaviour
     private void OnDestroy()
     {
         eventManager.onEnemyDie -= HandleEnemyDie;
-        eventManager.onResumeGame -= HandleResumeGame;
-        eventManager.onPauseGame -= HandlePauseGame;
-    }
-
-    void HandleResumeGame()
-    {
-        isGamePaused = false;
-    }
-
-    void HandlePauseGame()
-    {
-        isGamePaused = true;
     }
     void HandleEnemyDie(int instanceId)
     {

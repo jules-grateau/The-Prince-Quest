@@ -105,7 +105,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 1
-  m_Offset: {x: -0.04471171, y: -0.097828865}
+  m_Offset: {x: -0.038324356, y: -0.097828865}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -116,7 +116,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.63128924, y: 0.38563156}
+  m_Size: {x: 0.61851454, y: 0.38563156}
   m_EdgeRadius: 0
 --- !u!50 &3089261234256159469
 Rigidbody2D:
@@ -182,18 +182,18 @@ CompositeCollider2D:
         Y: -5812893
       - X: 5418365
         Y: 1899738
-      - X: -7207126
+      - X: -6951632
         Y: 1899445
-      - X: -7206833
+      - X: -6951339
         Y: -5812893
   - m_Collider: {fileID: 631688676950070303}
     m_ColliderPaths:
     - - X: 10158437
         Y: 805301
       - X: 10158437
-        Y: 6031747
+        Y: 4115572
       - X: 2505340
-        Y: 6031454
+        Y: 4115279
       - X: 2505633
         Y: 805301
   m_CompositePaths:
@@ -201,11 +201,11 @@ CompositeCollider2D:
     - - {x: 0.54180723, y: -0.5812893}
       - {x: 0.5418659, y: 0.0805301}
       - {x: 1.0158437, y: 0.0805594}
-      - {x: 1.0158144, y: 0.6031747}
-      - {x: 0.250534, y: 0.6031161}
-      - {x: 0.2505278, y: 0.189967}
-      - {x: -0.7207126, y: 0.1899152}
-      - {x: -0.720654, y: -0.5812893}
+      - {x: 1.0158144, y: 0.4115572}
+      - {x: 0.250534, y: 0.4114986}
+      - {x: 0.2505242, y: 0.1899669}
+      - {x: -0.6951632, y: 0.1899152}
+      - {x: -0.6951046, y: -0.5812893}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
 --- !u!61 &631688676950070303
@@ -221,7 +221,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 1
-  m_Offset: {x: 0.31660175, y: 0.17092621}
+  m_Offset: {x: 0.31660175, y: 0.12302184}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -232,7 +232,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.38266945, y: 0.26132226}
+  m_Size: {x: 0.38266945, y: 0.16551352}
   m_EdgeRadius: 0
 --- !u!114 &3089261234729619532
 MonoBehaviour:
@@ -246,6 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7772208444172e478a3d39a7dfd7500, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreValue: 50
 --- !u!114 &3089261234729619528
 MonoBehaviour:
   m_ObjectHideFlags: 0

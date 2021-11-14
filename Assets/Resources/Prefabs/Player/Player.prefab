@@ -200,9 +200,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 4
   airControlSpeed: 125
-  jumpVelocity: 5.5
+  jumpVelocity: 7
   hitThrowSpeed: 50
-  enemyBouncingSpeed: 50
+  enemyBouncingSpeed: 75
 --- !u!114 &3249946818059264662
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ public class PlayerMouvementController : MonoBehaviour
     private GameObject lookDirectionObject;
     private bool isGrounded;
     private bool isAlive = true;
+    private bool isPlayerInputFreeze = false;
 
     public float speed = 4f;
     public float airControlSpeed = 125;
@@ -26,6 +27,7 @@ public class PlayerMouvementController : MonoBehaviour
         eventManager.onEnemyCollidedWithPlayer += handleEnemyCollidedWithPlayer;
         eventManager.onPlayerSteppedOnEnemy += handlePlayerSteppedOnEnemy;
         eventManager.onPlayerDie += handlePlayerDie;
+        eventManager.onStopPlayerInput += HandleInputStop;
     }
 
     private void OnDestroy()
@@ -36,8 +38,17 @@ public class PlayerMouvementController : MonoBehaviour
         eventManager.onEnemyCollidedWithPlayer -= handleEnemyCollidedWithPlayer;
         eventManager.onPlayerSteppedOnEnemy -= handlePlayerSteppedOnEnemy;
         eventManager.onPlayerDie -= handlePlayerDie;
+        eventManager.onStopPlayerInput -= HandleInputStop;
     }
 
+    void HandleInputStop(bool shouldInputStop)
+    {
+        if(shouldInputStop)
+        {
+            playerRb.velocity = new Vector2(0, 0);
+            eventManager.Walking(false);
+        }
+    }
     private void handleGroundedEvent(bool isGrounded)
     {
         this.isGrounded = isGrounded;
@@ -80,7 +91,7 @@ public class PlayerMouvementController : MonoBehaviour
         }
 
         bool isWalking = isGrounded && playerRb.velocity.x != 0;
-        EventManager.current.Walking(isWalking);
+        eventManager.Walking(isWalking);
         CalculateLookDirection(horizontalInput);
     }
 

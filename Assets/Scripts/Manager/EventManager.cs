@@ -224,7 +224,6 @@ public class EventManager : MonoBehaviour
     }
     #endregion
 
-
     #region Animation Events 
     public event Action<bool> onIsKissing;
     public void IsKissing(bool isKissing)
@@ -259,6 +258,15 @@ public class EventManager : MonoBehaviour
         if (onStopAnimation != null)
         {
             onStopAnimation(animationType);
+        }
+    }
+
+    public event Action<AnimationType> onTriggerAnimation;
+    public void TriggerAnimation(AnimationType animationType)
+    {
+        if(onTriggerAnimation != null)
+        {
+            onTriggerAnimation(animationType);
         }
     }
     #endregion

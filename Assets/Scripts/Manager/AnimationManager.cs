@@ -5,7 +5,7 @@ namespace Assets.Scripts.Manager
 {
     public enum AnimationType
     {
-        LevelZero_KanaKiss
+        KanaKissPlayer
     }
     public class AnimationManager : MonoBehaviour
     {
@@ -22,7 +22,7 @@ namespace Assets.Scripts.Manager
         {
             switch (animationType)
             {
-                case AnimationType.LevelZero_KanaKiss:
+                case AnimationType.KanaKissPlayer:
                     eventManager.StopPlayerInput(true);
                     break;
             }
@@ -32,7 +32,7 @@ namespace Assets.Scripts.Manager
         {
             switch (animationType)
             {
-                case AnimationType.LevelZero_KanaKiss:
+                case AnimationType.KanaKissPlayer:
                     eventManager.StopPlayerInput(false);
                     break;
             }
