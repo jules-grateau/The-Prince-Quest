@@ -16,14 +16,12 @@ public class ScoreManager : MonoBehaviour
 
     void HandleAddScore(int score)
     {
-        Debug.Log("Adding score to the level score");
         this.levelScore += score;
         eventManager.UpdateScore(this.score + this.levelScore);
     }
     
     void HandleLoadLevel(Level level)
     {
-        Debug.Log("Adding score to the total score");
         this.score += this.levelScore;
         this.levelScore = 0;
         eventManager.UpdateScore(this.score + this.levelScore);
@@ -31,7 +29,6 @@ public class ScoreManager : MonoBehaviour
 
     void HandleReloadLevel()
     {
-        Debug.Log("Reseting level score");
         this.levelScore = 0;
         eventManager.UpdateScore(this.score + this.levelScore);
     }

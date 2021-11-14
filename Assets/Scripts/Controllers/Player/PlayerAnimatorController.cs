@@ -10,6 +10,9 @@ public class PlayerAnimatorController : MonoBehaviour
     private const string isWalkingParameterName = "isWalking";
     private const string isGroundedParameterName = "isGrounded";
     private const string isAliveParameterName = "isAlive";
+    private const string isKissingParameterName = "isKissing";
+    private const string kissingAnimationName = "PlayerKiss";
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +20,13 @@ public class PlayerAnimatorController : MonoBehaviour
         eventManager.onWalking += setWalkingParameter;
         eventManager.onGrounded += setGroundedParameter;
         eventManager.onPlayerDie += setIsAliveParameterFalse;
+        eventManager.onIsKissing += setKissingParameter;
         animator = GetComponent<Animator>();
+    }
+
+    void setKissingParameter(bool isKissing)
+    {
+        animator.SetBool(isKissingParameterName, isKissing);
     }
 
     private void OnDestroy()

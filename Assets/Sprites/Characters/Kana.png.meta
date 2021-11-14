@@ -1,19 +1,16 @@
 fileFormatVersion: 2
-guid: fd3a34c92667289459d7c41cec5f5a8a
+guid: cdb2d7a245140d746addf5680f761e9d
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8868272330977153355
-    second: PrinceWalking
+      213: 1727829923865862109
+    second: Kana_Iddle
   - first:
-      213: 6349069617109316163
-    second: PrinceJump
+      213: 166117493861005275
+    second: Kana_Kiss
   - first:
-      213: 1569261468809307932
-    second: PrinceIddle
-  - first:
-      213: 8916896056068427944
-    second: PlayerSprite_3
+      213: 3677477238671451806
+    second: Kana_Walk
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -58,7 +55,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 64
+  spritePixelsToUnits: 128
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -80,7 +77,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -92,7 +89,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -103,85 +100,64 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PrinceWalking
+      name: Kana_Iddle
       rect:
         serializedVersion: 2
-        x: 37
-        y: 132
-        width: 59
-        height: 127
+        x: 52
+        y: 133
+        width: 24
+        height: 118
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5be6ea41d419de480800000000000000
-      internalID: -8868272330977153355
+      spriteID: ddf905c492c7af710800000000000000
+      internalID: 1727829923865862109
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PrinceJump
+      name: Kana_Kiss
       rect:
         serializedVersion: 2
-        x: 167
-        y: 132
-        width: 56
-        height: 127
+        x: 179
+        y: 133
+        width: 26
+        height: 118
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 342b60e8d2d6c1850800000000000000
-      internalID: 6349069617109316163
+      spriteID: bd730940bfa2e4200800000000000000
+      internalID: 166117493861005275
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PrinceIddle
+      name: Kana_Walk
       rect:
         serializedVersion: 2
-        x: 51
-        y: 1
-        width: 28
-        height: 127
+        x: 46
+        y: 5
+        width: 35
+        height: 118
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c172618ddf227c510800000000000000
-      internalID: 1569261468809307932
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerSprite_3
-      rect:
-        serializedVersion: 2
-        x: 138
-        y: 50
-        width: 112
-        height: 30
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8a05a0128bd2fbb70800000000000000
-      internalID: 8916896056068427944
+      spriteID: e96a8908016090330800000000000000
+      internalID: 3677477238671451806
       vertices: []
       indices: 
       edges: []

@@ -1,4 +1,5 @@
 using Assets.Scripts.Controllers.UI;
+using Assets.Scripts.Manager;
 using System;
 using UnityEngine;
 
@@ -37,6 +38,15 @@ public class EventManager : MonoBehaviour
         if(onEscapeInput!= null)
         {
             onEscapeInput();
+        }
+    }
+
+    public event Action<bool> onStopPlayerInput;
+    public void StopPlayerInput(bool shouldStop)
+    {
+        if (onStopPlayerInput != null)
+        {
+            onStopPlayerInput(shouldStop);
         }
     }
     #endregion
@@ -210,6 +220,45 @@ public class EventManager : MonoBehaviour
         if(onReloadLevel != null)
         {
             onReloadLevel();
+        }
+    }
+    #endregion
+
+
+    #region Animation Events 
+    public event Action<bool> onIsKissing;
+    public void IsKissing(bool isKissing)
+    {
+        if(onIsKissing != null)
+        {
+            onIsKissing(isKissing);
+        }
+    }
+
+    public event Action onStopKissing;
+    public void StopKissing()
+    {
+        if (onStopKissing != null)
+        {
+            onStopKissing();
+        }
+    }
+
+    public event Action<AnimationType> onStartAnimation;
+    public void StartAnimation(AnimationType animationType)
+    {
+        if(onStartAnimation != null)
+        {
+            onStartAnimation(animationType);
+        }
+    }
+
+    public event Action<AnimationType> onStopAnimation;
+    public void StopAnimation(AnimationType animationType)
+    {
+        if (onStopAnimation != null)
+        {
+            onStopAnimation(animationType);
         }
     }
     #endregion
