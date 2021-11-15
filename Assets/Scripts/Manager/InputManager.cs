@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    public float spaceKeyForcePerFrameFixed = 0.1f;
+    public float maxSpaceKeyForce = 1f;
+
     private EventManager eventManager;
     private bool isGamePaused = true;
     private bool isInputStopped = false;
@@ -14,7 +17,7 @@ public class InputManager : MonoBehaviour
         eventManager.onResumeGame += HandleResumeGame;
         eventManager.onPauseGame += HandlePauseGame;
         eventManager.onStopPlayerInput += HandleInputStop;
-    }
+    } 
 
     void HandleInputStop(bool shouldInputStop)
     {
@@ -31,8 +34,21 @@ public class InputManager : MonoBehaviour
         isGamePaused = true;
     }
 
-    // Update is called once per frame
-    void Update()
+
+    private void Update()
+    {
+        if (isInputStopped)
+            return;
+        if (isGamePaused)
+            return;
+        
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            eventManager.SpaceInputDown();
+        }
+    }
+
+    void FixedUpdate()
     {
         if (isInputStopped)
             return;
@@ -46,7 +62,8 @@ public class InputManager : MonoBehaviour
             return;
 
         eventManager.HorizontalInput(Input.GetAxisRaw("Horizontal"));
-        if(Input.GetKeyDown(KeyCode.Space))
+
+        if(Input.GetKey(KeyCode.Space))
         {
             eventManager.SpaceInput();
         }

@@ -23,6 +23,15 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public event Action onSpaceInputDown;
+    public void SpaceInputDown()
+    {
+        if(onSpaceInputDown != null)
+        {
+            onSpaceInputDown();
+        }
+    }
+
     public event Action onSpaceInput;
     public void SpaceInput()
     {

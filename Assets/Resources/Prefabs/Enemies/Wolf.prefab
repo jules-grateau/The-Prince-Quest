@@ -105,7 +105,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 1
-  m_Offset: {x: -0.038324356, y: -0.097828865}
+  m_Offset: {x: -0.021108031, y: -0.097828865}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -116,7 +116,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.61851454, y: 0.38563156}
+  m_Size: {x: 0.5840819, y: 0.38563156}
   m_EdgeRadius: 0
 --- !u!50 &3089261234256159469
 Rigidbody2D:
@@ -182,30 +182,30 @@ CompositeCollider2D:
         Y: -5812893
       - X: 5418365
         Y: 1899738
-      - X: -6951632
+      - X: -6262979
         Y: 1899445
-      - X: -6951339
+      - X: -6262686
         Y: -5812893
   - m_Collider: {fileID: 631688676950070303}
     m_ColliderPaths:
-    - - X: 10158437
-        Y: 805301
-      - X: 10158437
+    - - X: 10020707
+        Y: 1080770
+      - X: 10020707
         Y: 4115572
-      - X: 2505340
+      - X: 2711939
         Y: 4115279
-      - X: 2505633
-        Y: 805301
+      - X: 2712232
+        Y: 1080770
   m_CompositePaths:
     m_Paths:
     - - {x: 0.54180723, y: -0.5812893}
-      - {x: 0.5418659, y: 0.0805301}
-      - {x: 1.0158437, y: 0.0805594}
-      - {x: 1.0158144, y: 0.4115572}
-      - {x: 0.250534, y: 0.4114986}
-      - {x: 0.2505242, y: 0.1899669}
-      - {x: -0.6951632, y: 0.1899152}
-      - {x: -0.6951046, y: -0.5812893}
+      - {x: 0.5418659, y: 0.108077005}
+      - {x: 1.0020707, y: 0.1081063}
+      - {x: 1.0020415, y: 0.4115572}
+      - {x: 0.2711939, y: 0.4114986}
+      - {x: 0.2711859, y: 0.189967}
+      - {x: -0.6262979, y: 0.1899152}
+      - {x: -0.6262393, y: -0.5812893}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
 --- !u!61 &631688676950070303
@@ -221,7 +221,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 1
-  m_Offset: {x: 0.31660175, y: 0.12302184}
+  m_Offset: {x: 0.3183235, y: 0.12990856}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -232,7 +232,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.38266945, y: 0.16551352}
+  m_Size: {x: 0.365453, y: 0.15174007}
   m_EdgeRadius: 0
 --- !u!114 &3089261234729619532
 MonoBehaviour:

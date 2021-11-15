@@ -7,8 +7,11 @@ public class PlayerMouvementController : MonoBehaviour
     private GameObject lookDirectionObject;
     private bool isGrounded;
     private bool isAlive = true;
-    private bool isPlayerInputFreeze = false;
+    private float forceAdded = 0;
 
+    public float maxJumpForce = 80;
+    public float initJumpForce = 80;
+    public float jumpForce = 8;
     public float speed = 4f;
     public float airControlSpeed = 125;
     public float jumpVelocity = 5.5f;
@@ -24,6 +27,7 @@ public class PlayerMouvementController : MonoBehaviour
         eventManager.onHorizontalInput += handleHorizontalInput;
         eventManager.onGrounded += handleGroundedEvent;
         eventManager.onSpaceInput += handleSpaceInput;
+        eventManager.onSpaceInputDown += handleSpaceInputDown;
         eventManager.onEnemyCollidedWithPlayer += handleEnemyCollidedWithPlayer;
         eventManager.onPlayerSteppedOnEnemy += handlePlayerSteppedOnEnemy;
         eventManager.onPlayerDie += handlePlayerDie;
@@ -35,6 +39,7 @@ public class PlayerMouvementController : MonoBehaviour
         eventManager.onHorizontalInput -= handleHorizontalInput;
         eventManager.onGrounded -= handleGroundedEvent;
         eventManager.onSpaceInput -= handleSpaceInput;
+        eventManager.onSpaceInputDown -= handleSpaceInputDown;
         eventManager.onEnemyCollidedWithPlayer -= handleEnemyCollidedWithPlayer;
         eventManager.onPlayerSteppedOnEnemy -= handlePlayerSteppedOnEnemy;
         eventManager.onPlayerDie -= handlePlayerDie;
@@ -52,6 +57,10 @@ public class PlayerMouvementController : MonoBehaviour
     private void handleGroundedEvent(bool isGrounded)
     {
         this.isGrounded = isGrounded;
+        if (isGrounded)
+        {
+            forceAdded = 0;
+        }
     }
 
     private void handleEnemyCollidedWithPlayer(Vector2 direction)
@@ -94,19 +103,32 @@ public class PlayerMouvementController : MonoBehaviour
         eventManager.Walking(isWalking);
         CalculateLookDirection(horizontalInput);
     }
-
     private void handleSpaceInput()
     {
         if (!isAlive)
             return;
 
-        if (isGrounded && Input.GetKeyDown(KeyCode.Space))
+        if (!isGrounded && playerRb.velocity.y > 0 && forceAdded < maxJumpForce)
         {
-            playerRb.velocity = new Vector2(playerRb.velocity.x, jumpVelocity);
+            Vector2 forceToAdd = Vector2.up * jumpForce;
+            playerRb.AddForce(forceToAdd, ForceMode2D.Impulse);
+            forceAdded += forceToAdd.y;
         }
     }
 
-    void CalculateLookDirection(float horizontalInput)
+    private void handleSpaceInputDown()
+    {
+        if (!isAlive)
+            return;
+
+        if (isGrounded)
+        {
+            Vector2 forceToAdd = Vector2.up * initJumpForce;
+            playerRb.AddForce(forceToAdd, ForceMode2D.Impulse);
+        }
+    }
+
+        void CalculateLookDirection(float horizontalInput)
     {
         if (!isAlive)
             return;

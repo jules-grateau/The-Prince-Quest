@@ -1800,6 +1800,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a524ea036981a434aad4f53240b42433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spaceKeyForcePerFrameFixed: 0.05
+  maxSpaceKeyForce: 1
 --- !u!4 &1395920963
 Transform:
   m_ObjectHideFlags: 0

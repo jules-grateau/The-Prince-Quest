@@ -198,11 +198,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 241908596de7f5748a486229e7c64e93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxJumpForce: 80
+  initJumpForce: 80
+  jumpForce: 8
   speed: 4
   airControlSpeed: 125
   jumpVelocity: 7
   hitThrowSpeed: 50
-  enemyBouncingSpeed: 75
+  enemyBouncingSpeed: 20
 --- !u!114 &3249946818059264662
 MonoBehaviour:
   m_ObjectHideFlags: 0
