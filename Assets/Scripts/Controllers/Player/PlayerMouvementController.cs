@@ -70,7 +70,8 @@ public class PlayerMouvementController : MonoBehaviour
 
     private void handlePlayerSteppedOnEnemy(int instanceId)
     {
-        playerRb.AddForce(Vector2.up * enemyBouncingSpeed, ForceMode2D.Impulse);
+        playerRb.velocity = new Vector2( playerRb.velocity.x, enemyBouncingSpeed);
+        eventManager.PlayerJump();
     }
 
     private void handlePlayerDie()
@@ -123,6 +124,7 @@ public class PlayerMouvementController : MonoBehaviour
 
         if (isGrounded)
         {
+            eventManager.PlayerJump();
             Vector2 forceToAdd = Vector2.up * initJumpForce;
             playerRb.AddForce(forceToAdd, ForceMode2D.Impulse);
         }

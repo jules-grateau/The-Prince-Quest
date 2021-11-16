@@ -288,4 +288,15 @@ public class EventManager : MonoBehaviour
         }
     }
     #endregion
+
+    #region Player Event
+    public event Action onPlayerJump;
+    public void PlayerJump()
+    {
+        if(onPlayerJump != null)
+        {
+            onPlayerJump();
+        }
+    }
+    #endregion
 }
