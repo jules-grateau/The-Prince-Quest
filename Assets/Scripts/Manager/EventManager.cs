@@ -163,12 +163,12 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public event Action<Level> onDoorEnter;
-    public void DoorEnter(Level level)
+    public event Action<LevelType> onDoorEnter;
+    public void DoorEnter(LevelType levelType)
     {
         if(onDoorEnter != null)
         {
-            onDoorEnter(level);
+            onDoorEnter(levelType);
         }
     }
     #endregion
@@ -210,16 +210,25 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public event Action<UiTextElementType, string> onUpdateTextElement;
+    public void UpdateTextElement(UiTextElementType elementType, string value)
+    {
+        if(onUpdateTextElement != null)
+        {
+            onUpdateTextElement(elementType, value);
+        }
+    }
+
     #endregion
 
     #region Level Events
 
-    public event Action<Level> onLoadLevel;
-    public void LoadLevel(Level level)
+    public event Action<LevelType> onLoadLevel;
+    public void LoadLevel(LevelType levelType)
     {
         if(onLoadLevel != null)
         {
-            onLoadLevel(level);
+            onLoadLevel(levelType);
         }
     }
 

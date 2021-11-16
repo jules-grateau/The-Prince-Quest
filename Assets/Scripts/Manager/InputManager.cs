@@ -39,6 +39,12 @@ public class InputManager : MonoBehaviour
     {
         if (isInputStopped)
             return;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            eventManager.EscapeInput();
+        }
+
         if (isGamePaused)
             return;
         
@@ -52,11 +58,6 @@ public class InputManager : MonoBehaviour
     {
         if (isInputStopped)
             return;
-
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            eventManager.EscapeInput();
-        }
 
         if (isGamePaused)
             return;

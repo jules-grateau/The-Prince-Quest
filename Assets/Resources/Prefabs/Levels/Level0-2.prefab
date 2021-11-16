@@ -157,7 +157,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2425550594736954685}
   m_Layer: 0
-  m_Name: LevelOne
+  m_Name: Level0-2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2335,7 +2335,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7976678380154470816}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7211541783675386994}
@@ -2791,11 +2791,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3089261234256159471, guid: 9a25648472dfd7047af9f5cf8190962a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.85
+      value: 12.62
       objectReference: {fileID: 0}
     - target: {fileID: 3089261234256159471, guid: 9a25648472dfd7047af9f5cf8190962a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.4
+      value: -0.55
       objectReference: {fileID: 0}
     - target: {fileID: 3089261234256159471, guid: 9a25648472dfd7047af9f5cf8190962a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2835,11 +2835,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3089261234729619528, guid: 9a25648472dfd7047af9f5cf8190962a, type: 3}
       propertyPath: xMaxDistance
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3089261234729619528, guid: 9a25648472dfd7047af9f5cf8190962a, type: 3}
       propertyPath: xMinDistance
-      value: 0
+      value: -2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a25648472dfd7047af9f5cf8190962a, type: 3}

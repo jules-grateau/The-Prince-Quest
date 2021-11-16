@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     {
         isGameStarted = true;
         eventManager.OpenScreen(ScreenType.LoadingScreen);
-        eventManager.LoadLevel(Level.LevelZero);
+        eventManager.LoadLevel(LevelType.LevelZeroOne);
         eventManager.ActivateButton(ButtonType.RestartLevel);
         eventManager.OpenScreen(ScreenType.UI);
         eventManager.StartGame();
@@ -95,10 +95,10 @@ public class GameManager : MonoBehaviour
         eventManager.ActivateButton(ButtonType.RestartLevel);
     }
 
-    void HandleDoorEnter(Level level)
+    void HandleDoorEnter(LevelType levelType)
     {
         eventManager.OpenScreen(ScreenType.LoadingScreen);
-        eventManager.LoadLevel(level);
+        eventManager.LoadLevel(levelType);
         eventManager.OpenScreen(ScreenType.UI);
     }
 }

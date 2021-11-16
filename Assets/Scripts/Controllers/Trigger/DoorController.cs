@@ -4,22 +4,31 @@ using UnityEngine;
 
 public class DoorController : MonoBehaviour
 {
-    public Level levelToLoad;
+    public LevelType levelToLoad;
     private EventManager eventManager;
+    private bool isPlayerDead = false;
     // Start is called before the first frame update
     void Start()
     {
         eventManager = EventManager.current;
+        eventManager.onPlayerDie += handlePlayerDie;
+    }
+
+    private void OnDestroy()
+    {
+        eventManager.onPlayerDie -= handlePlayerDie;
+    }
+
+    void handlePlayerDie()
+    {
+        isPlayerDead = true;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        eventManager.DoorEnter(levelToLoad);
-    }
+        if (isPlayerDead)
+            return;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        eventManager.DoorEnter(levelToLoad);
     }
 }

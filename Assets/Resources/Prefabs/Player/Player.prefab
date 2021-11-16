@@ -205,7 +205,7 @@ MonoBehaviour:
   airControlSpeed: 125
   jumpVelocity: 7
   hitThrowSpeed: 50
-  enemyBouncingSpeed: 20
+  enemyBouncingSpeed: 40
 --- !u!114 &3249946818059264662
 MonoBehaviour:
   m_ObjectHideFlags: 0
