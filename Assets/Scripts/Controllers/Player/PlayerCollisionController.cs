@@ -47,9 +47,10 @@ public class PlayerCollisionController : MonoBehaviour
     {
         // Collider to detected collision with ground, to check if grounded
         Collider2D enemyOverlapBox = Physics2D.OverlapBox(playerRb.position + boxCollider.offset + Vector2.down
-            , new Vector2(boxCollider.size.x, 0.10f), 0, enemyLayer);
+            , new Vector2(boxCollider.size.x*2, 0.10f), 0, enemyLayer);
         if (enemyOverlapBox != null)
         {
+            Debug.Log($"Stepped on enemy : {enemyOverlapBox.gameObject.GetInstanceID()}");
             eventManager.PlayerSteppedOnEnemy(enemyOverlapBox.gameObject.GetInstanceID());
         }
     }
