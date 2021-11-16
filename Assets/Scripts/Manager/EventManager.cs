@@ -97,12 +97,12 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public event Action<int> onAddScore;
-    public void AddScore(int score)
+    public event Action<Vector2,int> onAddScore;
+    public void AddScore(Vector2 position, int score)
     {
         if (onAddScore != null)
         {
-            onAddScore(score);
+            onAddScore(position,score);
         }
     }
 

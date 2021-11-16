@@ -29,6 +29,10 @@ public class DoorController : MonoBehaviour
         if (isPlayerDead)
             return;
 
-        eventManager.DoorEnter(levelToLoad);
+
+        if (collision.CompareTag("Player"))
+        {
+            eventManager.DoorEnter(levelToLoad);
+        }
     }
 }

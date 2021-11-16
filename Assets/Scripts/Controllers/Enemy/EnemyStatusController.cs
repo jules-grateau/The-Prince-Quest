@@ -35,7 +35,7 @@ public class EnemyStatusController : MonoBehaviour
     {
         if(instanceId == this.instanceId)
         {
-            eventManager.AddScore(scoreValue);
+            eventManager.AddScore(transform.position, scoreValue);
             isAlive = false;
         }
     } 
