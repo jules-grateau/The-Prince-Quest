@@ -38,7 +38,7 @@ public class ScoreManager : MonoBehaviour
 
         }
 
-        Instantiate(scoreBoxPrefab, position, Quaternion.Euler(0,0,0));
+        Instantiate(scoreBoxPrefab, new Vector3(position.x, position.y,scoreBoxPrefab.transform.position.z), Quaternion.Euler(0,0,0));
     }
     
     void HandleLoadLevel(LevelType levelType)

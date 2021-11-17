@@ -14,7 +14,6 @@ public class PlayerSoundController : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        Debug.Log(soundPath + jumpAudioClipPath);
         jumpAudioClip = Resources.Load<AudioClip>(soundPath + jumpAudioClipPath);
         eventManager = EventManager.current;
         eventManager.onPlayerJump += HandlePlayerJump;

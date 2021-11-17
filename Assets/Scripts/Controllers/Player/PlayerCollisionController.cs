@@ -50,7 +50,6 @@ public class PlayerCollisionController : MonoBehaviour
             , new Vector2(boxCollider.size.x*2, 0.10f), 0, enemyLayer);
         if (enemyOverlapBox != null)
         {
-            Debug.Log($"Stepped on enemy : {enemyOverlapBox.gameObject.GetInstanceID()}");
             eventManager.PlayerSteppedOnEnemy(enemyOverlapBox.gameObject.GetInstanceID());
         }
     }

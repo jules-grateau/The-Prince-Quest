@@ -4,7 +4,8 @@ using UnityEngine;
 public enum LevelType
 {
     LevelZeroOne,
-    LevelZeroTwo
+    LevelZeroTwo,
+    LevelZeroThree
 }
 
 public class Level
@@ -25,6 +26,7 @@ public class LevelManager : MonoBehaviour
     {
          { LevelType.LevelZeroOne, new Level("Level0-1","0-1")},
          { LevelType.LevelZeroTwo, new Level("Level0-2","0-2")},
+         { LevelType.LevelZeroThree, new Level("Level0-3","0-3")}
     };
 
     private const string levelPrefabsPath = "Prefabs/Levels/";
