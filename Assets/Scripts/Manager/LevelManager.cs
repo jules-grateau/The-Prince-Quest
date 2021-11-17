@@ -39,6 +39,16 @@ public class LevelManager : MonoBehaviour
         eventManager = EventManager.current;
         eventManager.onLoadLevel += handleLoadLevel;
         eventManager.onReloadLevel += handleOnReloadLevel;
+        eventManager.onUnloadLevel += handleUnloadLevel;
+    }
+
+    void handleUnloadLevel()
+    {
+        if(currentLevelInstance != null)
+        {
+            Destroy(currentLevelInstance);
+            currentLevelInstance = null;
+        }
     }
 
     void handleOnReloadLevel()
@@ -47,7 +57,6 @@ public class LevelManager : MonoBehaviour
         {
             Destroy(currentLevelInstance);
             currentLevelInstance = Instantiate(currentLevel);
-            eventManager.ResumeGame();
         }
     }
 

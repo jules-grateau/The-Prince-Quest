@@ -79,12 +79,32 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    //Event sent by the PlayerStatusController indicating that the player just died
     public event Action onPlayerDie;
     public void PlayerDie()
     {
         if (onPlayerDie != null)
         {
             onPlayerDie();
+        }
+    }
+
+    //Event sent by other element indicating they kill the played
+    public event Action onKillPlayer;
+    public void KillPlayer()
+    {
+        if(onKillPlayer != null)
+        {
+            onKillPlayer();
+        }
+    }
+
+    public event Action<Vector2> onAddLife;
+    public void AddLife(Vector2 position)
+    {
+        if(onAddLife != null)
+        {
+            onAddLife(position);
         }
     }
 
@@ -238,6 +258,15 @@ public class EventManager : MonoBehaviour
         if(onReloadLevel != null)
         {
             onReloadLevel();
+        }
+    }
+
+    public event Action onUnloadLevel;
+    public void UnloadLevel()
+    {
+        if(onUnloadLevel != null)
+        {
+            onUnloadLevel();
         }
     }
     #endregion

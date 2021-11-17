@@ -1,6 +1,4 @@
 using Assets.Scripts.Controllers.UI;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -8,6 +6,9 @@ public class GameManager : MonoBehaviour
     private EventManager eventManager;
     private bool isGamePaused = true;
     private bool isGameStarted = false;
+    private int playerLifes = 0;
+    private const string lifeBoxPrefabPath = "Prefabs/Text/LifeBox";
+    private GameObject lifeBoxPrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,11 +18,15 @@ public class GameManager : MonoBehaviour
         eventManager.onClickButton += HandleClickButton;
         eventManager.onPlayerDie += HandlePlayerDie;
         eventManager.onDoorEnter += HandleDoorEnter;
+        eventManager.onAddLife += HandleAddLife;
+        lifeBoxPrefab = Resources.Load<GameObject>(lifeBoxPrefabPath);
     }
 
     void StartGame()
     {
         isGameStarted = true;
+        playerLifes = 3;
+        UpdateLifeText();
         eventManager.OpenScreen(ScreenType.LoadingScreen);
         eventManager.LoadLevel(LevelType.LevelZeroOne);
         eventManager.ActivateButton(ButtonType.RestartLevel);
@@ -86,13 +91,41 @@ public class GameManager : MonoBehaviour
                 ResumeGame();
                 eventManager.OpenScreen(ScreenType.UI);
                 break;
+            case ButtonType.ReturnMenu:
+                PauseGame();
+                eventManager.UnloadLevel();
+                eventManager.OpenScreen(ScreenType.Menu);
+                break;
         }
     }
 
     void HandlePlayerDie()
     {
-        eventManager.OpenScreen(ScreenType.DeathScreen);
-        eventManager.ActivateButton(ButtonType.RestartLevel);
+        playerLifes -= 1;
+        if (playerLifes >= 0)
+        {
+            UpdateLifeText();
+            eventManager.OpenScreen(ScreenType.DeathScreen);
+        } else
+        {
+            eventManager.OpenScreen(ScreenType.GameOverScreen);
+        }
+    }
+
+    void HandleAddLife(Vector2 position)
+    {
+        playerLifes++;
+        UpdateLifeText();
+        if(lifeBoxPrefab != null)
+        {
+            Instantiate(lifeBoxPrefab, new Vector3(position.x, position.y, lifeBoxPrefab.transform.position.z), 
+                Quaternion.Euler(0, 0, 0));
+        }
+    } 
+
+    void UpdateLifeText()
+    {
+        eventManager.UpdateTextElement(UiTextElementType.Life, "x" + playerLifes);
     }
 
     void HandleDoorEnter(LevelType levelType)

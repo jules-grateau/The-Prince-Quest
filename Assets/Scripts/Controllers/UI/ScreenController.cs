@@ -8,7 +8,8 @@ namespace Assets.Scripts.Controllers.UI
         Menu,
         UI,
         DeathScreen,
-        LoadingScreen
+        LoadingScreen,
+        GameOverScreen
     }
 
     public class ScreenController : MonoBehaviour

@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public enum UiTextElementType
 {
     Score,
-    Level
+    Level,
+    Life
 }
 [RequireComponent(typeof(Text))]
 public class UiTextElementController : MonoBehaviour

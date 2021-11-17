@@ -9,7 +9,8 @@ namespace Assets.Scripts.Controllers.UI
     {
         StartGame,
         ResumeGame,
-        RestartLevel
+        RestartLevel,
+        ReturnMenu
     }
 
     [RequireComponent(typeof(Button))]

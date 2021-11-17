@@ -10,6 +10,7 @@ public class KissPlayerAndLeaveAnimationScript : MonoBehaviour
     public Vector2 moveTowardOffset;
     public Vector2 leaveTargetOffset;
     public AnimationType animationType = AnimationType.KanaKissPlayer;
+    public float kissTime = 1f;
 
     bool kissedPlayer = false;
     bool coroutineStarted = false;
@@ -88,7 +89,7 @@ public class KissPlayerAndLeaveAnimationScript : MonoBehaviour
     IEnumerator StopKissAndLeave()
     {
         coroutineStarted = true;
-        yield return new WaitForSecondsRealtime(2f);
+        yield return new WaitForSecondsRealtime(kissTime);
         eventManager.IsKissing(false);
         animator.SetBool(isKissingParameterName, false);
         transform.eulerAngles = transform.eulerAngles - new Vector3(0, 180, 0);

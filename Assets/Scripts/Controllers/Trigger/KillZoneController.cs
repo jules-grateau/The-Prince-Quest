@@ -13,7 +13,7 @@ public class KillZoneController : MonoBehaviour
     {
         if(collision.CompareTag("Player"))
         {
-            eventManager.PlayerDie();
+            eventManager.KillPlayer();
         }
     }
 }

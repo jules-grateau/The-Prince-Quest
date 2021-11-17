@@ -14,7 +14,15 @@ public class ScoreManager : MonoBehaviour
         eventManager.onAddScore += HandleAddScore;
         eventManager.onLoadLevel += HandleLoadLevel;
         eventManager.onReloadLevel += HandleReloadLevel;
+        eventManager.onStartGame += HandleStartGame;
         scoreBoxPrefab = Resources.Load<GameObject>(ScoreBoxPrefabPath);
+    }
+
+    void HandleStartGame()
+    {
+        score = 0;
+        levelScore = 0;
+        UpdateScore();
     }
 
     void HandleAddScore(Vector2 position, int score)
