@@ -32,6 +32,7 @@ public class PlayerCollisionController : MonoBehaviour
 
         CalculateGroundColision();
         CalculateEnemyColision();
+        CalculateIsCrushed();
     }
 
     void CalculateGroundColision()
@@ -54,8 +55,49 @@ public class PlayerCollisionController : MonoBehaviour
         }
     }
 
+    void CalculateIsCrushed()
+    {
+        Collider2D[] OverlapBox = Physics2D.OverlapBoxAll(playerRb.position + boxCollider.offset, boxCollider.size, 0);
+        bool IsPushedLeft = false;
+        bool IsPushedRight = false;
+        foreach(Collider2D collider in OverlapBox)
+        {
+            if(collider.transform.position.x < transform.position.x)
+            {
+                IsPushedLeft = true;
+            }
+            if (collider.transform.position.x > transform.position.x)
+            {
+                IsPushedRight = true;
+            }
+        }
+
+        if(IsPushedLeft && IsPushedRight)
+        {
+            eventManager.PlayerDie();
+        }
+    }
+
     void HandlePlayerDie()
     {
         isAlive = false;
     }
+
+    /*private void OnCollisionStay2D(Collision2D collision)
+    {
+        Vector2 contactPoint = collision.contacts[collision.contacts.Length-1].point;
+        Debug.DrawLine(transform.position, contactPoint);
+        if(contactPoint.x < transform.position.x)
+        {
+            Debug.Log("Contact a gauche");
+            Debug.Log(transform.position);
+            Debug.Log(contactPoint);
+        }
+        if(contactPoint.x > transform.position.x)
+        {
+            Debug.Log("Contact a droite");
+            Debug.Log(transform.position);
+            Debug.Log(contactPoint);
+        }
+    }*/
 }

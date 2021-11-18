@@ -328,4 +328,15 @@ public class EventManager : MonoBehaviour
         }
     }
     #endregion
+
+    #region Level Event
+    public event Action<InGameEventType> onStartGameEvent;
+    public void StartGameEvent(InGameEventType gameEventType)
+    {
+        if(onStartGameEvent != null)
+        {
+            onStartGameEvent(gameEventType);
+        }
+    }
+    #endregion
 }

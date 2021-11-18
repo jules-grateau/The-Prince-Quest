@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
         UpdateLifeText();
         eventManager.OpenScreen(ScreenType.LoadingScreen);
         eventManager.LoadLevel(LevelType.LevelZeroOne);
+        //eventManager.LoadLevel(LevelType.LevelZeroFour);
         eventManager.ActivateButton(ButtonType.RestartLevel);
         eventManager.OpenScreen(ScreenType.UI);
         eventManager.StartGame();

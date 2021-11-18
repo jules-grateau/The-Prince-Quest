@@ -5,13 +5,7 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts.Controllers.UI
 {
-    public enum ButtonType
-    {
-        StartGame,
-        ResumeGame,
-        RestartLevel,
-        ReturnMenu
-    }
+
 
     [RequireComponent(typeof(Button))]
     public class ButtonController : MonoBehaviour

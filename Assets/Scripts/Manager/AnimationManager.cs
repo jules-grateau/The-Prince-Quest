@@ -3,10 +3,6 @@ using UnityEngine;
 
 namespace Assets.Scripts.Manager
 {
-    public enum AnimationType
-    {
-        KanaKissPlayer
-    }
     public class AnimationManager : MonoBehaviour
     {
         EventManager eventManager;

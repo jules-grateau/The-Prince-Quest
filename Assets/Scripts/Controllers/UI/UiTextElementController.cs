@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum UiTextElementType
-{
-    Score,
-    Level,
-    Life
-}
 [RequireComponent(typeof(Text))]
 public class UiTextElementController : MonoBehaviour
 {

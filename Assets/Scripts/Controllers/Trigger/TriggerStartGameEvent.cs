@@ -2,11 +2,13 @@
 
 namespace Assets.Scripts.Controllers.Trigger
 {
-    public class AddLifeTrigger : MonoBehaviour
+    [RequireComponent(typeof(Collider2D))]
+    public class TriggerStartGameEvent : MonoBehaviour
     {
+        public InGameEventType gameEvent;
         EventManager eventManager;
-        // Use this for initialization
-        void Start()
+
+        public void Awake()
         {
             eventManager = EventManager.current;
         }
@@ -15,9 +17,9 @@ namespace Assets.Scripts.Controllers.Trigger
         {
             if(collision.CompareTag("Player"))
             {
-                eventManager.AddLife(collision.transform.position);
+                eventManager.StartGameEvent(gameEvent);
+                gameObject.SetActive(false);
             }
         }
-
     }
 }

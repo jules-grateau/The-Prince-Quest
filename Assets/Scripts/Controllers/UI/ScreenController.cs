@@ -3,15 +3,6 @@ using UnityEngine;
 
 namespace Assets.Scripts.Controllers.UI
 {
-    public enum ScreenType
-    {
-        Menu,
-        UI,
-        DeathScreen,
-        LoadingScreen,
-        GameOverScreen
-    }
-
     public class ScreenController : MonoBehaviour
     {
         public ScreenType screenType;
