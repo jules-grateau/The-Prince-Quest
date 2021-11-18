@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class PlayerCollisionController : MonoBehaviour
 {
-    private EventManager eventManager;
-    private Rigidbody2D playerRb;
-    private BoxCollider2D boxCollider;
-    private bool isAlive = true;
+    EventManager eventManager;
+    Rigidbody2D playerRb;
+    BoxCollider2D boxCollider;
+    bool isAlive = true;
+    GameObject lookDirectionObject;
+
+    public float interacteDistance = 0.5f;
     public LayerMask groundLayer;
     public LayerMask enemyLayer;
     // Start is called before the first frame update
@@ -17,6 +20,7 @@ public class PlayerCollisionController : MonoBehaviour
         eventManager.onPlayerDie += HandlePlayerDie;
         boxCollider = GetComponent<BoxCollider2D>();
         playerRb = GetComponent<Rigidbody2D>();
+        lookDirectionObject = transform.GetChild(0).gameObject;
     }
 
     private void OnDestroy()
@@ -33,14 +37,36 @@ public class PlayerCollisionController : MonoBehaviour
         CalculateGroundColision();
         CalculateEnemyColision();
         CalculateIsCrushed();
+        CalculateInteractable();
+    }
+
+    void CalculateInteractable()
+    {
+        Vector2 direction = lookDirectionObject.transform.position.x - transform.position.x < 0 ? Vector2.left : Vector2.right;
+
+        RaycastHit2D interactableOverlapRay = Physics2D.Raycast(transform.position, direction, interacteDistance, groundLayer);
+        Debug.DrawRay(transform.position, direction, Color.red);
+        Collider2D collider = interactableOverlapRay.collider;
+
+        if (collider != null && collider.CompareTag("Interactable"))
+        {
+            Debug.DrawRay(transform.position, direction , Color.green);
+            eventManager.CanInteractWith(collider.gameObject.GetInstanceID());
+        } else
+        {
+            eventManager.CanInteractWith(0);
+        }
     }
 
     void CalculateGroundColision()
     {
+        Vector2 boxPoint = playerRb.position + new Vector2(boxCollider.offset.x, -boxCollider.size.y );
+        Vector2 boxSize = new Vector2((boxCollider.size.x * 0.95f), 0.10f);
         // Collider to detected collision with ground, to check if grounded
-        Collider2D groundOverlapBox = Physics2D.OverlapBox(playerRb.position + Vector2.down
-            , new Vector2((float) (boxCollider.size.x * 0.95), 0.10f), transform.rotation.y, groundLayer);
+        Collider2D groundOverlapBox = Physics2D.OverlapBox(boxPoint
+            , boxSize, transform.rotation.y, groundLayer);
         bool groundHit = groundOverlapBox != null;
+        Debug.DrawRay(boxPoint, boxSize, groundHit ? Color.green : Color.red);
         eventManager.Grounded(groundHit);
     }
 

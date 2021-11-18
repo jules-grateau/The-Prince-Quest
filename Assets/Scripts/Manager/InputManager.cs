@@ -52,6 +52,16 @@ public class InputManager : MonoBehaviour
         {
             eventManager.SpaceInputDown();
         }
+
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            eventManager.InteractKeyDown();
+        }
+
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            eventManager.InteractKeyUp();
+        }
     }
 
     void FixedUpdate()

@@ -58,6 +58,24 @@ public class EventManager : MonoBehaviour
             onStopPlayerInput(shouldStop);
         }
     }
+
+    public event Action onInteractKeyDown;
+    public void InteractKeyDown()
+    {
+        if (onInteractKeyDown != null)
+        {
+            onInteractKeyDown();
+        }
+    }
+
+    public event Action onInteractKeyUp;
+    public void InteractKeyUp()
+    {
+        if (onInteractKeyUp != null)
+        {
+            onInteractKeyUp();
+        }
+    }
     #endregion
 
     #region State Event
@@ -338,5 +356,51 @@ public class EventManager : MonoBehaviour
             onStartGameEvent(gameEventType);
         }
     }
+
+    public event Action<int> onCanInteractWith;
+    public void CanInteractWith(int gameobjectId)
+    {
+        if(onCanInteractWith != null)
+        {
+            onCanInteractWith(gameobjectId);
+        } 
+    }
+
+    public event Action<int> onStartInteractWith;
+    public void StartInteractWith(int gameobjectId)
+    {
+        if (onStartInteractWith != null)
+        {
+            onStartInteractWith(gameobjectId);
+        }
+    }
+
+    public event Action<int> onStopInteractWith;
+    public void StopInteractWith(int gameobjectId)
+    {
+        if (onStopInteractWith != null)
+        {
+            onStopInteractWith(gameobjectId);
+        }
+    }
+
+    public event Action<GameObject> onStartDragging;
+    public void StartDragging(GameObject gameObject)
+    {
+        if(onStartDragging != null)
+        {
+            onStartDragging(gameObject);
+        }
+    }
+
+    public event Action<GameObject> onStopDragging;
+    public void StopDragging(GameObject gameObject)
+    {
+        if (onStopDragging != null)
+        {
+            onStopDragging(gameObject);
+        }
+    }
+
     #endregion
 }

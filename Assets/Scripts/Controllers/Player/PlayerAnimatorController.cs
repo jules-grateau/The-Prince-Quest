@@ -11,6 +11,7 @@ public class PlayerAnimatorController : MonoBehaviour
     private const string isGroundedParameterName = "isGrounded";
     private const string isAliveParameterName = "isAlive";
     private const string isKissingParameterName = "isKissing";
+    private const string isDraggingParameterName = "isDragging";
 
     // Start is called before the first frame update
     void Start()
@@ -20,12 +21,9 @@ public class PlayerAnimatorController : MonoBehaviour
         eventManager.onGrounded += setGroundedParameter;
         eventManager.onPlayerDie += setIsAliveParameterFalse;
         eventManager.onIsKissing += setKissingParameter;
+        eventManager.onStartDragging += setDragParameterTrue;
+        eventManager.onStopDragging += setDragParameterFalse;
         animator = GetComponent<Animator>();
-    }
-
-    void setKissingParameter(bool isKissing)
-    {
-        animator.SetBool(isKissingParameterName, isKissing);
     }
 
     private void OnDestroy()
@@ -34,6 +32,24 @@ public class PlayerAnimatorController : MonoBehaviour
         eventManager.onGrounded -= setGroundedParameter;
         eventManager.onPlayerDie -= setIsAliveParameterFalse;
         eventManager.onIsKissing -= setKissingParameter;
+        eventManager.onStartDragging -= setDragParameterTrue;
+        eventManager.onStopDragging -= setDragParameterFalse;
+    }
+
+
+    void setDragParameterTrue(GameObject gameObject)
+    {
+        animator.SetBool(isDraggingParameterName, true);
+    }
+
+    void setDragParameterFalse(GameObject gameObject)
+    {
+        animator.SetBool(isDraggingParameterName, false);
+    }
+
+    void setKissingParameter(bool isKissing)
+    {
+        animator.SetBool(isKissingParameterName, isKissing);
     }
 
     void setIsAliveParameterFalse()

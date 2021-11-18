@@ -2,12 +2,15 @@ using UnityEngine;
 
 public class PlayerMouvementController : MonoBehaviour
 {
-    private EventManager eventManager;
-    private Rigidbody2D playerRb;
-    private GameObject lookDirectionObject;
-    private bool isGrounded;
-    private bool isAlive = true;
-    private float forceAdded = 0;
+    EventManager eventManager;
+    Rigidbody2D playerRb;
+    GameObject lookDirectionObject;
+    bool isGrounded;
+    bool isAlive = true;
+    float forceAdded = 0;
+    GameObject gameObjectDragged = null;
+    float gameObjectDraggedOffsetX;
+
 
     public float maxJumpForce = 80;
     public float initJumpForce = 80;
@@ -32,6 +35,8 @@ public class PlayerMouvementController : MonoBehaviour
         eventManager.onPlayerSteppedOnEnemy += handlePlayerSteppedOnEnemy;
         eventManager.onPlayerDie += handlePlayerDie;
         eventManager.onStopPlayerInput += HandleInputStop;
+        eventManager.onStartDragging += HandleStartDragging;
+        eventManager.onStopDragging += HandleStopDragging;
     }
 
     private void OnDestroy()
@@ -44,6 +49,22 @@ public class PlayerMouvementController : MonoBehaviour
         eventManager.onPlayerSteppedOnEnemy -= handlePlayerSteppedOnEnemy;
         eventManager.onPlayerDie -= handlePlayerDie;
         eventManager.onStopPlayerInput -= HandleInputStop;
+        eventManager.onStartDragging -= HandleStartDragging;
+        eventManager.onStopDragging -= HandleStopDragging;
+    }
+
+    void HandleStartDragging(GameObject gameObject)
+    {
+        gameObjectDragged = gameObject;
+        gameObjectDraggedOffsetX = gameObject.transform.position.x - transform.position.x;
+    }
+
+    void HandleStopDragging(GameObject gameObject)
+    {
+        if(gameObjectDragged != null && gameObjectDragged.GetInstanceID() == gameObject.GetInstanceID())
+        {
+            gameObjectDragged = null;
+        }
     }
 
     void HandleInputStop(bool shouldInputStop)
@@ -79,25 +100,45 @@ public class PlayerMouvementController : MonoBehaviour
         this.isAlive = false;
     }
 
+    bool IsDragging()
+    {
+        return gameObjectDragged != null;
+    }
+
     private void handleHorizontalInput(float horizontalInput)
     {
         if (!isAlive)
             return;
 
+
+        float actualSpeed = speed;
+        float actualAirControlSpeed = airControlSpeed;
+        if (IsDragging())
+        {
+            actualSpeed = speed / 2;
+            actualAirControlSpeed = airControlSpeed / 2;
+        }
+
         if (isGrounded)
         {
             //We give a specific velocity to the character when on ground
-            playerRb.velocity = new Vector2(horizontalInput * speed, playerRb.velocity.y);
+            playerRb.velocity = new Vector2(horizontalInput * actualSpeed, playerRb.velocity.y);
         }
         else
         {
+
             //But air control is done by adding force
-            playerRb.AddForce(Vector2.right * horizontalInput * airControlSpeed * Time.deltaTime, ForceMode2D.Impulse);
+            playerRb.AddForce(Vector2.right * horizontalInput * actualAirControlSpeed * Time.deltaTime, ForceMode2D.Impulse);
             //Controling that airspeed does not get higher than ground speed and force is added
             if (Mathf.Abs(playerRb.velocity.x) > speed)
             {
-                playerRb.velocity = new Vector2(horizontalInput * speed, playerRb.velocity.y);
+                playerRb.velocity = new Vector2(horizontalInput * actualSpeed, playerRb.velocity.y);
             }
+        }
+
+        if(gameObjectDragged != null)
+        {
+            gameObjectDragged.transform.position = new Vector3(transform.position.x + gameObjectDraggedOffsetX, gameObjectDragged.transform.position.y);
         }
 
         bool isWalking = isGrounded && playerRb.velocity.x != 0;
@@ -106,7 +147,7 @@ public class PlayerMouvementController : MonoBehaviour
     }
     private void handleSpaceInput()
     {
-        if (!isAlive)
+        if (!isAlive || IsDragging())
             return;
 
         if (!isGrounded && playerRb.velocity.y > 0 && forceAdded < maxJumpForce)
@@ -119,7 +160,7 @@ public class PlayerMouvementController : MonoBehaviour
 
     private void handleSpaceInputDown()
     {
-        if (!isAlive)
+        if (!isAlive || IsDragging())
             return;
 
         if (isGrounded)
@@ -132,7 +173,7 @@ public class PlayerMouvementController : MonoBehaviour
 
         void CalculateLookDirection(float horizontalInput)
     {
-        if (!isAlive)
+        if (!isAlive || IsDragging())
             return;
 
         // Using the LookDirectionObject to check where the character is looking at
