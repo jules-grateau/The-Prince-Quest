@@ -7,7 +7,7 @@ namespace Assets.Scripts.Controllers
     {
         EventManager eventManager;
         // Use this for initialization
-        void Start()
+        void Awake()
         {
             eventManager = EventManager.current;
             eventManager.onStartInteractWith += HandleStartInteractWith;
@@ -22,7 +22,6 @@ namespace Assets.Scripts.Controllers
 
         void HandleStartInteractWith(int gameobjectId)
         {
-            Debug.Log($"Received StartInteractWith({gameobjectId} draggable with GameObject ID : {GetInstanceID()}");
             if(gameObject.GetInstanceID() == gameobjectId)
             {
                 eventManager.StartDragging(gameObject);
