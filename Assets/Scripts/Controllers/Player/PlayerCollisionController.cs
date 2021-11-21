@@ -88,6 +88,9 @@ public class PlayerCollisionController : MonoBehaviour
         bool IsPushedRight = false;
         foreach(Collider2D collider in OverlapBox)
         {
+            if (collider.isTrigger)
+                return;
+
             if(collider.transform.position.x < transform.position.x)
             {
                 IsPushedLeft = true;

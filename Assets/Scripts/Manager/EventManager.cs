@@ -257,6 +257,23 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public event Action<TutorialMessage> onOpenTutorialMessage;
+    public void OpenTutorialMessage(TutorialMessage tutorialMessage)
+    {
+        if(onOpenTutorialMessage != null)
+        {
+            onOpenTutorialMessage(tutorialMessage);
+        }
+    }
+
+    public event Action onCloseTutorialMessage;
+    public void CloseTutorialMessage()
+    {
+        if (onCloseTutorialMessage != null)
+        {
+            onCloseTutorialMessage();
+        }
+    }
     #endregion
 
     #region Level Events
