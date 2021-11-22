@@ -24,6 +24,9 @@ public class CameraController : MonoBehaviour
         if (player != null)
         {
             virtualCamera.Follow = player;
+        } else
+        {
+            Debug.Log($"Couldn't find player at path : {PlayerGameObjectPath}");
         }
 
         cinemachineConfiner = GetComponent<CinemachineConfiner>();

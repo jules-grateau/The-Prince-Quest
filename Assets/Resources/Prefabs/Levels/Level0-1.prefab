@@ -2018,7 +2018,7 @@ TilemapRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
-  m_ChunkCullingBounds: {x: 0.016129017, y: 0.016129017, z: 0}
+  m_ChunkCullingBounds: {x: 0.0015674233, y: 0.0015674233, z: 0}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 1
@@ -9309,7 +9309,7 @@ TilemapRenderer:
   m_SortingLayer: -1
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
-  m_ChunkCullingBounds: {x: 0.016129017, y: 0.016129017, z: 0}
+  m_ChunkCullingBounds: {x: 0.0015674233, y: 0.0015674233, z: 0}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 1
@@ -10267,30 +10267,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3249946818059264681, guid: 3b574d4b0c0ab2146bb1687461c2ffda, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 968253831154638413, guid: a7b750a5b8357fe4faf91a1f6aa56de5, type: 3}
-    - target: {fileID: 3249946818059264681, guid: 3b574d4b0c0ab2146bb1687461c2ffda, type: 3}
-      propertyPath: m_SortingLayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3249946818059264681, guid: 3b574d4b0c0ab2146bb1687461c2ffda, type: 3}
-      propertyPath: m_SortingLayerID
-      value: -8340377
-      objectReference: {fileID: 0}
-    - target: {fileID: 3249946818059264681, guid: 3b574d4b0c0ab2146bb1687461c2ffda, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
-    - target: {fileID: 3249946818059264683, guid: 3b574d4b0c0ab2146bb1687461c2ffda, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 0.21875
-      objectReference: {fileID: 0}
-    - target: {fileID: 3249946818059264683, guid: 3b574d4b0c0ab2146bb1687461c2ffda, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3249946818059264686, guid: 3b574d4b0c0ab2146bb1687461c2ffda, type: 3}
       propertyPath: m_Name
       value: Player
@@ -10311,7 +10287,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2958548406384988049, guid: 5151d061bf31abf4cb9808c7226c9268, type: 3}
       propertyPath: m_TrackedObjectOffset.y
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2958548406460955333, guid: 5151d061bf31abf4cb9808c7226c9268, type: 3}
       propertyPath: m_RootOrder

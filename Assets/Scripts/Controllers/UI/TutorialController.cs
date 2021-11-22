@@ -6,9 +6,10 @@ public class TutorialController : MonoBehaviour
 {
     Dictionary<TutorialMessage, string> tutorialMessageText = new Dictionary<TutorialMessage, string>
     {
-        {TutorialMessage.MoveKey, "Use the \"WASD\" or the directionals arrow to move"},
+        {TutorialMessage.MoveKey, "Use the \"A & D\" keys or the directionals arrow to move"},
         {TutorialMessage.JumpPress, "Use the \"Space\" key to jump" },
-        {TutorialMessage.JumpPressLong, "Keep the \"Space\" key longer to jump higher" }
+        {TutorialMessage.JumpPressLong, "Keep the \"Space\" key longer to jump higher" },
+        {TutorialMessage.InteractableItems, "Press \"E\" to interact with objetcs" }
     };
     EventManager eventManager;
     Text tutorialText;

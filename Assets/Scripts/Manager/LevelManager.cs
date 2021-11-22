@@ -20,7 +20,8 @@ public class LevelManager : MonoBehaviour
          { LevelType.LevelZeroOne, new Level("Level0-1","0-1")},
          { LevelType.LevelZeroTwo, new Level("Level0-2","0-2")},
          { LevelType.LevelZeroThree, new Level("Level0-3","0-3")},
-        { LevelType.LevelZeroFour, new Level("Level0-4","0-4")}
+        { LevelType.LevelZeroFour, new Level("Level0-4","0-4")},
+        { LevelType.LevelOneOne, new Level("Level1-1","1-1")}
     };
 
     private const string levelPrefabsPath = "Prefabs/Levels/";

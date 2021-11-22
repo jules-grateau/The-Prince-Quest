@@ -6,5 +6,6 @@ public enum LevelType
     LevelZeroOne,
     LevelZeroTwo,
     LevelZeroThree,
-    LevelZeroFour
+    LevelZeroFour,
+    LevelOneOne
 }
