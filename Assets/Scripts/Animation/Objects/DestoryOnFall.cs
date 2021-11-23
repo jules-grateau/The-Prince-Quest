@@ -37,14 +37,8 @@ public class DestoryOnFall : MonoBehaviour
 
         groundOverlapBox.ToList().ForEach((overlapCollider) =>
         {
-            if(overlapCollider.gameObject != gameObject)
-            {
-                Debug.Log(overlapCollider.gameObject.name);
-                Debug.Log(Mathf.Abs(rigidbody.velocity.y));
-            }
             if (overlapCollider.gameObject != gameObject && Mathf.Abs(rigidbody.velocity.y) > SpeedBreak)
             {
-                Debug.Log(Mathf.Abs(rigidbody.velocity.y));
                 spriteRenderer.enabled = false;
                 rigidbody.isKinematic = true;
                 collider.isTrigger = true;

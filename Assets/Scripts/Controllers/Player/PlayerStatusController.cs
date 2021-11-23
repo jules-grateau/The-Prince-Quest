@@ -30,6 +30,7 @@ public class PlayerStatusController : MonoBehaviour
     {
         if(gameobjectId == 0 && canInteractWith != 0)
         {
+            Debug.Log("Can't interact with the object anymore");
             eventManager.StopInteractWith(canInteractWith);
         }
 
@@ -38,10 +39,9 @@ public class PlayerStatusController : MonoBehaviour
 
     void HandleInteractKeyDown()
     {
-        Debug.Log($"HandleInteractKeyDown With : {canInteractWith}");
         if (canInteractWith != 0)
         {
-            eventManager.StartInteractWith(canInteractWith);
+            eventManager.StartInteractWith(gameObject,canInteractWith);
         }
     }
 

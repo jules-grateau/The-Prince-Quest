@@ -8,6 +8,7 @@ public class PlayerCollisionController : MonoBehaviour
     Rigidbody2D playerRb;
     BoxCollider2D boxCollider;
     bool isAlive = true;
+    bool isDragging = false;
     GameObject lookDirectionObject;
 
     public float interacteDistance = 0.5f;
@@ -18,6 +19,8 @@ public class PlayerCollisionController : MonoBehaviour
     {
         eventManager = EventManager.current;
         eventManager.onPlayerDie += HandlePlayerDie;
+        eventManager.onStartDragging += HandleStartDragging;
+        eventManager.onStopDragging += HandleStopDragging;
         boxCollider = GetComponent<BoxCollider2D>();
         playerRb = GetComponent<Rigidbody2D>();
         lookDirectionObject = transform.GetChild(0).gameObject;
@@ -26,6 +29,8 @@ public class PlayerCollisionController : MonoBehaviour
     private void OnDestroy()
     {
         eventManager.onPlayerDie -= HandlePlayerDie;
+        eventManager.onStartDragging -= HandleStartDragging;
+        eventManager.onStartDragging -= HandleStopDragging;
     }
 
     // Update is called once per frame
@@ -43,19 +48,23 @@ public class PlayerCollisionController : MonoBehaviour
     void CalculateInteractable()
     {
         Vector2 direction = lookDirectionObject.transform.position.x - transform.position.x < 0 ? Vector2.left : Vector2.right;
-
-        RaycastHit2D interactableOverlapRay = Physics2D.Raycast(transform.position, direction, interacteDistance, groundLayer);
-        Debug.DrawRay(transform.position, direction, Color.red);
+        float actualInteractDistance = interacteDistance;
+        if(isDragging)
+        {
+            actualInteractDistance *= 2;
+        }
+        RaycastHit2D interactableOverlapRay = Physics2D.Raycast(transform.position, direction, actualInteractDistance, groundLayer);
         Collider2D collider = interactableOverlapRay.collider;
 
         if (collider != null && collider.CompareTag("Interactable"))
         {
-            Debug.DrawRay(transform.position, direction , Color.green);
             eventManager.CanInteractWith(collider.gameObject.GetInstanceID());
         } else
         {
             eventManager.CanInteractWith(0);
         }
+
+        Debug.DrawRay(transform.position, direction * actualInteractDistance, collider != null && collider.CompareTag("Interactable") ? Color.green : Color.red);
     }
 
     void CalculateGroundColision()
@@ -112,21 +121,13 @@ public class PlayerCollisionController : MonoBehaviour
         isAlive = false;
     }
 
-    /*private void OnCollisionStay2D(Collision2D collision)
+    void HandleStartDragging(int goId)
     {
-        Vector2 contactPoint = collision.contacts[collision.contacts.Length-1].point;
-        Debug.DrawLine(transform.position, contactPoint);
-        if(contactPoint.x < transform.position.x)
-        {
-            Debug.Log("Contact a gauche");
-            Debug.Log(transform.position);
-            Debug.Log(contactPoint);
-        }
-        if(contactPoint.x > transform.position.x)
-        {
-            Debug.Log("Contact a droite");
-            Debug.Log(transform.position);
-            Debug.Log(contactPoint);
-        }
-    }*/
+        isDragging = true;
+    }
+
+    void HandleStopDragging(int goId)
+    {
+        isDragging = false;
+    }
 }

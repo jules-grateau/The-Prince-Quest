@@ -41,6 +41,17 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public event Action onSpaceInputUp;
+    public void SpaceInputUp()
+    {
+        if (onSpaceInputUp != null)
+        {
+            onSpaceInputUp();
+        }
+    }
+
+
+
     public event Action onEscapeInput;
     public void EscapeInput()
     {
@@ -383,12 +394,12 @@ public class EventManager : MonoBehaviour
         } 
     }
 
-    public event Action<int> onStartInteractWith;
-    public void StartInteractWith(int gameobjectId)
+    public event Action<GameObject,int> onStartInteractWith;
+    public void StartInteractWith(GameObject interactionFrom, int gameobjectId)
     {
         if (onStartInteractWith != null)
         {
-            onStartInteractWith(gameobjectId);
+            onStartInteractWith(interactionFrom, gameobjectId);
         }
     }
 
@@ -401,21 +412,21 @@ public class EventManager : MonoBehaviour
         }
     }
 
-    public event Action<GameObject> onStartDragging;
-    public void StartDragging(GameObject gameObject)
+    public event Action<int> onStartDragging;
+    public void StartDragging(int gameobjectId)
     {
         if(onStartDragging != null)
         {
-            onStartDragging(gameObject);
+            onStartDragging(gameobjectId);
         }
     }
 
-    public event Action<GameObject> onStopDragging;
-    public void StopDragging(GameObject gameObject)
+    public event Action<int> onStopDragging;
+    public void StopDragging(int gameobjectId)
     {
         if (onStopDragging != null)
         {
-            onStopDragging(gameObject);
+            onStopDragging(gameobjectId);
         }
     }
 

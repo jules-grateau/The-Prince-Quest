@@ -53,6 +53,11 @@ public class InputManager : MonoBehaviour
             eventManager.SpaceInputDown();
         }
 
+        if(Input.GetKeyUp(KeyCode.Space))
+        {
+            eventManager.SpaceInputUp();
+        }
+
         if(Input.GetKeyDown(KeyCode.E))
         {
             eventManager.InteractKeyDown();

@@ -37,12 +37,12 @@ public class PlayerAnimatorController : MonoBehaviour
     }
 
 
-    void setDragParameterTrue(GameObject gameObject)
+    void setDragParameterTrue(int gameObjectId)
     {
         animator.SetBool(isDraggingParameterName, true);
     }
 
-    void setDragParameterFalse(GameObject gameObject)
+    void setDragParameterFalse(int gameObjectId)
     {
         animator.SetBool(isDraggingParameterName, false);
     }
