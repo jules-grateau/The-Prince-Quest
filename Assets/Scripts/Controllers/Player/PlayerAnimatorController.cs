@@ -1,76 +1,70 @@
-using Assets.Scripts.Manager;
+using Assets.Scripts.Manager.Events;
 using UnityEngine;
 
 namespace Assets.Scripts.Controllers.Player
 {
     public class PlayerAnimatorController : MonoBehaviour
     {
-        private EventManager eventManager;
-        private Animator animator;
+        PlayerEventManager _playerEventManager;
+        Animator _animator;
 
-        private const string isWalkingParameterName = "isWalking";
-        private const string isGroundedParameterName = "isGrounded";
-        private const string isAliveParameterName = "isAlive";
-        private const string isKissingParameterName = "isKissing";
-        private const string isDraggingParameterName = "isDragging";
+        const string IsWalkingParameterName = "isWalking";
+        const string IsGroundedParameterName = "isGrounded";
+        const string IsAliveParameterName = "isAlive";
+        const string IsKissingParameterName = "isKissing";
+        const string IsDraggingParameterName = "isDragging";
 
         // Start is called before the first frame update
         void Start()
         {
-            eventManager = EventManager.current;
-            eventManager.onWalking += setWalkingParameter;
-            eventManager.onGrounded += setGroundedParameter;
-            eventManager.onPlayerDie += setIsAliveParameterFalse;
-            eventManager.onIsKissing += setKissingParameter;
-            eventManager.onStartDragging += setDragParameterTrue;
-            eventManager.onStopDragging += setDragParameterFalse;
-            animator = GetComponent<Animator>();
+            _playerEventManager = PlayerEventManager.current;
+            _playerEventManager.onWalking += SetWalkingParameter;
+            _playerEventManager.onGrounded += SetGroundedParameter;
+            _playerEventManager.onPlayerDie += SetIsAliveParameterFalse;
+            _playerEventManager.onIsKissing += SetKissingParameter;
+            _playerEventManager.onStartDragging += SetDragParameterTrue;
+            _playerEventManager.onStopDragging += SetDragParameterFalse;
+            _animator = GetComponent<Animator>();
         }
 
         private void OnDestroy()
         {
-            eventManager.onWalking -= setWalkingParameter;
-            eventManager.onGrounded -= setGroundedParameter;
-            eventManager.onPlayerDie -= setIsAliveParameterFalse;
-            eventManager.onIsKissing -= setKissingParameter;
-            eventManager.onStartDragging -= setDragParameterTrue;
-            eventManager.onStopDragging -= setDragParameterFalse;
+            _playerEventManager.onWalking -= SetWalkingParameter;
+            _playerEventManager.onGrounded -= SetGroundedParameter;
+            _playerEventManager.onPlayerDie -= SetIsAliveParameterFalse;
+            _playerEventManager.onIsKissing -= SetKissingParameter;
+            _playerEventManager.onStartDragging -= SetDragParameterTrue;
+            _playerEventManager.onStopDragging -= SetDragParameterFalse;
         }
 
 
-        void setDragParameterTrue(int gameObjectId)
+        void SetDragParameterTrue(int gameObjectId)
         {
-            animator.SetBool(isDraggingParameterName, true);
+            _animator.SetBool(IsDraggingParameterName, true);
         }
 
-        void setDragParameterFalse(int gameObjectId)
+        void SetDragParameterFalse(int gameObjectId)
         {
-            animator.SetBool(isDraggingParameterName, false);
+            _animator.SetBool(IsDraggingParameterName, false);
         }
 
-        void setKissingParameter(bool isKissing)
+        void SetKissingParameter(bool isKissing)
         {
-            animator.SetBool(isKissingParameterName, isKissing);
+            _animator.SetBool(IsKissingParameterName, isKissing);
         }
 
-        void setIsAliveParameterFalse()
+        void SetIsAliveParameterFalse()
         {
-            animator.SetBool(isAliveParameterName, false);
+            _animator.SetBool(IsAliveParameterName, false);
         }
-        void setWalkingParameter(bool isWalking)
+        void SetWalkingParameter(bool isWalking)
         {
-            animator.SetBool(isWalkingParameterName, isWalking);
-        }
-
-        void setGroundedParameter(bool isGrounded)
-        {
-            animator.SetBool(isGroundedParameterName, isGrounded);
+            _animator.SetBool(IsWalkingParameterName, isWalking);
         }
 
-        // Update is called once per frame
-        void Update()
+        void SetGroundedParameter(bool isGrounded)
         {
-
+            _animator.SetBool(IsGroundedParameterName, isGrounded);
         }
     }
 }

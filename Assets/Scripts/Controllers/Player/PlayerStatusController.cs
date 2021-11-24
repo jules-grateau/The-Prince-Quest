@@ -1,68 +1,78 @@
-using Assets.Scripts.Manager;
+using Assets.Scripts.Manager.Events;
 using UnityEngine;
 
 namespace Assets.Scripts.Controllers.Player
 {
     public class PlayerStatusController : MonoBehaviour
     {
-        EventManager eventManager;
-        bool isAlive = true;
-        int canInteractWith;
+        PlayerEventManager _playerEventManager;
+        EnemyEventManager _enemyEventManager;
+        InputEventManager _inputEventManager;
+
+        bool _isAlive = true;
+        int _canInteractWith;
+
         // Start is called before the first frame update
         void Start()
         {
-            eventManager = EventManager.current;
-            eventManager.onEnemyCollidedWithPlayer += HandleEnemyCollidedWithPlayer;
-            eventManager.onKillPlayer += HandleKillPlayer;
-            eventManager.onCanInteractWith += HandleCanInteractWith;
-            eventManager.onInteractKeyDown += HandleInteractKeyDown;
-            eventManager.onInteractKeyUp += HandleInteractKeyUp;
+            _enemyEventManager = EnemyEventManager.current;
+            _enemyEventManager.onEnemyCollidedWithPlayer += HandleEnemyCollidedWithPlayer;
+
+            _playerEventManager = PlayerEventManager.current;
+            _playerEventManager.onKillPlayer += HandleKillPlayer;
+            _playerEventManager.onCanInteractWith += HandleCanInteractWith;
+
+            _inputEventManager = InputEventManager.current;
+            _inputEventManager.onInteractKeyDown += HandleInteractKeyDown;
+            _inputEventManager.onInteractKeyUp += HandleInteractKeyUp;
         }
         void OnDestroy()
         {
-            eventManager.onEnemyCollidedWithPlayer -= HandleEnemyCollidedWithPlayer;
-            eventManager.onKillPlayer -= HandleKillPlayer;
-            eventManager.onCanInteractWith -= HandleCanInteractWith;
-            eventManager.onInteractKeyDown -= HandleInteractKeyDown;
-            eventManager.onInteractKeyUp -= HandleInteractKeyUp;
+            _enemyEventManager.onEnemyCollidedWithPlayer -= HandleEnemyCollidedWithPlayer;
+
+            _playerEventManager.onKillPlayer -= HandleKillPlayer;
+            _playerEventManager.onCanInteractWith -= HandleCanInteractWith;
+
+            _inputEventManager.onInteractKeyDown -= HandleInteractKeyDown;
+            _inputEventManager.onInteractKeyUp -= HandleInteractKeyUp;
         }
 
         void HandleCanInteractWith(int gameobjectId)
         {
-            if (gameobjectId == 0 && canInteractWith != 0)
+            if (gameobjectId == 0 && _canInteractWith != 0)
             {
                 Debug.Log("Can't interact with the object anymore");
-                eventManager.StopInteractWith(canInteractWith);
+                _playerEventManager.StopInteractWith(_canInteractWith);
             }
 
-            canInteractWith = gameobjectId;
+            _canInteractWith = gameobjectId;
         }
 
         void HandleInteractKeyDown()
         {
-            if (canInteractWith != 0)
+            if (_canInteractWith != 0)
             {
-                eventManager.StartInteractWith(gameObject, canInteractWith);
+                _playerEventManager.StartInteractWith(gameObject, _canInteractWith);
             }
         }
 
         void HandleInteractKeyUp()
         {
-            if (canInteractWith != 0)
+            if (_canInteractWith != 0)
             {
-                eventManager.StopInteractWith(canInteractWith);
+                _playerEventManager.StopInteractWith(_canInteractWith);
             }
         }
 
         void PlayerDie()
         {
-            isAlive = false;
-            eventManager.PlayerDie();
+            _isAlive = false;
+            _playerEventManager.PlayerDie();
         }
 
         void HandleKillPlayer()
         {
-            if (!isAlive)
+            if (!_isAlive)
                 return;
 
             PlayerDie();
@@ -70,7 +80,7 @@ namespace Assets.Scripts.Controllers.Player
         }
         void HandleEnemyCollidedWithPlayer(Vector2 direction)
         {
-            if (!isAlive)
+            if (!_isAlive)
                 return;
 
             PlayerDie();

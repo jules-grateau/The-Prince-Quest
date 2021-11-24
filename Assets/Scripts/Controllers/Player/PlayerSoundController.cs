@@ -1,4 +1,4 @@
-using Assets.Scripts.Manager;
+using Assets.Scripts.Manager.Events;
 using UnityEngine;
 
 namespace Assets.Scripts.Controllers.Player
@@ -6,28 +6,30 @@ namespace Assets.Scripts.Controllers.Player
     [RequireComponent(typeof(AudioSource))]
     public class PlayerSoundController : MonoBehaviour
     {
-        AudioSource audioSource;
-        EventManager eventManager;
-        AudioClip jumpAudioClip;
-        private const string soundPath = "Sounds/";
-        private const string jumpAudioClipPath = "PlayerJumpSound";
+        AudioSource _audioSource;
+        PlayerEventManager _playerEventManager;
+        AudioClip _jumpAudioClip;
+        
+        public const string SoundPath = "Sounds/";
+        public const string JumpAudioClipPath = "PlayerJumpSound";
+
         // Start is called before the first frame update
         void Start()
         {
-            audioSource = GetComponent<AudioSource>();
-            jumpAudioClip = Resources.Load<AudioClip>(soundPath + jumpAudioClipPath);
-            eventManager = EventManager.current;
-            eventManager.onPlayerJump += HandlePlayerJump;
+            _audioSource = GetComponent<AudioSource>();
+            _jumpAudioClip = Resources.Load<AudioClip>(SoundPath + JumpAudioClipPath);
+            _playerEventManager = PlayerEventManager.current;
+            _playerEventManager.onPlayerJump += HandlePlayerJump;
         }
 
         private void OnDestroy()
         {
-            eventManager.onPlayerJump -= HandlePlayerJump;
+            _playerEventManager.onPlayerJump -= HandlePlayerJump;
         }
 
         void HandlePlayerJump()
         {
-            audioSource.PlayOneShot(jumpAudioClip);
+            _audioSource.PlayOneShot(_jumpAudioClip);
         }
 
     }

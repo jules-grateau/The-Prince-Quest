@@ -1,45 +1,45 @@
-using Assets.Scripts.Manager;
+using Assets.Scripts.Manager.Events;
 using UnityEngine;
 
 namespace Assets.Scripts.Controllers.Player
 {
     public class PlayerCollisionController : MonoBehaviour
     {
-        EventManager eventManager;
-        Rigidbody2D playerRb;
-        BoxCollider2D boxCollider;
-        bool isAlive = true;
-        bool isDragging = false;
-        GameObject lookDirectionObject;
+        PlayerEventManager _playerEventManager;
+        Rigidbody2D _playerRb;
+        BoxCollider2D _boxCollider;
+        bool _isAlive = true;
+        bool _isDragging = false;
+        GameObject _lookDirectionObject;
 
         public float groundCollisionWidthMultiplier = 0.95f;
         public float groundCollisionHeight = 0.10f;
         public float interacteDistance = 0.5f;
         public LayerMask groundLayer;
         public LayerMask enemyLayer;
+
         // Start is called before the first frame update
         void Start()
         {
-            eventManager = EventManager.current;
-            eventManager.onPlayerDie += HandlePlayerDie;
-            eventManager.onStartDragging += HandleStartDragging;
-            eventManager.onStopDragging += HandleStopDragging;
-            boxCollider = GetComponent<BoxCollider2D>();
-            playerRb = GetComponent<Rigidbody2D>();
-            lookDirectionObject = transform.GetChild(0).gameObject;
+            _playerEventManager = PlayerEventManager.current;
+            _playerEventManager.onPlayerDie += HandlePlayerDie;
+            _playerEventManager.onStartDragging += HandleStartDragging;
+            _playerEventManager.onStopDragging += HandleStopDragging;
+            _boxCollider = GetComponent<BoxCollider2D>();
+            _playerRb = GetComponent<Rigidbody2D>();
+            _lookDirectionObject = transform.GetChild(0).gameObject;
         }
 
         private void OnDestroy()
         {
-            eventManager.onPlayerDie -= HandlePlayerDie;
-            eventManager.onStartDragging -= HandleStartDragging;
-            eventManager.onStartDragging -= HandleStopDragging;
+            _playerEventManager.onPlayerDie -= HandlePlayerDie;
+            _playerEventManager.onStartDragging -= HandleStartDragging;
+            _playerEventManager.onStartDragging -= HandleStopDragging;
         }
 
-        // Update is called once per frame
         void Update()
         {
-            if (!isAlive)
+            if (!_isAlive)
                 return;
 
             CalculateGroundColision();
@@ -50,9 +50,9 @@ namespace Assets.Scripts.Controllers.Player
 
         void CalculateInteractable()
         {
-            Vector2 direction = lookDirectionObject.transform.position.x - transform.position.x < 0 ? Vector2.left : Vector2.right;
+            Vector2 direction = _lookDirectionObject.transform.position.x - transform.position.x < 0 ? Vector2.left : Vector2.right;
             float actualInteractDistance = interacteDistance;
-            if (isDragging)
+            if (_isDragging)
             {
                 actualInteractDistance *= 2;
             }
@@ -61,11 +61,11 @@ namespace Assets.Scripts.Controllers.Player
 
             if (collider != null && collider.CompareTag("Interactable"))
             {
-                eventManager.CanInteractWith(collider.gameObject.GetInstanceID());
+                _playerEventManager.CanInteractWith(collider.gameObject.GetInstanceID());
             }
             else
             {
-                eventManager.CanInteractWith(0);
+                _playerEventManager.CanInteractWith(0);
             }
 
             Debug.DrawRay(transform.position, direction * actualInteractDistance, collider != null && collider.CompareTag("Interactable") ? Color.green : Color.red);
@@ -73,66 +73,66 @@ namespace Assets.Scripts.Controllers.Player
 
         void CalculateGroundColision()
         {
-            Vector2 boxPoint = playerRb.position + new Vector2(boxCollider.offset.x, -boxCollider.size.y);
-            Vector2 boxSize = new Vector2(boxCollider.size.x * groundCollisionWidthMultiplier, groundCollisionHeight);
+            Vector2 boxPoint = _playerRb.position + new Vector2(_boxCollider.offset.x, -_boxCollider.size.y);
+            Vector2 boxSize = new Vector2(_boxCollider.size.x * groundCollisionWidthMultiplier, groundCollisionHeight);
             // Collider to detected collision with ground, to check if grounded
             Collider2D groundOverlapBox = Physics2D.OverlapBox(boxPoint
                 , boxSize, transform.rotation.y, groundLayer);
             bool groundHit = groundOverlapBox != null;
             Debug.DrawRay(boxPoint, boxSize, groundHit ? Color.green : Color.red);
-            eventManager.Grounded(groundHit);
+            _playerEventManager.Grounded(groundHit);
         }
 
         void CalculateEnemyColision()
         {
             // Collider to detected collision with ground, to check if grounded
-            Collider2D enemyOverlapBox = Physics2D.OverlapBox(playerRb.position + boxCollider.offset + Vector2.down
-                , new Vector2(boxCollider.size.x * 2, 0.10f), 0, enemyLayer);
+            Collider2D enemyOverlapBox = Physics2D.OverlapBox(_playerRb.position + _boxCollider.offset + Vector2.down
+                , new Vector2(_boxCollider.size.x * 2, 0.10f), 0, enemyLayer);
             if (enemyOverlapBox != null)
             {
-                eventManager.PlayerSteppedOnEnemy(enemyOverlapBox.gameObject.GetInstanceID());
+                _playerEventManager.PlayerSteppedOnEnemy(enemyOverlapBox.gameObject.GetInstanceID());
             }
         }
 
         void CalculateIsCrushed()
         {
-            Collider2D[] OverlapBox = Physics2D.OverlapBoxAll(playerRb.position + boxCollider.offset, boxCollider.size, 0);
-            bool IsPushedLeft = false;
-            bool IsPushedRight = false;
-            foreach (Collider2D collider in OverlapBox)
+            Collider2D[] overlapBox = Physics2D.OverlapBoxAll(_playerRb.position + _boxCollider.offset, _boxCollider.size, 0);
+            bool isPushedLeft = false;
+            bool isPushedRight = false;
+            foreach (Collider2D collider in overlapBox)
             {
                 if (collider.isTrigger)
                     return;
 
                 if (collider.transform.position.x < transform.position.x)
                 {
-                    IsPushedLeft = true;
+                    isPushedLeft = true;
                 }
                 if (collider.transform.position.x > transform.position.x)
                 {
-                    IsPushedRight = true;
+                    isPushedRight = true;
                 }
             }
 
-            if (IsPushedLeft && IsPushedRight)
+            if (isPushedLeft && isPushedRight)
             {
-                eventManager.PlayerDie();
+                _playerEventManager.PlayerDie();
             }
         }
 
         void HandlePlayerDie()
         {
-            isAlive = false;
+            _isAlive = false;
         }
 
         void HandleStartDragging(int goId)
         {
-            isDragging = true;
+            _isDragging = true;
         }
 
         void HandleStopDragging(int goId)
         {
-            isDragging = false;
+            _isDragging = false;
         }
     }
 }

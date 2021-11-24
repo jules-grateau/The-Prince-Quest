@@ -1,35 +1,35 @@
-using Assets.Scripts.Manager;
+using Assets.Scripts.Manager.Events;
 using UnityEngine;
 
 namespace Assets.Scripts.Controllers.Enemy
 {
     public class EnemyCollisionController : MonoBehaviour
     {
-        private EventManager eventManager;
-        private CompositeCollider2D compositeCollider;
-        private int instanceId;
-        private bool isAlive = true;
+        private EnemyEventManager _enemyEventManager;
+        private CompositeCollider2D _compositeCollider;
+        private int _instanceId;
+        private bool _isAlive = true;
         // Start is called before the first frame update
         void Start()
         {
-            eventManager = EventManager.current;
-            compositeCollider = GetComponent<CompositeCollider2D>();
-            instanceId = gameObject.GetInstanceID();
-            eventManager.onEnemyDie += handleEnemyDie;
+            _enemyEventManager = EnemyEventManager.current;
+            _compositeCollider = GetComponent<CompositeCollider2D>();
+            _instanceId = gameObject.GetInstanceID();
+            _enemyEventManager.onEnemyDie += handleEnemyDie;
         }
 
         private void OnDestroy()
         {
-            eventManager.onEnemyDie -= handleEnemyDie;
+            _enemyEventManager.onEnemyDie -= handleEnemyDie;
         }
 
 
         void handleEnemyDie(int instanceId)
         {
-            if (instanceId == this.instanceId)
+            if (instanceId == this._instanceId)
             {
-                isAlive = false;
-                compositeCollider.enabled = false;
+                _isAlive = false;
+                _compositeCollider.enabled = false;
             }
         }
         // Update is called once per frame
@@ -40,14 +40,14 @@ namespace Assets.Scripts.Controllers.Enemy
 
         void OnCollisionEnter2D(Collision2D collision)
         {
-            if (!isAlive)
+            if (!_isAlive)
                 return;
 
             GameObject objectCollided = collision.gameObject;
             if (objectCollided.CompareTag("Player"))
             {
                 Vector2 collisionDirection = objectCollided.transform.position - transform.position;
-                eventManager.EnemyCollidedWithPlayer(collisionDirection.normalized);
+                _enemyEventManager.EnemyCollidedWithPlayer(collisionDirection.normalized);
             }
         }
     }

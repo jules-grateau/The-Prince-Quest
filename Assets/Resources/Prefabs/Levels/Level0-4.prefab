@@ -4724,7 +4724,7 @@ GameObject:
   - component: {fileID: 5641567706012907377}
   - component: {fileID: 5567397590020330501}
   - component: {fileID: 2438661465974860989}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: TriggerAutoScrolling
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12552,6 +12552,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3268771514289531915, guid: a2e5052b8ca84e540a8da966a11f9818, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268771514324396833, guid: a2e5052b8ca84e540a8da966a11f9818, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3268771514324396839, guid: a2e5052b8ca84e540a8da966a11f9818, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -12559,6 +12567,10 @@ PrefabInstance:
     - target: {fileID: 4735379351113142181, guid: a2e5052b8ca84e540a8da966a11f9818, type: 3}
       propertyPath: m_Name
       value: AutoScrollingController
+      objectReference: {fileID: 0}
+    - target: {fileID: 4735379351113142181, guid: a2e5052b8ca84e540a8da966a11f9818, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7519696643738517945, guid: a2e5052b8ca84e540a8da966a11f9818, type: 3}
       propertyPath: speed
@@ -12595,6 +12607,14 @@ PrefabInstance:
     - target: {fileID: 7519696643738517945, guid: a2e5052b8ca84e540a8da966a11f9818, type: 3}
       propertyPath: targets.Array.data[2].y
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7870860279664784413, guid: a2e5052b8ca84e540a8da966a11f9818, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7870860281618989377, guid: a2e5052b8ca84e540a8da966a11f9818, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2e5052b8ca84e540a8da966a11f9818, type: 3}

@@ -1,4 +1,5 @@
 using Assets.Scripts.Enum;
+using Assets.Scripts.Manager.Events;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,59 +20,60 @@ namespace Assets.Scripts.Manager
     public class LevelManager : MonoBehaviour
     {
         private readonly Dictionary<LevelType, Level> levelDictionary = new Dictionary<LevelType, Level>
-    {
-         { LevelType.LevelZeroOne, new Level("Level0-1","0-1")},
-         { LevelType.LevelZeroTwo, new Level("Level0-2","0-2")},
-         { LevelType.LevelZeroThree, new Level("Level0-3","0-3")},
-        { LevelType.LevelZeroFour, new Level("Level0-4","0-4")},
-        { LevelType.LevelOneOne, new Level("Level1-1","1-1")}
-    };
+        {
+            { LevelType.LevelZeroOne, new Level("Level0-1","0-1")},
+            { LevelType.LevelZeroTwo, new Level("Level0-2","0-2")},
+            { LevelType.LevelZeroThree, new Level("Level0-3","0-3")},
+            { LevelType.LevelZeroFour, new Level("Level0-4","0-4")},
+            { LevelType.LevelOneOne, new Level("Level1-1","1-1")}
+        };
 
         private const string levelPrefabsPath = "Prefabs/Levels/";
-        private GameObject currentLevel;
-        private GameObject currentLevelInstance;
-        private EventManager eventManager;
+        private GameObject _currentLevel;
+        private GameObject _currentLevelInstance;
+        private LevelEventManager _levelEventManager;
+
         // Start is called before the first frame update
         void Start()
         {
-            eventManager = EventManager.current;
-            eventManager.onLoadLevel += handleLoadLevel;
-            eventManager.onReloadLevel += handleOnReloadLevel;
-            eventManager.onUnloadLevel += handleUnloadLevel;
+            _levelEventManager = LevelEventManager.current;
+            _levelEventManager.onLoadLevel += HandleLoadLevel;
+            _levelEventManager.onReloadLevel += HandleOnReloadLevel;
+            _levelEventManager.onUnloadLevel += HandleUnloadLevel;
         }
 
-        void handleUnloadLevel()
+        void HandleUnloadLevel()
         {
-            if (currentLevelInstance != null)
+            if (_currentLevelInstance != null)
             {
-                Destroy(currentLevelInstance);
-                currentLevelInstance = null;
+                Destroy(_currentLevelInstance);
+                _currentLevelInstance = null;
             }
         }
 
-        void handleOnReloadLevel()
+        void HandleOnReloadLevel()
         {
-            if (currentLevelInstance != null)
+            if (_currentLevelInstance != null)
             {
-                Destroy(currentLevelInstance);
-                currentLevelInstance = Instantiate(currentLevel);
+                Destroy(_currentLevelInstance);
+                _currentLevelInstance = Instantiate(_currentLevel);
             }
         }
 
-        void handleLoadLevel(LevelType levelType)
+        void HandleLoadLevel(LevelType levelType)
         {
             Level level;
             if (!levelDictionary.TryGetValue(levelType, out level))
                 return;
 
-            if (currentLevelInstance != null)
+            if (_currentLevelInstance != null)
             {
-                Destroy(currentLevelInstance);
+                Destroy(_currentLevelInstance);
             }
             GameObject levelToLoad = Resources.Load<GameObject>(levelPrefabsPath + level.Path);
-            currentLevel = levelToLoad;
-            currentLevelInstance = Instantiate(levelToLoad);
-            eventManager.UpdateTextElement(UiTextElementType.Level, level.Name);
+            _currentLevel = levelToLoad;
+            _currentLevelInstance = Instantiate(levelToLoad);
+            UIEventManager.current.UpdateTextElement(UiTextElementType.Level, level.Name);
         }
     }
 }

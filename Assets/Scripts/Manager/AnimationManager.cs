@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Enum;
+using Assets.Scripts.Manager.Events;
 using System.Collections;
 using UnityEngine;
 
@@ -6,13 +7,13 @@ namespace Assets.Scripts.Manager
 {
     public class AnimationManager : MonoBehaviour
     {
-        EventManager eventManager;
+        AnimationEventManager _animationEventManager;
         // Use this for initialization
         void Start()
         {
-            eventManager = EventManager.current;
-            eventManager.onStartAnimation += HandleStartAnimation;
-            eventManager.onStopAnimation += HandleStopAnimation;
+            _animationEventManager = AnimationEventManager.current;
+            _animationEventManager.onStartAnimation += HandleStartAnimation;
+            _animationEventManager.onStopAnimation += HandleStopAnimation;
         }
 
         void HandleStartAnimation(AnimationType animationType)
@@ -20,7 +21,7 @@ namespace Assets.Scripts.Manager
             switch (animationType)
             {
                 case AnimationType.KanaKissPlayer:
-                    eventManager.StopPlayerInput(true);
+                    InputEventManager.current.StopPlayerInput(true);
                     break;
             }
         }
@@ -30,7 +31,7 @@ namespace Assets.Scripts.Manager
             switch (animationType)
             {
                 case AnimationType.KanaKissPlayer:
-                    eventManager.StopPlayerInput(false);
+                    InputEventManager.current.StopPlayerInput(false);
                     break;
             }
         }

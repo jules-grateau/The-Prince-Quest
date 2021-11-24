@@ -1,5 +1,5 @@
 using Assets.Scripts.Enum;
-using Assets.Scripts.Manager;
+using Assets.Scripts.Manager.Events;
 using UnityEngine;
 
 namespace Assets.Scripts.Controllers.Trigger
@@ -8,37 +8,40 @@ namespace Assets.Scripts.Controllers.Trigger
     {
         public AnimationType animationType;
         public bool isConsumable = true;
-        EventManager eventManager;
-        private bool isConsumed = false;
-        private bool isPlayerDead = false;
+        
+        PlayerEventManager _playerEventManager;
+
+        bool _isConsumed = false;
+        bool _isPlayerDead = false;
+        
         // Start is called before the first frame update
         void Start()
         {
-            eventManager = EventManager.current;
-            eventManager.onPlayerDie += handlePlayerDie;
+            _playerEventManager = PlayerEventManager.current;
+            _playerEventManager.onPlayerDie += HandlePlayerDie;
         }
 
-        private void OnDestroy()
+        void OnDestroy()
         {
-            eventManager.onPlayerDie -= handlePlayerDie;
+            _playerEventManager.onPlayerDie -= HandlePlayerDie;
         }
 
-        void handlePlayerDie()
+        void HandlePlayerDie()
         {
-            isPlayerDead = true;
+            _isPlayerDead = true;
         }
 
         void OnTriggerEnter2D(Collider2D collision)
         {
-            if (isPlayerDead)
+            if (_isPlayerDead)
                 return;
-            if (isConsumable && isConsumed)
+            if (isConsumable && _isConsumed)
                 return;
 
             if (collision.CompareTag("Player"))
             {
-                eventManager.TriggerAnimation(animationType);
-                isConsumed = true;
+                AnimationEventManager.current.TriggerAnimation(animationType);
+                _isConsumed = true;
             }
         }
     }

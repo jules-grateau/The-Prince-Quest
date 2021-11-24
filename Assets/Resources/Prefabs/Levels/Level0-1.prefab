@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1525841292202000404}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CameraRail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2188,7 +2188,7 @@ GameObject:
   - component: {fileID: 1525841293192451680}
   - component: {fileID: 1525841293192451681}
   - component: {fileID: 1525841293192451687}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CameraBoundaries
   m_TagString: Untagged
   m_Icon: {fileID: 0}

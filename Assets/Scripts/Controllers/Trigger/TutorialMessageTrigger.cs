@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Enum;
-using Assets.Scripts.Manager;
+using Assets.Scripts.Manager.Events;
 using UnityEngine;
 
 namespace Assets.Scripts.Controllers.Trigger
@@ -7,18 +7,12 @@ namespace Assets.Scripts.Controllers.Trigger
     public class TutorialMessageTrigger : MonoBehaviour
     {
         public TutorialMessage tutorialMessage;
-        EventManager eventManager;
-
-        private void Awake()
-        {
-            eventManager = EventManager.current;
-        }
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if(collision.CompareTag("Player"))
             {
-                eventManager.OpenTutorialMessage(tutorialMessage);
+                UIEventManager.current.OpenTutorialMessage(tutorialMessage);
             }
         }
 
@@ -26,7 +20,7 @@ namespace Assets.Scripts.Controllers.Trigger
         {
             if (collision.CompareTag("Player"))
             {
-                eventManager.CloseTutorialMessage();
+                UIEventManager.current.CloseTutorialMessage();
             }
         }
     }

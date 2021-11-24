@@ -1,5 +1,5 @@
 using Assets.Scripts.Enum;
-using Assets.Scripts.Manager;
+using Assets.Scripts.Manager.Events;
 using System.Collections;
 using UnityEngine;
 
@@ -7,43 +7,43 @@ namespace Assets.Scripts.Animation.Npc
 {
     public class KissPlayerAndLeaveAnimationScript : MonoBehaviour
     {
-        public string PlayerGameObjectPath = "Player";
+        public string playerGameObjectPath = "Player";
         public float speed = 10f;
         public Vector2 moveTowardOffset;
         public Vector2 leaveTargetOffset;
         public AnimationType animationType = AnimationType.KanaKissPlayer;
         public float kissTime = 1f;
 
-        bool kissedPlayer = false;
-        bool coroutineStarted = false;
-        bool animationStarted = false;
+        bool _kissedPlayer = false;
+        bool _coroutineStarted = false;
+        bool _animationStarted = false;
 
-        Vector2 target;
-        Vector2 leaveTarget;
-        EventManager eventManager;
-        Animator animator;
+        Vector2 _target;
+        Vector2 _leaveTarget;
+        AnimationEventManager _animationEventManager;
+        Animator _animator;
 
-        private const string isWalkingParameterName = "isWalking";
-        private const string isKissingParameterName = "isKissing";
+        private const string IsWalkingParameterName = "isWalking";
+        private const string IsKissingParameterName = "isKissing";
 
         // Use this for initialization
         void Awake()
         {
-            eventManager = EventManager.current;
-            eventManager.onTriggerAnimation += HandleTriggerAnimation;
-            animator = GetComponent<Animator>();
+            _animationEventManager = AnimationEventManager.current;
+            _animationEventManager.onTriggerAnimation += HandleTriggerAnimation;
+            _animator = GetComponent<Animator>();
         }
 
         private void OnDestroy()
         {
-            eventManager.onTriggerAnimation -= HandleTriggerAnimation;
+            _animationEventManager.onTriggerAnimation -= HandleTriggerAnimation;
         }
 
         void HandleTriggerAnimation(AnimationType animationType)
         {
             if (animationType == this.animationType)
             {
-                animationStarted = true;
+                _animationStarted = true;
                 CalculateAnimationData();
             }
         }
@@ -51,14 +51,14 @@ namespace Assets.Scripts.Animation.Npc
         void CalculateAnimationData()
         {
             Transform parent = transform.parent.transform;
-            Transform player = parent.Find(PlayerGameObjectPath);
-            target = new Vector2(player.position.x, transform.position.y) + moveTowardOffset;
-            leaveTarget = (Vector2)transform.position + leaveTargetOffset;
+            Transform player = parent.Find(playerGameObjectPath);
+            _target = new Vector2(player.position.x, transform.position.y) + moveTowardOffset;
+            _leaveTarget = (Vector2)transform.position + leaveTargetOffset;
         }
         // Update is called once per frame
         void Update()
         {
-            if (!animationStarted)
+            if (!_animationStarted)
                 return;
 
             KissAndLeaveAnimation();
@@ -66,23 +66,23 @@ namespace Assets.Scripts.Animation.Npc
 
         void KissAndLeaveAnimation()
         {
-            eventManager.StartAnimation(AnimationType.KanaKissPlayer);
+            _animationEventManager.StartAnimation(AnimationType.KanaKissPlayer);
             float step = speed * Time.deltaTime;
-            transform.position = Vector2.MoveTowards(transform.position, target, step);
-            bool reachedTarget = (Vector2)transform.position == target;
-            animator.SetBool(isWalkingParameterName, !reachedTarget);
+            transform.position = Vector2.MoveTowards(transform.position, _target, step);
+            bool reachedTarget = (Vector2)transform.position == _target;
+            _animator.SetBool(IsWalkingParameterName, !reachedTarget);
 
             if (reachedTarget)
             {
-                if (!kissedPlayer && !coroutineStarted)
+                if (!_kissedPlayer && !_coroutineStarted)
                 {
-                    eventManager.IsKissing(true);
-                    animator.SetBool(isKissingParameterName, true);
+                    PlayerEventManager.current.IsKissing(true);
+                    _animator.SetBool(IsKissingParameterName, true);
                     StartCoroutine(StopKissAndLeave());
                 }
-                else if (kissedPlayer)
+                else if (_kissedPlayer)
                 {
-                    eventManager.StopAnimation(AnimationType.KanaKissPlayer);
+                    _animationEventManager.StopAnimation(AnimationType.KanaKissPlayer);
                     Destroy(gameObject);
                 }
 
@@ -91,13 +91,13 @@ namespace Assets.Scripts.Animation.Npc
 
         IEnumerator StopKissAndLeave()
         {
-            coroutineStarted = true;
+            _coroutineStarted = true;
             yield return new WaitForSecondsRealtime(kissTime);
-            eventManager.IsKissing(false);
-            animator.SetBool(isKissingParameterName, false);
+            PlayerEventManager.current.IsKissing(false);
+            _animator.SetBool(IsKissingParameterName, false);
             transform.eulerAngles = transform.eulerAngles - new Vector3(0, 180, 0);
-            target = leaveTarget;
-            kissedPlayer = true;
+            _target = _leaveTarget;
+            _kissedPlayer = true;
         }
     }
 }

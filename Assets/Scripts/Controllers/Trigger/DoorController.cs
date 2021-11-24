@@ -1,5 +1,5 @@
 using Assets.Scripts.Enum;
-using Assets.Scripts.Manager;
+using Assets.Scripts.Manager.Events;
 using UnityEngine;
 
 namespace Assets.Scripts.Controllers.Trigger
@@ -7,18 +7,19 @@ namespace Assets.Scripts.Controllers.Trigger
     public class DoorController : MonoBehaviour
     {
         public LevelType levelToLoad;
-        private EventManager eventManager;
+
+        private PlayerEventManager _playerEventManager;
         private bool isPlayerDead = false;
         // Start is called before the first frame update
         void Start()
         {
-            eventManager = EventManager.current;
-            eventManager.onPlayerDie += handlePlayerDie;
+            _playerEventManager = PlayerEventManager.current;
+            _playerEventManager.onPlayerDie += handlePlayerDie;
         }
 
         private void OnDestroy()
         {
-            eventManager.onPlayerDie -= handlePlayerDie;
+            _playerEventManager.onPlayerDie -= handlePlayerDie;
         }
 
         void handlePlayerDie()
@@ -34,7 +35,7 @@ namespace Assets.Scripts.Controllers.Trigger
 
             if (collision.CompareTag("Player"))
             {
-                eventManager.DoorEnter(levelToLoad);
+                LevelEventManager.current.DoorEnter(levelToLoad);
             }
         }
     }

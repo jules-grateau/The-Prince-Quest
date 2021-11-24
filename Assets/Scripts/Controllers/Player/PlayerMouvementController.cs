@@ -1,190 +1,199 @@
-using Assets.Scripts.Manager;
+using Assets.Scripts.Manager.Events;
 using UnityEngine;
 
 namespace Assets.Scripts.Controllers.Player
 {
     public class PlayerMouvementController : MonoBehaviour
     {
-        EventManager eventManager;
-        Rigidbody2D playerRb;
-        GameObject lookDirectionObject;
-        bool isGrounded = false;
-        bool isJumping = false;
-        bool isAlive = true;
-        bool isDragging;
+        PlayerEventManager _playerEventManager;
+        InputEventManager _inputEventManager;
+        EnemyEventManager _enemyEventManager;
+
+        Rigidbody2D _playerRb;
+        GameObject _lookDirectionObject;
+        bool _isGrounded = false;
+        bool _isJumping = false;
+        bool _isAlive = true;
+        bool _isDragging;
 
         public float jumpForce = 3;
         public float jumpTime = 0.5f;
-        float jumpTimeCounter = 0f;
+        float _jumpTimeCounter = 0f;
+
         public float airControlSpeed = 125;
-
         public float speed = 4f;
-
         public float hitThrowSpeed = 50f;
         public float enemyBouncingSpeed = 3f;
 
         // Start is called before the first frame update
         void Start()
         {
-            playerRb = GetComponent<Rigidbody2D>();
-            lookDirectionObject = transform.GetChild(0).gameObject;
-            eventManager = EventManager.current;
-            eventManager.onHorizontalInput += HandleHorizontalInput;
-            eventManager.onGrounded += HandleGroundedEvent;
-            eventManager.onSpaceInput += HandleSpaceInput;
-            eventManager.onSpaceInputDown += HandleSpaceInputDown;
-            eventManager.onSpaceInputUp += HandleSpaceInputUp;
-            eventManager.onEnemyCollidedWithPlayer += HandleEnemyCollidedWithPlayer;
-            eventManager.onPlayerSteppedOnEnemy += HandlePlayerSteppedOnEnemy;
-            eventManager.onPlayerDie += HandlePlayerDie;
-            eventManager.onStopPlayerInput += HandleInputStop;
-            eventManager.onStartDragging += HandleStartDragging;
-            eventManager.onStopDragging += HandleStopDragging;
+            _playerRb = GetComponent<Rigidbody2D>();
+            _lookDirectionObject = transform.GetChild(0).gameObject;
+
+            _playerEventManager = PlayerEventManager.current;
+            _playerEventManager.onGrounded += HandleGroundedEvent;
+            _playerEventManager.onPlayerSteppedOnEnemy += HandlePlayerSteppedOnEnemy;
+            _playerEventManager.onPlayerDie += HandlePlayerDie;
+            _playerEventManager.onStartDragging += HandleStartDragging;
+            _playerEventManager.onStopDragging += HandleStopDragging;
+
+            _inputEventManager = InputEventManager.current;
+            _inputEventManager.onHorizontalInput += HandleHorizontalInput;
+            _inputEventManager.onSpaceInput += HandleSpaceInput;
+            _inputEventManager.onSpaceInputDown += HandleSpaceInputDown;
+            _inputEventManager.onSpaceInputUp += HandleSpaceInputUp;
+            _inputEventManager.onStopPlayerInput += HandleInputStop;
+
+            _enemyEventManager = EnemyEventManager.current;
+            _enemyEventManager.onEnemyCollidedWithPlayer += HandleEnemyCollidedWithPlayer;
         }
 
         private void OnDestroy()
         {
-            eventManager.onHorizontalInput -= HandleHorizontalInput;
-            eventManager.onGrounded -= HandleGroundedEvent;
-            eventManager.onSpaceInput -= HandleSpaceInput;
-            eventManager.onSpaceInputDown -= HandleSpaceInputDown;
-            eventManager.onSpaceInputUp -= HandleSpaceInputUp;
-            eventManager.onEnemyCollidedWithPlayer -= HandleEnemyCollidedWithPlayer;
-            eventManager.onPlayerSteppedOnEnemy -= HandlePlayerSteppedOnEnemy;
-            eventManager.onPlayerDie -= HandlePlayerDie;
-            eventManager.onStopPlayerInput -= HandleInputStop;
-            eventManager.onStartDragging -= HandleStartDragging;
-            eventManager.onStopDragging -= HandleStopDragging;
+            _playerEventManager.onGrounded -= HandleGroundedEvent;
+            _playerEventManager.onPlayerSteppedOnEnemy -= HandlePlayerSteppedOnEnemy;
+            _playerEventManager.onPlayerDie -= HandlePlayerDie;
+            _playerEventManager.onStartDragging -= HandleStartDragging;
+            _playerEventManager.onStopDragging -= HandleStopDragging;
+
+            _inputEventManager.onHorizontalInput -= HandleHorizontalInput;
+            _inputEventManager.onSpaceInput -= HandleSpaceInput;
+            _inputEventManager.onSpaceInputDown -= HandleSpaceInputDown;
+            _inputEventManager.onSpaceInputUp -= HandleSpaceInputUp;
+            _inputEventManager.onStopPlayerInput -= HandleInputStop;
+
+            _enemyEventManager.onEnemyCollidedWithPlayer -= HandleEnemyCollidedWithPlayer;
         }
 
         void HandleStartDragging(int gameObjectId)
         {
-            isDragging = true;
+            _isDragging = true;
         }
 
         void HandleStopDragging(int gameObjectId)
         {
-            isDragging = false;
+            _isDragging = false;
         }
 
         void HandleInputStop(bool shouldInputStop)
         {
             if (shouldInputStop)
             {
-                playerRb.velocity = new Vector2(0, 0);
-                eventManager.Walking(false);
+                _playerRb.velocity = new Vector2(0, 0);
+                _playerEventManager.Walking(false);
             }
         }
         private void HandleGroundedEvent(bool isGrounded)
         {
-            this.isGrounded = isGrounded;
+            this._isGrounded = isGrounded;
         }
 
         private void HandleEnemyCollidedWithPlayer(Vector2 direction)
         {
-            playerRb.AddForce(direction * hitThrowSpeed, ForceMode2D.Impulse);
+            _playerRb.AddForce(direction * hitThrowSpeed, ForceMode2D.Impulse);
         }
 
         private void HandlePlayerSteppedOnEnemy(int instanceId)
         {
-            playerRb.velocity = new Vector2(playerRb.velocity.x, enemyBouncingSpeed);
-            eventManager.PlayerJump();
+            _playerRb.velocity = new Vector2(_playerRb.velocity.x, enemyBouncingSpeed);
+            _playerEventManager.PlayerJump();
         }
 
         private void HandlePlayerDie()
         {
-            isAlive = false;
+            _isAlive = false;
         }
 
         private void HandleHorizontalInput(float horizontalInput)
         {
-            if (!isAlive)
+            if (!_isAlive)
                 return;
 
 
             float actualSpeed = speed;
             float actualAirControlSpeed = airControlSpeed;
-            if (isDragging)
+            if (_isDragging)
             {
                 actualSpeed = speed / 2;
                 actualAirControlSpeed = airControlSpeed / 2;
             }
 
-            if (isGrounded)
+            if (_isGrounded)
             {
                 //We give a specific velocity to the character when on ground
-                playerRb.velocity = new Vector2(horizontalInput * actualSpeed, playerRb.velocity.y);
+                _playerRb.velocity = new Vector2(horizontalInput * actualSpeed, _playerRb.velocity.y);
             }
             else
             {
 
                 //But air control is done by adding force
-                playerRb.AddForce(Vector2.right * horizontalInput * actualAirControlSpeed * Time.deltaTime, ForceMode2D.Impulse);
+                _playerRb.AddForce(Vector2.right * horizontalInput * actualAirControlSpeed * Time.deltaTime, ForceMode2D.Impulse);
                 //Controling that airspeed does not get higher than ground speed and force is added
-                if (Mathf.Abs(playerRb.velocity.x) > speed)
+                if (Mathf.Abs(_playerRb.velocity.x) > speed)
                 {
-                    playerRb.velocity = new Vector2(horizontalInput * actualSpeed, playerRb.velocity.y);
+                    _playerRb.velocity = new Vector2(horizontalInput * actualSpeed, _playerRb.velocity.y);
                 }
             }
 
-            bool isWalking = isGrounded && playerRb.velocity.x != 0;
-            eventManager.Walking(isWalking);
+            bool isWalking = _isGrounded && _playerRb.velocity.x != 0;
+            _playerEventManager.Walking(isWalking);
             CalculateLookDirection(horizontalInput);
         }
 
         private void HandleSpaceInput()
         {
-            if (!isAlive || isDragging)
+            if (!_isAlive || _isDragging)
                 return;
-            if (jumpTimeCounter <= 0)
+            if (_jumpTimeCounter <= 0)
             {
-                isJumping = false;
+                _isJumping = false;
             }
 
-            if (isJumping)
+            if (_isJumping)
             {
-                playerRb.velocity = new Vector2(playerRb.velocity.x, jumpForce);
-                jumpTimeCounter -= Time.deltaTime;
+                _playerRb.velocity = new Vector2(_playerRb.velocity.x, jumpForce);
+                _jumpTimeCounter -= Time.deltaTime;
             }
         }
 
         private void HandleSpaceInputDown()
         {
-            if (!isAlive || isDragging)
+            if (!_isAlive || _isDragging)
                 return;
 
-            if (isGrounded)
+            if (_isGrounded)
             {
-                eventManager.PlayerJump();
-                playerRb.velocity = new Vector2(playerRb.velocity.x, jumpForce);
-                isJumping = true;
-                jumpTimeCounter = jumpTime;
+                _playerEventManager.PlayerJump();
+                _playerRb.velocity = new Vector2(_playerRb.velocity.x, jumpForce);
+                _isJumping = true;
+                _jumpTimeCounter = jumpTime;
             }
         }
 
         private void HandleSpaceInputUp()
         {
-            isJumping = false;
-            jumpTimeCounter = 0;
+            _isJumping = false;
+            _jumpTimeCounter = 0;
         }
 
         void CalculateLookDirection(float horizontalInput)
         {
-            if (!isAlive || isDragging)
+            if (!_isAlive || _isDragging)
                 return;
 
             // Using the LookDirectionObject to check where the character is looking at
             // And rotating the character on the Y axis if he change direction
-            Vector2 lookDirection = lookDirectionObject.transform.position - transform.position;
+            Vector2 lookDirection = _lookDirectionObject.transform.position - transform.position;
 
             if (horizontalInput < 0 && lookDirection.x > 0)
             {
-                playerRb.transform.eulerAngles = playerRb.transform.eulerAngles + new Vector3(0, 180, 0);
+                _playerRb.transform.eulerAngles = _playerRb.transform.eulerAngles + new Vector3(0, 180, 0);
             }
 
             if (horizontalInput > 0 && lookDirection.x < 0)
             {
-                playerRb.transform.eulerAngles = playerRb.transform.eulerAngles - new Vector3(0, 180, 0);
+                _playerRb.transform.eulerAngles = _playerRb.transform.eulerAngles - new Vector3(0, 180, 0);
             }
         }
     }

@@ -1,5 +1,5 @@
 ﻿using Assets.Scripts.Enum;
-using Assets.Scripts.Manager;
+using Assets.Scripts.Manager.Events;
 using System.Collections;
 using UnityEngine;
 
@@ -8,11 +8,16 @@ namespace Assets.Scripts.Controllers.UI
     public class ScreenController : MonoBehaviour
     {
         public ScreenType screenType;
-        private EventManager eventManager;
+        private UIEventManager _uiEventManager;
         private void Start()
         {
-            eventManager = EventManager.current;
-            eventManager.onOpenScreen += HandleOpenScreen;
+            _uiEventManager = UIEventManager.current;
+            _uiEventManager.onOpenScreen += HandleOpenScreen;
+        }
+
+        private void OnDestroy()
+        {
+            _uiEventManager.onOpenScreen -= HandleOpenScreen;
         }
 
         void HandleOpenScreen(ScreenType screenType)

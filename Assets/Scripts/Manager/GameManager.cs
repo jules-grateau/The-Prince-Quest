@@ -1,27 +1,42 @@
 using Assets.Scripts.Enum;
+using Assets.Scripts.Manager.Events;
 using UnityEngine;
 
 namespace Assets.Scripts.Manager
 {
     public class GameManager : MonoBehaviour
     {
-        private EventManager eventManager;
-        private bool isGamePaused = true;
-        private bool isGameStarted = false;
-        private int playerLifes = 0;
-        private const string lifeBoxPrefabPath = "Prefabs/Text/LifeBox";
-        private GameObject lifeBoxPrefab;
+        InputEventManager _inputEventManager;
+        UIEventManager _uiEventManager;
+        PlayerEventManager _playerEventManager;
+        LevelEventManager _levelEventManager;
+
+        bool isGamePaused = true;
+        bool isGameStarted = false;
+        int playerLifes = 0;
+
+        const string LifeBoxPrefabPath = "Prefabs/Text/LifeBox";
+        GameObject lifeBoxPrefab;
+        
         // Start is called before the first frame update
         void Start()
         {
             Time.timeScale = 0;
-            eventManager = EventManager.current;
-            eventManager.onEscapeInput += HandleOnEscapeInput;
-            eventManager.onClickButton += HandleClickButton;
-            eventManager.onPlayerDie += HandlePlayerDie;
-            eventManager.onDoorEnter += HandleDoorEnter;
-            eventManager.onAddLife += HandleAddLife;
-            lifeBoxPrefab = Resources.Load<GameObject>(lifeBoxPrefabPath);
+            _inputEventManager = InputEventManager.current;
+            _inputEventManager.onEscapeInput += HandleOnEscapeInput;
+
+            _uiEventManager = UIEventManager.current;
+            _uiEventManager.onClickButton += HandleClickButton;
+
+            _playerEventManager = PlayerEventManager.current;
+            _playerEventManager.onPlayerDie += HandlePlayerDie;
+            _playerEventManager.onAddLife += HandleAddLife;
+
+            _levelEventManager = LevelEventManager.current;
+            _levelEventManager.onDoorEnter += HandleDoorEnter;
+
+
+            lifeBoxPrefab = Resources.Load<GameObject>(LifeBoxPrefabPath);
         }
 
         void StartGame()
@@ -29,12 +44,12 @@ namespace Assets.Scripts.Manager
             isGameStarted = true;
             playerLifes = 3;
             UpdateLifeText();
-            eventManager.OpenScreen(ScreenType.LoadingScreen);
-            eventManager.LoadLevel(LevelType.LevelZeroOne);
-            //eventManager.LoadLevel(LevelType.LevelOneOne);
-            eventManager.ActivateButton(ButtonType.RestartLevel);
-            eventManager.OpenScreen(ScreenType.UI);
-            eventManager.StartGame();
+            _uiEventManager.OpenScreen(ScreenType.LoadingScreen);
+            //_levelEventManager.LoadLevel(LevelType.LevelZeroOne);
+            _levelEventManager.LoadLevel(LevelType.LevelOneOne);
+            _uiEventManager.ActivateButton(ButtonType.RestartLevel);
+            _uiEventManager.OpenScreen(ScreenType.UI);
+            GameStateEventManager.current.StartGame();
             ResumeGame();
         }
 
@@ -42,24 +57,24 @@ namespace Assets.Scripts.Manager
         {
             isGamePaused = false;
             Time.timeScale = 1;
-            eventManager.ResumeGame();
+            GameStateEventManager.current.ResumeGame();
         }
 
         void PauseGame()
         {
             isGamePaused = true;
             Time.timeScale = 0;
-            eventManager.ActivateButton(ButtonType.ResumeGame);
-            eventManager.PauseGame();
+            _uiEventManager.ActivateButton(ButtonType.ResumeGame);
+            GameStateEventManager.current.PauseGame();
         }
 
         void RestartLevel()
         {
-            eventManager.OpenScreen(ScreenType.LoadingScreen);
+            _uiEventManager.OpenScreen(ScreenType.LoadingScreen);
             PauseGame();
-            eventManager.ReloadLevel();
+            _levelEventManager.ReloadLevel();
             ResumeGame();
-            eventManager.OpenScreen(ScreenType.UI);
+            _uiEventManager.OpenScreen(ScreenType.UI);
         }
 
         void HandleOnEscapeInput()
@@ -69,12 +84,12 @@ namespace Assets.Scripts.Manager
                 if (isGamePaused)
                 {
                     ResumeGame();
-                    eventManager.OpenScreen(ScreenType.UI);
+                    _uiEventManager.OpenScreen(ScreenType.UI);
                 }
                 else
                 {
                     PauseGame();
-                    eventManager.OpenScreen(ScreenType.Menu);
+                    _uiEventManager.OpenScreen(ScreenType.Menu);
                 }
             }
         }
@@ -88,16 +103,16 @@ namespace Assets.Scripts.Manager
                     break;
                 case ButtonType.RestartLevel:
                     RestartLevel();
-                    eventManager.OpenScreen(ScreenType.UI);
+                    _uiEventManager.OpenScreen(ScreenType.UI);
                     break;
                 case ButtonType.ResumeGame:
                     ResumeGame();
-                    eventManager.OpenScreen(ScreenType.UI);
+                    _uiEventManager.OpenScreen(ScreenType.UI);
                     break;
                 case ButtonType.ReturnMenu:
                     PauseGame();
-                    eventManager.UnloadLevel();
-                    eventManager.OpenScreen(ScreenType.Menu);
+                    _levelEventManager.UnloadLevel();
+                    _uiEventManager.OpenScreen(ScreenType.Menu);
                     break;
             }
         }
@@ -108,11 +123,11 @@ namespace Assets.Scripts.Manager
             if (playerLifes >= 0)
             {
                 UpdateLifeText();
-                eventManager.OpenScreen(ScreenType.DeathScreen);
+                _uiEventManager.OpenScreen(ScreenType.DeathScreen);
             }
             else
             {
-                eventManager.OpenScreen(ScreenType.GameOverScreen);
+                _uiEventManager.OpenScreen(ScreenType.GameOverScreen);
             }
         }
 
@@ -129,14 +144,14 @@ namespace Assets.Scripts.Manager
 
         void UpdateLifeText()
         {
-            eventManager.UpdateTextElement(UiTextElementType.Life, "x" + playerLifes);
+            _uiEventManager.UpdateTextElement(UiTextElementType.Life, "x" + playerLifes);
         }
 
         void HandleDoorEnter(LevelType levelType)
         {
-            eventManager.OpenScreen(ScreenType.LoadingScreen);
-            eventManager.LoadLevel(levelType);
-            eventManager.OpenScreen(ScreenType.UI);
+            _uiEventManager.OpenScreen(ScreenType.LoadingScreen);
+            _levelEventManager.LoadLevel(levelType);
+            _uiEventManager.OpenScreen(ScreenType.UI);
         }
     }
 }

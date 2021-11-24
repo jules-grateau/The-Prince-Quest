@@ -8,30 +8,31 @@ namespace Assets.Scripts.Animation.Objects
         public Vector3 bottomOffsetBoundary;
         public float speed = 0.005f;
 
-        private Vector3 topBoundary;
-        private Vector3 bottomBoundary;
-        private Vector3 direction;
+        private Vector3 _topBoundary;
+        private Vector3 _bottomBoundary;
+        private Vector3 _direction;
+
         private void Start()
         {
-            topBoundary = transform.position + topOffsetBoundary;
-            bottomBoundary = transform.position + bottomOffsetBoundary;
-            direction = topBoundary;
+            _topBoundary = transform.position + topOffsetBoundary;
+            _bottomBoundary = transform.position + bottomOffsetBoundary;
+            _direction = _topBoundary;
         }
         // Update is called once per frame
         void Update()
         {
             float step = speed * Time.deltaTime;
-            transform.position = Vector2.MoveTowards(transform.position, direction, speed);
+            transform.position = Vector2.MoveTowards(transform.position, _direction, speed);
 
-            if (transform.position == direction)
+            if (transform.position == _direction)
             {
-                if (direction == topBoundary)
+                if (_direction == _topBoundary)
                 {
-                    direction = bottomBoundary;
+                    _direction = _bottomBoundary;
                 }
                 else
                 {
-                    direction = topBoundary;
+                    _direction = _topBoundary;
                 }
             }
 

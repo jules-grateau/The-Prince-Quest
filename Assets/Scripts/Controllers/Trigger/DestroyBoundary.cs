@@ -1,4 +1,4 @@
-using Assets.Scripts.Manager;
+using Assets.Scripts.Manager.Events;
 using UnityEngine;
 
 namespace Assets.Scripts.Controllers.Trigger
@@ -6,15 +6,15 @@ namespace Assets.Scripts.Controllers.Trigger
     [RequireComponent(typeof(Collider2D))]
     public class DestroyBoundary : MonoBehaviour
     {
-        EventManager eventManager;
+        LevelEventManager _levelEventManager;
 
         private void Awake()
         {
-            eventManager = EventManager.current;
+            _levelEventManager = LevelEventManager.current;
         }
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            eventManager.DestroyGameObject(collision.gameObject.GetInstanceID());
+            _levelEventManager.DestroyGameObject(collision.gameObject.GetInstanceID());
         }
     }
 }

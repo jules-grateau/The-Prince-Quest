@@ -6660,7 +6660,7 @@ GameObject:
   - component: {fileID: 4136983987434952199}
   - component: {fileID: 9141522108110008458}
   - component: {fileID: 1046679887244392859}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CameraBoundaries
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6773,7 +6773,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 791081116075928986}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CameraRail
   m_TagString: Untagged
   m_Icon: {fileID: 0}

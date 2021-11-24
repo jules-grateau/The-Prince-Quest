@@ -1,44 +1,41 @@
 ﻿using Assets.Scripts.Enum;
-using Assets.Scripts.Manager;
-using System;
-using System.Collections.Generic;
+using Assets.Scripts.Manager.Events;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Assets.Scripts.Controllers.UI
 {
-
-
     [RequireComponent(typeof(Button))]
     public class ButtonController : MonoBehaviour
     {
-        private Button button;
-        private EventManager eventManager;
+        Button _button;
+        UIEventManager _uiEventManager;
+
         public ButtonType buttonType;
 
         void Start()
         {
-            eventManager = EventManager.current;
-            eventManager.onActivateButton += HandleActivateButton;
-            button = GetComponent<Button>();
-            button.onClick.AddListener(OnButtonClicked);
+            _uiEventManager = UIEventManager.current;
+            _uiEventManager.onActivateButton += HandleActivateButton;
+            _button = GetComponent<Button>();
+            _button.onClick.AddListener(OnButtonClicked);
         }
         private void OnDestroy()
         {
-            eventManager.onActivateButton -= HandleActivateButton;
+            _uiEventManager.onActivateButton -= HandleActivateButton;
         }
 
         public void HandleActivateButton(ButtonType buttonType)
         {
             if(this.buttonType == buttonType)
             {
-                button.interactable = true;
+                _button.interactable = true;
             }
         }
 
         private void OnButtonClicked()
         {
-            eventManager.ClickButton(buttonType);
+            _uiEventManager.ClickButton(buttonType);
         }
     }
 }

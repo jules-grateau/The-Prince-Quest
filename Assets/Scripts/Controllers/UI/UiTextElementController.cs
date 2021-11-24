@@ -1,7 +1,5 @@
 using Assets.Scripts.Enum;
-using Assets.Scripts.Manager;
-using System.Collections;
-using System.Collections.Generic;
+using Assets.Scripts.Manager.Events;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,21 +7,23 @@ using UnityEngine.UI;
 public class UiTextElementController : MonoBehaviour
 {
     public UiTextElementType type;
-    EventManager eventManager;
-    Text textElement;
+
+    UIEventManager uiEventManager;
+    Text _textElement;
+
     // Start is called before the first frame update
     void Start()
     {
-        eventManager = EventManager.current;
-        eventManager.onUpdateTextElement += HandleUpdateTextElement;
-        textElement = GetComponent<Text>();
+        uiEventManager = UIEventManager.current;
+        uiEventManager.onUpdateTextElement += HandleUpdateTextElement;
+        _textElement = GetComponent<Text>();
     }
 
     void HandleUpdateTextElement(UiTextElementType type, string value)
     {
         if(this.type == type)
         {
-            textElement.text = value;
+            _textElement.text = value;
         }
     }
 

@@ -1,43 +1,50 @@
-using Assets.Scripts.Manager;
+using Assets.Scripts.Manager.Events;
 using UnityEngine;
 
 namespace Assets.Scripts.Controllers.Enemy
 {
     public class EnemyStatusController : MonoBehaviour
     {
-        private EventManager eventManager;
-        private int instanceId;
-        private bool isAlive = true;
+        private EnemyEventManager _enemyEventManager;
+        private PlayerEventManager _playerEventManager;
+        
+        private int _instanceId;
+        private bool _isAlive = true;
+
         public int scoreValue = 50;
+        
         // Start is called before the first frame update
         void Start()
         {
-            eventManager = EventManager.current;
-            eventManager.onPlayerSteppedOnEnemy += HandlePlayerSteppedOnEnemy;
-            eventManager.onEnemyDie += HandleEnemyDie;
-            instanceId = gameObject.GetInstanceID();
+            _enemyEventManager = EnemyEventManager.current;
+            _playerEventManager = PlayerEventManager.current;
+
+            _playerEventManager.onPlayerSteppedOnEnemy += HandlePlayerSteppedOnEnemy;
+            _enemyEventManager.onEnemyDie += HandleEnemyDie;
+            
+            _instanceId = gameObject.GetInstanceID();
         }
 
         private void OnDestroy()
         {
-            eventManager.onEnemyDie -= HandleEnemyDie;
+            _enemyEventManager.onEnemyDie -= HandleEnemyDie;
         }
 
         void HandlePlayerSteppedOnEnemy(int instanceId)
         {
-            if (isAlive && instanceId == this.instanceId)
+            if (_isAlive && instanceId == this._instanceId)
             {
-                eventManager.EnemyDie(this.instanceId);
+                _enemyEventManager.EnemyDie(this._instanceId);
                 Destroy(gameObject, 2);
             }
         }
 
         void HandleEnemyDie(int instanceId)
         {
-            if (instanceId == this.instanceId)
+            if (instanceId == this._instanceId)
             {
-                eventManager.AddScore(transform.position, scoreValue);
-                isAlive = false;
+                GameStateEventManager.current.AddScore(transform.position, scoreValue);
+                _isAlive = false;
             }
         }
         // Update is called once per frame

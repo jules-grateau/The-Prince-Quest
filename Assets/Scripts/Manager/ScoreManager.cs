@@ -1,4 +1,5 @@
 using Assets.Scripts.Enum;
+using Assets.Scripts.Manager.Events;
 using UnityEngine;
 
 namespace Assets.Scripts.Manager
@@ -6,38 +7,55 @@ namespace Assets.Scripts.Manager
     public class ScoreManager : MonoBehaviour
     {
         public int scoreMaxLength = 7;
-        private int score = 0;
-        private int levelScore = 0;
-        private EventManager eventManager;
+
+        private int _score = 0;
+        private int _levelScore = 0;
+
+        private GameStateEventManager _gameStateEventManager;
+        private LevelEventManager _levelEventManager;
+
         private const string ScoreBoxPrefabPath = "Prefabs/Text/ScoreBox";
-        private GameObject scoreBoxPrefab;
+        private GameObject _scoreBoxPrefab;
+
         private void Start()
         {
-            eventManager = EventManager.current;
-            eventManager.onAddScore += HandleAddScore;
-            eventManager.onLoadLevel += HandleLoadLevel;
-            eventManager.onReloadLevel += HandleReloadLevel;
-            eventManager.onStartGame += HandleStartGame;
-            scoreBoxPrefab = Resources.Load<GameObject>(ScoreBoxPrefabPath);
+            _gameStateEventManager = GameStateEventManager.current;
+            _gameStateEventManager.onAddScore += HandleAddScore;
+            _gameStateEventManager.onStartGame += HandleStartGame;
+
+            _levelEventManager = LevelEventManager.current;
+            _levelEventManager.onLoadLevel += HandleLoadLevel;
+            _levelEventManager.onReloadLevel += HandleReloadLevel;
+
+            _scoreBoxPrefab = Resources.Load<GameObject>(ScoreBoxPrefabPath);
+        }
+
+        private void OnDestroy()
+        {
+            _gameStateEventManager.onAddScore -= HandleAddScore;
+            _gameStateEventManager.onStartGame -= HandleStartGame;
+
+            _levelEventManager.onLoadLevel -= HandleLoadLevel;
+            _levelEventManager.onReloadLevel -= HandleReloadLevel;
         }
 
         void HandleStartGame()
         {
-            score = 0;
-            levelScore = 0;
+            _score = 0;
+            _levelScore = 0;
             UpdateScore();
         }
 
         void HandleAddScore(Vector2 position, int score)
         {
             InstantiateScoreBox(position, score);
-            levelScore += score;
+            _levelScore += score;
             UpdateScore();
         }
 
         void InstantiateScoreBox(Vector2 position, int score)
         {
-            TextMesh text = scoreBoxPrefab.GetComponentInChildren<TextMesh>();
+            TextMesh text = _scoreBoxPrefab.GetComponentInChildren<TextMesh>();
             if (text != null)
             {
                 text.text = "";
@@ -49,26 +67,26 @@ namespace Assets.Scripts.Manager
 
             }
 
-            Instantiate(scoreBoxPrefab, new Vector3(position.x, position.y, scoreBoxPrefab.transform.position.z), Quaternion.Euler(0, 0, 0));
+            Instantiate(_scoreBoxPrefab, new Vector3(position.x, position.y, _scoreBoxPrefab.transform.position.z), Quaternion.Euler(0, 0, 0));
         }
 
         void HandleLoadLevel(LevelType levelType)
         {
-            score += levelScore;
-            levelScore = 0;
+            _score += _levelScore;
+            _levelScore = 0;
             UpdateScore();
         }
 
         void HandleReloadLevel()
         {
-            levelScore = 0;
+            _levelScore = 0;
             UpdateScore();
         }
 
         private void UpdateScore()
         {
-            string newScore = (score + levelScore).ToString().PadLeft(scoreMaxLength, '0');
-            eventManager.UpdateTextElement(UiTextElementType.Score, newScore);
+            string newScore = (_score + _levelScore).ToString().PadLeft(scoreMaxLength, '0');
+            UIEventManager.current.UpdateTextElement(UiTextElementType.Score, newScore);
         }
     }
 }

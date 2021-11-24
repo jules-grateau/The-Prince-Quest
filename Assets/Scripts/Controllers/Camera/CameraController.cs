@@ -5,10 +5,10 @@ namespace Assets.Scripts.Controllers.Camera
 {
     public class CameraController : MonoBehaviour
     {
-        public string PlayerGameObjectPath = "Player";
-        public string CameraBoundariesGameObjectPath = "CameraRail/CameraBoundaries";
-        CinemachineVirtualCamera virtualCamera;
-        CinemachineConfiner cinemachineConfiner;
+        public const string PlayerGameObjectPath = "Player";
+        public const string CameraBoundariesGameObjectPath = "CameraRail/CameraBoundaries";
+        CinemachineVirtualCamera _virtualCamera;
+        CinemachineConfiner _cinemachineConfiner;
         // Start is called before the first frame update
 
         void Awake()
@@ -19,24 +19,24 @@ namespace Assets.Scripts.Controllers.Camera
 
         void LoadCamera()
         {
-            virtualCamera = GetComponent<CinemachineVirtualCamera>();
+            _virtualCamera = GetComponent<CinemachineVirtualCamera>();
             Transform parent = transform.parent.transform;
             Transform player = parent.Find(PlayerGameObjectPath);
 
             if (player != null)
             {
-                virtualCamera.Follow = player;
+                _virtualCamera.Follow = player;
             }
             else
             {
                 Debug.Log($"Couldn't find player at path : {PlayerGameObjectPath}");
             }
 
-            cinemachineConfiner = GetComponent<CinemachineConfiner>();
+            _cinemachineConfiner = GetComponent<CinemachineConfiner>();
             Transform cameraBoundaries = parent.Find(CameraBoundariesGameObjectPath);
             if (cameraBoundaries != null)
             {
-                cinemachineConfiner.m_BoundingShape2D = cameraBoundaries.GetComponent<Collider2D>();
+                _cinemachineConfiner.m_BoundingShape2D = cameraBoundaries.GetComponent<Collider2D>();
             }
 
         }
