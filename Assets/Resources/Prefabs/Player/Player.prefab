@@ -203,9 +203,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpForce: 4.5
   jumpTime: 0.35
-  speed: 4
   airControlSpeed: 125
-  jumpVelocity: 5
+  speed: 4
   hitThrowSpeed: 50
   enemyBouncingSpeed: 7
 --- !u!114 &3249946818059264662
@@ -232,6 +231,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 057347163a2645946a4d5a6a76c0d29f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groundCollisionWidthMultiplier: 0.95
+  groundCollisionHeight: 0.2
   interacteDistance: 0.5
   groundLayer:
     serializedVersion: 2

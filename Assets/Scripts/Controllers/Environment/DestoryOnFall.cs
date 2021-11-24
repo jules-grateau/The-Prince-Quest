@@ -9,13 +9,18 @@ public class DestoryOnFall : MonoBehaviour
 {
     public LayerMask groundLayer;
     public float SpeedBreak = 3;
+    public int particulPlayTime = 1;
+    public int destoryTime = 2;
+
     new Rigidbody2D rigidbody;
     new ParticleSystem particleSystem;
     new BoxCollider2D collider;
     SpriteRenderer spriteRenderer;
     bool exploded = false;
+    EventManager eventManager;
     private void Start()
     {
+        eventManager = EventManager.current;
         rigidbody = GetComponent<Rigidbody2D>();
         particleSystem = GetComponent<ParticleSystem>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -42,10 +47,28 @@ public class DestoryOnFall : MonoBehaviour
                 spriteRenderer.enabled = false;
                 rigidbody.isKinematic = true;
                 collider.isTrigger = true;
-                particleSystem.Play();
+                StartCoroutine(PlayParticule());
                 exploded = true;
-                Destroy(gameObject, 5);
+                StartCoroutine(DestroyCoroutine());
             }
         });
+    }
+
+    IEnumerator PlayParticule()
+    {
+        particleSystem.Play();
+        yield return new WaitForSeconds(particulPlayTime);
+        particleSystem.Stop();
+    }
+
+    IEnumerator DestroyCoroutine()
+    {
+        yield return new WaitForSeconds(destoryTime);
+        spriteRenderer.enabled = true;
+        rigidbody.isKinematic = false;
+        rigidbody.velocity = Vector2.zero;
+        collider.isTrigger = false;
+        exploded = false;
+        eventManager.DestroyGameObject(gameObject.GetInstanceID());
     }
 }

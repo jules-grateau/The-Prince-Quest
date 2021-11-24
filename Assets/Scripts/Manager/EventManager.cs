@@ -430,5 +430,14 @@ public class EventManager : MonoBehaviour
         }
     }
 
+    public event Action<int> onDestroyGameObject;
+    public void DestroyGameObject(int gameObjectId)
+    {
+        if(onDestroyGameObject != null)
+        {
+            onDestroyGameObject(gameObjectId);
+        }
+    }
+
     #endregion
 }

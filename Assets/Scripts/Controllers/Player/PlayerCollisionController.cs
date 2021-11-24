@@ -11,6 +11,8 @@ public class PlayerCollisionController : MonoBehaviour
     bool isDragging = false;
     GameObject lookDirectionObject;
 
+    public float groundCollisionWidthMultiplier = 0.95f;
+    public float groundCollisionHeight = 0.10f;
     public float interacteDistance = 0.5f;
     public LayerMask groundLayer;
     public LayerMask enemyLayer;
@@ -70,7 +72,7 @@ public class PlayerCollisionController : MonoBehaviour
     void CalculateGroundColision()
     {
         Vector2 boxPoint = playerRb.position + new Vector2(boxCollider.offset.x, -boxCollider.size.y );
-        Vector2 boxSize = new Vector2((boxCollider.size.x * 0.95f), 0.10f);
+        Vector2 boxSize = new Vector2((boxCollider.size.x * groundCollisionWidthMultiplier), groundCollisionHeight);
         // Collider to detected collision with ground, to check if grounded
         Collider2D groundOverlapBox = Physics2D.OverlapBox(boxPoint
             , boxSize, transform.rotation.y, groundLayer);
