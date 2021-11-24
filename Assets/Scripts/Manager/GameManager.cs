@@ -45,8 +45,8 @@ namespace Assets.Scripts.Manager
             playerLifes = 3;
             UpdateLifeText();
             _uiEventManager.OpenScreen(ScreenType.LoadingScreen);
-            //_levelEventManager.LoadLevel(LevelType.LevelZeroOne);
-            _levelEventManager.LoadLevel(LevelType.LevelOneOne);
+            _levelEventManager.LoadLevel(LevelType.LevelZeroOne);
+            //_levelEventManager.LoadLevel(LevelType.LevelOneOne);
             _uiEventManager.ActivateButton(ButtonType.RestartLevel);
             _uiEventManager.OpenScreen(ScreenType.UI);
             GameStateEventManager.current.StartGame();

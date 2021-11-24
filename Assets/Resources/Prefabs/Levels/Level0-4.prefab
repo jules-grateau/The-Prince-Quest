@@ -12554,11 +12554,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3268771514289531915, guid: a2e5052b8ca84e540a8da966a11f9818, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3268771514324396833, guid: a2e5052b8ca84e540a8da966a11f9818, type: 3}
       propertyPath: m_Layer
-      value: 2
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3268771514324396839, guid: a2e5052b8ca84e540a8da966a11f9818, type: 3}
       propertyPath: m_Enabled

@@ -33,5 +33,14 @@ namespace Assets.Scripts.Manager.Events
             }
 
         }
+
+        public event Action<int, Vector2> onEnemyFindTarget;
+        public void EnemyFindTarget(int gameObjectId, Vector2 position)
+        {
+            if(onEnemyFindTarget != null)
+            {
+                onEnemyFindTarget(gameObjectId, position);
+            }
+        }
     }
 }
