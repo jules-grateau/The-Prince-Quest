@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Enums;
+﻿using Assets.Scripts.Enum;
 using Assets.Scripts.Manager;
 using UnityEngine;
 
