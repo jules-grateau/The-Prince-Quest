@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Enum;
+using System.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts.Manager

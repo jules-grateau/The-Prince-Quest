@@ -1,24 +1,28 @@
+using Assets.Scripts.Manager;
 using UnityEngine;
 
-public class AddScoreTrigger : MonoBehaviour
+namespace Assets.Scripts.Controllers.Trigger
 {
-    public bool destroyOnTrigger = true;
-    public int scoreToAdd = 200;
-    private EventManager eventManager;
-    // Start is called before the first frame update
-    void Start()
+    public class AddScoreTrigger : MonoBehaviour
     {
-        eventManager = EventManager.current;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
+        public bool destroyOnTrigger = true;
+        public int scoreToAdd = 200;
+        private EventManager eventManager;
+        // Start is called before the first frame update
+        void Start()
         {
-            eventManager.AddScore(transform.position, scoreToAdd);
-            if(destroyOnTrigger)
+            eventManager = EventManager.current;
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Player"))
             {
-                Destroy(this.gameObject);
+                eventManager.AddScore(transform.position, scoreToAdd);
+                if (destroyOnTrigger)
+                {
+                    Destroy(gameObject);
+                }
             }
         }
     }

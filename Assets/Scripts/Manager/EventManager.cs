@@ -1,443 +1,445 @@
-using Assets.Scripts.Controllers.UI;
-using Assets.Scripts.Manager;
+using Assets.Scripts.Enum;
 using System;
 using UnityEngine;
 
-public class EventManager : MonoBehaviour
+namespace Assets.Scripts.Manager
 {
-    public static EventManager current;
-
-    private void Awake()
+    public class EventManager : MonoBehaviour
     {
-        current = this;
-    }
+        public static EventManager current;
 
-    #region Input Events
-
-    public event Action<float> onHorizontalInput;
-    public void HorizontalInput(float horizontalInput)
-    {
-        if(onHorizontalInput != null)
+        private void Awake()
         {
-            onHorizontalInput(horizontalInput);
+            current = this;
         }
-    }
 
-    public event Action onSpaceInputDown;
-    public void SpaceInputDown()
-    {
-        if(onSpaceInputDown != null)
+        #region Input Events
+
+        public event Action<float> onHorizontalInput;
+        public void HorizontalInput(float horizontalInput)
         {
-            onSpaceInputDown();
+            if (onHorizontalInput != null)
+            {
+                onHorizontalInput(horizontalInput);
+            }
         }
-    }
 
-    public event Action onSpaceInput;
-    public void SpaceInput()
-    {
-        if(onSpaceInput != null)
+        public event Action onSpaceInputDown;
+        public void SpaceInputDown()
         {
-            onSpaceInput();
+            if (onSpaceInputDown != null)
+            {
+                onSpaceInputDown();
+            }
         }
-    }
 
-    public event Action onSpaceInputUp;
-    public void SpaceInputUp()
-    {
-        if (onSpaceInputUp != null)
+        public event Action onSpaceInput;
+        public void SpaceInput()
         {
-            onSpaceInputUp();
+            if (onSpaceInput != null)
+            {
+                onSpaceInput();
+            }
         }
-    }
 
-
-
-    public event Action onEscapeInput;
-    public void EscapeInput()
-    {
-        if(onEscapeInput!= null)
+        public event Action onSpaceInputUp;
+        public void SpaceInputUp()
         {
-            onEscapeInput();
+            if (onSpaceInputUp != null)
+            {
+                onSpaceInputUp();
+            }
         }
-    }
 
-    public event Action<bool> onStopPlayerInput;
-    public void StopPlayerInput(bool shouldStop)
-    {
-        if (onStopPlayerInput != null)
+
+
+        public event Action onEscapeInput;
+        public void EscapeInput()
         {
-            onStopPlayerInput(shouldStop);
+            if (onEscapeInput != null)
+            {
+                onEscapeInput();
+            }
         }
-    }
 
-    public event Action onInteractKeyDown;
-    public void InteractKeyDown()
-    {
-        if (onInteractKeyDown != null)
+        public event Action<bool> onStopPlayerInput;
+        public void StopPlayerInput(bool shouldStop)
         {
-            onInteractKeyDown();
+            if (onStopPlayerInput != null)
+            {
+                onStopPlayerInput(shouldStop);
+            }
         }
-    }
 
-    public event Action onInteractKeyUp;
-    public void InteractKeyUp()
-    {
-        if (onInteractKeyUp != null)
+        public event Action onInteractKeyDown;
+        public void InteractKeyDown()
         {
-            onInteractKeyUp();
+            if (onInteractKeyDown != null)
+            {
+                onInteractKeyDown();
+            }
         }
-    }
-    #endregion
 
-    #region State Event
-    public event Action<bool> onWalking;
-    public void Walking(bool isWalking)
-    {
-        if(onWalking != null)
+        public event Action onInteractKeyUp;
+        public void InteractKeyUp()
         {
-            onWalking(isWalking);
+            if (onInteractKeyUp != null)
+            {
+                onInteractKeyUp();
+            }
         }
-    }
+        #endregion
 
-    public event Action<bool> onGrounded;
-    public void Grounded(bool isGrounded)
-    {
-        if (onGrounded != null)
+        #region State Event
+        public event Action<bool> onWalking;
+        public void Walking(bool isWalking)
         {
-            onGrounded(isGrounded);
+            if (onWalking != null)
+            {
+                onWalking(isWalking);
+            }
         }
-    }
 
-    //Event sent by the PlayerStatusController indicating that the player just died
-    public event Action onPlayerDie;
-    public void PlayerDie()
-    {
-        if (onPlayerDie != null)
+        public event Action<bool> onGrounded;
+        public void Grounded(bool isGrounded)
         {
-            onPlayerDie();
+            if (onGrounded != null)
+            {
+                onGrounded(isGrounded);
+            }
         }
-    }
 
-    //Event sent by other element indicating they kill the played
-    public event Action onKillPlayer;
-    public void KillPlayer()
-    {
-        if(onKillPlayer != null)
+        //Event sent by the PlayerStatusController indicating that the player just died
+        public event Action onPlayerDie;
+        public void PlayerDie()
         {
-            onKillPlayer();
+            if (onPlayerDie != null)
+            {
+                onPlayerDie();
+            }
         }
-    }
 
-    public event Action<Vector2> onAddLife;
-    public void AddLife(Vector2 position)
-    {
-        if(onAddLife != null)
+        //Event sent by other element indicating they kill the played
+        public event Action onKillPlayer;
+        public void KillPlayer()
         {
-            onAddLife(position);
+            if (onKillPlayer != null)
+            {
+                onKillPlayer();
+            }
         }
-    }
 
-    public event Action<int> onEnemyDie;
-    public void EnemyDie(int enemyId)
-    {
-        if (onEnemyDie != null)
+        public event Action<Vector2> onAddLife;
+        public void AddLife(Vector2 position)
         {
-            onEnemyDie(enemyId);
+            if (onAddLife != null)
+            {
+                onAddLife(position);
+            }
         }
-    }
 
-    public event Action<Vector2,int> onAddScore;
-    public void AddScore(Vector2 position, int score)
-    {
-        if (onAddScore != null)
+        public event Action<int> onEnemyDie;
+        public void EnemyDie(int enemyId)
         {
-            onAddScore(position,score);
+            if (onEnemyDie != null)
+            {
+                onEnemyDie(enemyId);
+            }
         }
-    }
 
-    public event Action<int> onUpdateScore;
-    public void UpdateScore(int score)
-    {
-        if (onUpdateScore != null)
+        public event Action<Vector2, int> onAddScore;
+        public void AddScore(Vector2 position, int score)
         {
-            onUpdateScore(score);
+            if (onAddScore != null)
+            {
+                onAddScore(position, score);
+            }
         }
-    }
 
-    public event Action onStartGame;
-    public void StartGame()
-    {
-        if(onStartGame != null)
+        public event Action<int> onUpdateScore;
+        public void UpdateScore(int score)
         {
-            onStartGame();
+            if (onUpdateScore != null)
+            {
+                onUpdateScore(score);
+            }
         }
-    }
 
-    public event Action onPauseGame;
-    public void PauseGame()
-    {
-        if(onPauseGame != null)
+        public event Action onStartGame;
+        public void StartGame()
         {
-            onPauseGame();
+            if (onStartGame != null)
+            {
+                onStartGame();
+            }
         }
-    }
 
-    public event Action onResumeGame;
-    public void ResumeGame()
-    {
-        if(onResumeGame != null)
+        public event Action onPauseGame;
+        public void PauseGame()
         {
-            onResumeGame();
+            if (onPauseGame != null)
+            {
+                onPauseGame();
+            }
         }
-    }
-    #endregion
 
-    #region Collision events
-
-    public event Action<int> onPlayerSteppedOnEnemy;
-    public void PlayerSteppedOnEnemy(int enemyId)
-    {
-        if(onPlayerSteppedOnEnemy != null)
+        public event Action onResumeGame;
+        public void ResumeGame()
         {
-            onPlayerSteppedOnEnemy(enemyId);
+            if (onResumeGame != null)
+            {
+                onResumeGame();
+            }
         }
-    }
+        #endregion
 
-    public event Action<Vector2> onEnemyCollidedWithPlayer;
-    public void EnemyCollidedWithPlayer(Vector2 direction)
-    {
-        if(onEnemyCollidedWithPlayer != null)
+        #region Collision events
+
+        public event Action<int> onPlayerSteppedOnEnemy;
+        public void PlayerSteppedOnEnemy(int enemyId)
         {
-            onEnemyCollidedWithPlayer(direction);
+            if (onPlayerSteppedOnEnemy != null)
+            {
+                onPlayerSteppedOnEnemy(enemyId);
+            }
         }
-    }
 
-    public event Action<LevelType> onDoorEnter;
-    public void DoorEnter(LevelType levelType)
-    {
-        if(onDoorEnter != null)
+        public event Action<Vector2> onEnemyCollidedWithPlayer;
+        public void EnemyCollidedWithPlayer(Vector2 direction)
         {
-            onDoorEnter(levelType);
+            if (onEnemyCollidedWithPlayer != null)
+            {
+                onEnemyCollidedWithPlayer(direction);
+            }
         }
-    }
-    #endregion
 
-    #region UI Events
-    public event Action<ScreenType> onCloseScreen;
-    public void CloseScreen(ScreenType screenType)
-    {
-        if(onCloseScreen != null)
+        public event Action<LevelType> onDoorEnter;
+        public void DoorEnter(LevelType levelType)
         {
-            onCloseScreen(screenType);
+            if (onDoorEnter != null)
+            {
+                onDoorEnter(levelType);
+            }
         }
-    }
+        #endregion
 
-    public event Action<ScreenType> onOpenScreen;
-    public void OpenScreen(ScreenType screenType)
-    {
-        if(onOpenScreen != null )
+        #region UI Events
+        public event Action<ScreenType> onCloseScreen;
+        public void CloseScreen(ScreenType screenType)
         {
-            onOpenScreen(screenType);
+            if (onCloseScreen != null)
+            {
+                onCloseScreen(screenType);
+            }
         }
-    }
 
-    public event Action<ButtonType> onClickButton;
-    public void ClickButton(ButtonType buttonType)
-    {
-        if(onClickButton != null)
+        public event Action<ScreenType> onOpenScreen;
+        public void OpenScreen(ScreenType screenType)
         {
-            onClickButton(buttonType);
+            if (onOpenScreen != null)
+            {
+                onOpenScreen(screenType);
+            }
         }
-    }
 
-    public event Action<ButtonType> onActivateButton;
-    public void ActivateButton(ButtonType buttonType)
-    {
-        if(onActivateButton != null)
+        public event Action<ButtonType> onClickButton;
+        public void ClickButton(ButtonType buttonType)
         {
-            onActivateButton(buttonType);
+            if (onClickButton != null)
+            {
+                onClickButton(buttonType);
+            }
         }
-    }
 
-    public event Action<UiTextElementType, string> onUpdateTextElement;
-    public void UpdateTextElement(UiTextElementType elementType, string value)
-    {
-        if(onUpdateTextElement != null)
+        public event Action<ButtonType> onActivateButton;
+        public void ActivateButton(ButtonType buttonType)
         {
-            onUpdateTextElement(elementType, value);
+            if (onActivateButton != null)
+            {
+                onActivateButton(buttonType);
+            }
         }
-    }
 
-    public event Action<TutorialMessage> onOpenTutorialMessage;
-    public void OpenTutorialMessage(TutorialMessage tutorialMessage)
-    {
-        if(onOpenTutorialMessage != null)
+        public event Action<UiTextElementType, string> onUpdateTextElement;
+        public void UpdateTextElement(UiTextElementType elementType, string value)
         {
-            onOpenTutorialMessage(tutorialMessage);
+            if (onUpdateTextElement != null)
+            {
+                onUpdateTextElement(elementType, value);
+            }
         }
-    }
 
-    public event Action onCloseTutorialMessage;
-    public void CloseTutorialMessage()
-    {
-        if (onCloseTutorialMessage != null)
+        public event Action<TutorialMessage> onOpenTutorialMessage;
+        public void OpenTutorialMessage(TutorialMessage tutorialMessage)
         {
-            onCloseTutorialMessage();
+            if (onOpenTutorialMessage != null)
+            {
+                onOpenTutorialMessage(tutorialMessage);
+            }
         }
-    }
-    #endregion
 
-    #region Level Events
-
-    public event Action<LevelType> onLoadLevel;
-    public void LoadLevel(LevelType levelType)
-    {
-        if(onLoadLevel != null)
+        public event Action onCloseTutorialMessage;
+        public void CloseTutorialMessage()
         {
-            onLoadLevel(levelType);
+            if (onCloseTutorialMessage != null)
+            {
+                onCloseTutorialMessage();
+            }
         }
-    }
+        #endregion
 
-    public event Action onReloadLevel;
-    public void ReloadLevel()
-    {
-        if(onReloadLevel != null)
+        #region Level Events
+
+        public event Action<LevelType> onLoadLevel;
+        public void LoadLevel(LevelType levelType)
         {
-            onReloadLevel();
+            if (onLoadLevel != null)
+            {
+                onLoadLevel(levelType);
+            }
         }
-    }
 
-    public event Action onUnloadLevel;
-    public void UnloadLevel()
-    {
-        if(onUnloadLevel != null)
+        public event Action onReloadLevel;
+        public void ReloadLevel()
         {
-            onUnloadLevel();
+            if (onReloadLevel != null)
+            {
+                onReloadLevel();
+            }
         }
-    }
-    #endregion
 
-    #region Animation Events 
-    public event Action<bool> onIsKissing;
-    public void IsKissing(bool isKissing)
-    {
-        if(onIsKissing != null)
+        public event Action onUnloadLevel;
+        public void UnloadLevel()
         {
-            onIsKissing(isKissing);
+            if (onUnloadLevel != null)
+            {
+                onUnloadLevel();
+            }
         }
-    }
+        #endregion
 
-    public event Action onStopKissing;
-    public void StopKissing()
-    {
-        if (onStopKissing != null)
+        #region Animation Events 
+        public event Action<bool> onIsKissing;
+        public void IsKissing(bool isKissing)
         {
-            onStopKissing();
+            if (onIsKissing != null)
+            {
+                onIsKissing(isKissing);
+            }
         }
-    }
 
-    public event Action<AnimationType> onStartAnimation;
-    public void StartAnimation(AnimationType animationType)
-    {
-        if(onStartAnimation != null)
+        public event Action onStopKissing;
+        public void StopKissing()
         {
-            onStartAnimation(animationType);
+            if (onStopKissing != null)
+            {
+                onStopKissing();
+            }
         }
-    }
 
-    public event Action<AnimationType> onStopAnimation;
-    public void StopAnimation(AnimationType animationType)
-    {
-        if (onStopAnimation != null)
+        public event Action<AnimationType> onStartAnimation;
+        public void StartAnimation(AnimationType animationType)
         {
-            onStopAnimation(animationType);
+            if (onStartAnimation != null)
+            {
+                onStartAnimation(animationType);
+            }
         }
-    }
 
-    public event Action<AnimationType> onTriggerAnimation;
-    public void TriggerAnimation(AnimationType animationType)
-    {
-        if(onTriggerAnimation != null)
+        public event Action<AnimationType> onStopAnimation;
+        public void StopAnimation(AnimationType animationType)
         {
-            onTriggerAnimation(animationType);
+            if (onStopAnimation != null)
+            {
+                onStopAnimation(animationType);
+            }
         }
-    }
-    #endregion
 
-    #region Player Event
-    public event Action onPlayerJump;
-    public void PlayerJump()
-    {
-        if(onPlayerJump != null)
+        public event Action<AnimationType> onTriggerAnimation;
+        public void TriggerAnimation(AnimationType animationType)
         {
-            onPlayerJump();
+            if (onTriggerAnimation != null)
+            {
+                onTriggerAnimation(animationType);
+            }
         }
-    }
-    #endregion
+        #endregion
 
-    #region Level Event
-    public event Action<InGameEventType> onStartGameEvent;
-    public void StartGameEvent(InGameEventType gameEventType)
-    {
-        if(onStartGameEvent != null)
+        #region Player Event
+        public event Action onPlayerJump;
+        public void PlayerJump()
         {
-            onStartGameEvent(gameEventType);
+            if (onPlayerJump != null)
+            {
+                onPlayerJump();
+            }
         }
-    }
+        #endregion
 
-    public event Action<int> onCanInteractWith;
-    public void CanInteractWith(int gameobjectId)
-    {
-        if(onCanInteractWith != null)
+        #region Level Event
+        public event Action<InGameEventType> onStartGameEvent;
+        public void StartGameEvent(InGameEventType gameEventType)
         {
-            onCanInteractWith(gameobjectId);
-        } 
-    }
-
-    public event Action<GameObject,int> onStartInteractWith;
-    public void StartInteractWith(GameObject interactionFrom, int gameobjectId)
-    {
-        if (onStartInteractWith != null)
-        {
-            onStartInteractWith(interactionFrom, gameobjectId);
+            if (onStartGameEvent != null)
+            {
+                onStartGameEvent(gameEventType);
+            }
         }
-    }
 
-    public event Action<int> onStopInteractWith;
-    public void StopInteractWith(int gameobjectId)
-    {
-        if (onStopInteractWith != null)
+        public event Action<int> onCanInteractWith;
+        public void CanInteractWith(int gameobjectId)
         {
-            onStopInteractWith(gameobjectId);
+            if (onCanInteractWith != null)
+            {
+                onCanInteractWith(gameobjectId);
+            }
         }
-    }
 
-    public event Action<int> onStartDragging;
-    public void StartDragging(int gameobjectId)
-    {
-        if(onStartDragging != null)
+        public event Action<GameObject, int> onStartInteractWith;
+        public void StartInteractWith(GameObject interactionFrom, int gameobjectId)
         {
-            onStartDragging(gameobjectId);
+            if (onStartInteractWith != null)
+            {
+                onStartInteractWith(interactionFrom, gameobjectId);
+            }
         }
-    }
 
-    public event Action<int> onStopDragging;
-    public void StopDragging(int gameobjectId)
-    {
-        if (onStopDragging != null)
+        public event Action<int> onStopInteractWith;
+        public void StopInteractWith(int gameobjectId)
         {
-            onStopDragging(gameobjectId);
+            if (onStopInteractWith != null)
+            {
+                onStopInteractWith(gameobjectId);
+            }
         }
-    }
 
-    public event Action<int> onDestroyGameObject;
-    public void DestroyGameObject(int gameObjectId)
-    {
-        if(onDestroyGameObject != null)
+        public event Action<int> onStartDragging;
+        public void StartDragging(int gameobjectId)
         {
-            onDestroyGameObject(gameObjectId);
+            if (onStartDragging != null)
+            {
+                onStartDragging(gameobjectId);
+            }
         }
-    }
 
-    #endregion
+        public event Action<int> onStopDragging;
+        public void StopDragging(int gameobjectId)
+        {
+            if (onStopDragging != null)
+            {
+                onStopDragging(gameobjectId);
+            }
+        }
+
+        public event Action<int> onDestroyGameObject;
+        public void DestroyGameObject(int gameObjectId)
+        {
+            if (onDestroyGameObject != null)
+            {
+                onDestroyGameObject(gameObjectId);
+            }
+        }
+
+        #endregion
+    }
 }

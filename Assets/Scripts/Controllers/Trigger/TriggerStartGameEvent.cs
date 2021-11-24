@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.Enum;
+using Assets.Scripts.Manager;
+using UnityEngine;
 
 namespace Assets.Scripts.Controllers.Trigger
 {

@@ -1,9 +1,12 @@
 using UnityEngine;
 
-public class DestroyOnExitAnimation : StateMachineBehaviour
+namespace Assets.Scripts.Animation
 {
-    public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public class DestroyOnExitAnimation : StateMachineBehaviour
     {
-        Destroy(animator.gameObject, stateInfo.length);
+        public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            Destroy(animator.gameObject, stateInfo.length);
+        }
     }
 }

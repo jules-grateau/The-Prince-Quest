@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Assets.Scripts.Enum;
+using Assets.Scripts.Manager;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;

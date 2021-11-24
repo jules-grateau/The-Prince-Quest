@@ -1,19 +1,23 @@
+using Assets.Scripts.Manager;
 using UnityEngine;
 
-public class KillZoneController : MonoBehaviour
+namespace Assets.Scripts.Controllers.Trigger
 {
-    EventManager eventManager;
-    // Start is called before the first frame update
-    void Start()
+    public class KillZoneController : MonoBehaviour
     {
-        eventManager = EventManager.current;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if(collision.CompareTag("Player"))
+        EventManager eventManager;
+        // Start is called before the first frame update
+        void Start()
         {
-            eventManager.KillPlayer();
+            eventManager = EventManager.current;
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.CompareTag("Player"))
+            {
+                eventManager.KillPlayer();
+            }
         }
     }
 }

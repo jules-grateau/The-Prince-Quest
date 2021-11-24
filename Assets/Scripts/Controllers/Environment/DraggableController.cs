@@ -1,7 +1,7 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Manager;
 using UnityEngine;
 
-namespace Assets.Scripts.Controllers
+namespace Assets.Scripts.Controllers.Environment
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public class DraggableController : MonoBehaviour

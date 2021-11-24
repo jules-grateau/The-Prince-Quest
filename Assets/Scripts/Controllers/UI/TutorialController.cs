@@ -1,3 +1,5 @@
+using Assets.Scripts.Enums;
+using Assets.Scripts.Manager;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;

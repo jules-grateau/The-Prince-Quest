@@ -1,70 +1,74 @@
+using Assets.Scripts.Enum;
 using UnityEngine;
 
-public class ScoreManager : MonoBehaviour
+namespace Assets.Scripts.Manager
 {
-    public int scoreMaxLength = 7;
-    private int score = 0;
-    private int levelScore = 0;
-    private EventManager eventManager;
-    private const string ScoreBoxPrefabPath = "Prefabs/Text/ScoreBox";
-    private GameObject scoreBoxPrefab;
-    private void Start()
+    public class ScoreManager : MonoBehaviour
     {
-        eventManager = EventManager.current;
-        eventManager.onAddScore += HandleAddScore;
-        eventManager.onLoadLevel += HandleLoadLevel;
-        eventManager.onReloadLevel += HandleReloadLevel;
-        eventManager.onStartGame += HandleStartGame;
-        scoreBoxPrefab = Resources.Load<GameObject>(ScoreBoxPrefabPath);
-    }
-
-    void HandleStartGame()
-    {
-        score = 0;
-        levelScore = 0;
-        UpdateScore();
-    }
-
-    void HandleAddScore(Vector2 position, int score)
-    {
-        InstantiateScoreBox(position, score);
-        this.levelScore += score;
-        UpdateScore();
-    }
-
-    void InstantiateScoreBox(Vector2 position, int score)
-    {
-        TextMesh text = scoreBoxPrefab.GetComponentInChildren<TextMesh>();
-        if(text != null)
+        public int scoreMaxLength = 7;
+        private int score = 0;
+        private int levelScore = 0;
+        private EventManager eventManager;
+        private const string ScoreBoxPrefabPath = "Prefabs/Text/ScoreBox";
+        private GameObject scoreBoxPrefab;
+        private void Start()
         {
-            text.text = "";
-            if(score >= 0)
-            {
-                text.text = "+";
-            }
-            text.text += score.ToString();
-
+            eventManager = EventManager.current;
+            eventManager.onAddScore += HandleAddScore;
+            eventManager.onLoadLevel += HandleLoadLevel;
+            eventManager.onReloadLevel += HandleReloadLevel;
+            eventManager.onStartGame += HandleStartGame;
+            scoreBoxPrefab = Resources.Load<GameObject>(ScoreBoxPrefabPath);
         }
 
-        Instantiate(scoreBoxPrefab, new Vector3(position.x, position.y,scoreBoxPrefab.transform.position.z), Quaternion.Euler(0,0,0));
-    }
-    
-    void HandleLoadLevel(LevelType levelType)
-    {
-        this.score += this.levelScore;
-        this.levelScore = 0;
-        UpdateScore();
-    }
+        void HandleStartGame()
+        {
+            score = 0;
+            levelScore = 0;
+            UpdateScore();
+        }
 
-    void HandleReloadLevel()
-    {
-        this.levelScore = 0;
-        UpdateScore();
-    }
+        void HandleAddScore(Vector2 position, int score)
+        {
+            InstantiateScoreBox(position, score);
+            levelScore += score;
+            UpdateScore();
+        }
 
-    private void UpdateScore()
-    {
-        string newScore = (this.score + this.levelScore).ToString().PadLeft(scoreMaxLength, '0');
-        eventManager.UpdateTextElement(UiTextElementType.Score, newScore);
+        void InstantiateScoreBox(Vector2 position, int score)
+        {
+            TextMesh text = scoreBoxPrefab.GetComponentInChildren<TextMesh>();
+            if (text != null)
+            {
+                text.text = "";
+                if (score >= 0)
+                {
+                    text.text = "+";
+                }
+                text.text += score.ToString();
+
+            }
+
+            Instantiate(scoreBoxPrefab, new Vector3(position.x, position.y, scoreBoxPrefab.transform.position.z), Quaternion.Euler(0, 0, 0));
+        }
+
+        void HandleLoadLevel(LevelType levelType)
+        {
+            score += levelScore;
+            levelScore = 0;
+            UpdateScore();
+        }
+
+        void HandleReloadLevel()
+        {
+            levelScore = 0;
+            UpdateScore();
+        }
+
+        private void UpdateScore()
+        {
+            string newScore = (score + levelScore).ToString().PadLeft(scoreMaxLength, '0');
+            eventManager.UpdateTextElement(UiTextElementType.Score, newScore);
+        }
     }
-} 
+}

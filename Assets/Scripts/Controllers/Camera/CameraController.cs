@@ -1,40 +1,44 @@
 using Cinemachine;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+namespace Assets.Scripts.Controllers.Camera
 {
-    public string PlayerGameObjectPath = "Player";
-    public string CameraBoundariesGameObjectPath = "CameraRail/CameraBoundaries";
-    CinemachineVirtualCamera virtualCamera;
-    CinemachineConfiner cinemachineConfiner;
-    // Start is called before the first frame update
-
-    void Awake()
+    public class CameraController : MonoBehaviour
     {
-        LoadCamera();
-    }
+        public string PlayerGameObjectPath = "Player";
+        public string CameraBoundariesGameObjectPath = "CameraRail/CameraBoundaries";
+        CinemachineVirtualCamera virtualCamera;
+        CinemachineConfiner cinemachineConfiner;
+        // Start is called before the first frame update
 
-
-    void LoadCamera()
-    {
-        virtualCamera = GetComponent<CinemachineVirtualCamera>();
-        Transform parent = transform.parent.transform;
-        Transform player = parent.Find(PlayerGameObjectPath);
-        
-        if (player != null)
+        void Awake()
         {
-            virtualCamera.Follow = player;
-        } else
-        {
-            Debug.Log($"Couldn't find player at path : {PlayerGameObjectPath}");
+            LoadCamera();
         }
 
-        cinemachineConfiner = GetComponent<CinemachineConfiner>();
-        Transform cameraBoundaries = parent.Find(CameraBoundariesGameObjectPath);
-        if (cameraBoundaries != null)
-        {
-            cinemachineConfiner.m_BoundingShape2D = cameraBoundaries.GetComponent<Collider2D>();
-        }
 
+        void LoadCamera()
+        {
+            virtualCamera = GetComponent<CinemachineVirtualCamera>();
+            Transform parent = transform.parent.transform;
+            Transform player = parent.Find(PlayerGameObjectPath);
+
+            if (player != null)
+            {
+                virtualCamera.Follow = player;
+            }
+            else
+            {
+                Debug.Log($"Couldn't find player at path : {PlayerGameObjectPath}");
+            }
+
+            cinemachineConfiner = GetComponent<CinemachineConfiner>();
+            Transform cameraBoundaries = parent.Find(CameraBoundariesGameObjectPath);
+            if (cameraBoundaries != null)
+            {
+                cinemachineConfiner.m_BoundingShape2D = cameraBoundaries.GetComponent<Collider2D>();
+            }
+
+        }
     }
 }

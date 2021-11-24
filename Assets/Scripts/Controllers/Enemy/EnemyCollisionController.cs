@@ -1,52 +1,54 @@
-using System.Collections;
-using System.Collections.Generic;
+using Assets.Scripts.Manager;
 using UnityEngine;
 
-public class EnemyCollisionController : MonoBehaviour
+namespace Assets.Scripts.Controllers.Enemy
 {
-    private EventManager eventManager;
-    private CompositeCollider2D compositeCollider;
-    private int instanceId;
-    private bool isAlive = true;
-    // Start is called before the first frame update
-    void Start()
+    public class EnemyCollisionController : MonoBehaviour
     {
-        eventManager = EventManager.current;
-        compositeCollider = GetComponent<CompositeCollider2D>();
-        instanceId = gameObject.GetInstanceID();
-        eventManager.onEnemyDie += handleEnemyDie;
-    }
-
-    private void OnDestroy()
-    {
-        eventManager.onEnemyDie -= handleEnemyDie;
-    }
-
-
-    void handleEnemyDie(int instanceId)
-    {
-        if(instanceId == this.instanceId)
+        private EventManager eventManager;
+        private CompositeCollider2D compositeCollider;
+        private int instanceId;
+        private bool isAlive = true;
+        // Start is called before the first frame update
+        void Start()
         {
-            isAlive = false;
-            compositeCollider.enabled = false;
+            eventManager = EventManager.current;
+            compositeCollider = GetComponent<CompositeCollider2D>();
+            instanceId = gameObject.GetInstanceID();
+            eventManager.onEnemyDie += handleEnemyDie;
         }
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (!isAlive)
-            return;
-
-        GameObject objectCollided = collision.gameObject;
-        if (objectCollided.CompareTag("Player"))
+        private void OnDestroy()
         {
-            Vector2 collisionDirection = objectCollided.transform.position - transform.position;
-            eventManager.EnemyCollidedWithPlayer(collisionDirection.normalized);
+            eventManager.onEnemyDie -= handleEnemyDie;
+        }
+
+
+        void handleEnemyDie(int instanceId)
+        {
+            if (instanceId == this.instanceId)
+            {
+                isAlive = false;
+                compositeCollider.enabled = false;
+            }
+        }
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
+
+        void OnCollisionEnter2D(Collision2D collision)
+        {
+            if (!isAlive)
+                return;
+
+            GameObject objectCollided = collision.gameObject;
+            if (objectCollided.CompareTag("Player"))
+            {
+                Vector2 collisionDirection = objectCollided.transform.position - transform.position;
+                eventManager.EnemyCollidedWithPlayer(collisionDirection.normalized);
+            }
         }
     }
 }

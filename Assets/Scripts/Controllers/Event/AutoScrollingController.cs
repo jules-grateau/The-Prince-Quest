@@ -1,79 +1,83 @@
-using System.Collections;
-using System.Collections.Generic;
+using Assets.Scripts.Enum;
+using Assets.Scripts.Manager;
 using UnityEngine;
 
-public class AutoScrollingController : MonoBehaviour
+namespace Assets.Scripts.Controllers.Event
 {
-    public Vector2[] targets;
-    private Vector3 currentTarget;
-    private int currentIndex = 0;
-    public float speed = 0.5f;
-    bool isEventStarted = false;
-    EventManager eventManager;
-    InGameEventType gameEvent = InGameEventType.AutoScrollingStart;
-
-    private void Awake()
+    public class AutoScrollingController : MonoBehaviour
     {
-        eventManager = EventManager.current;
-        eventManager.onStartGameEvent += HandleStartGameEvent;
-        CalculateCurrentTarget();
-    }
+        public Vector2[] targets;
+        private Vector3 currentTarget;
+        private int currentIndex = 0;
+        public float speed = 0.5f;
+        bool isEventStarted = false;
+        EventManager eventManager;
+        InGameEventType gameEvent = InGameEventType.AutoScrollingStart;
 
-    private void OnDestroy()
-    {
-        eventManager.onStartGameEvent -= HandleStartGameEvent;
-    }
-
-    void HandleStartGameEvent(InGameEventType gameEventType)
-    {
-        if(gameEventType == gameEvent)
+        private void Awake()
         {
-            isEventStarted = true;
-            Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
-            foreach(Collider2D collider in colliders)
+            eventManager = EventManager.current;
+            eventManager.onStartGameEvent += HandleStartGameEvent;
+            CalculateCurrentTarget();
+        }
+
+        private void OnDestroy()
+        {
+            eventManager.onStartGameEvent -= HandleStartGameEvent;
+        }
+
+        void HandleStartGameEvent(InGameEventType gameEventType)
+        {
+            if (gameEventType == gameEvent)
             {
-                collider.enabled = true;
+                isEventStarted = true;
+                Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
+                foreach (Collider2D collider in colliders)
+                {
+                    collider.enabled = true;
+                }
             }
         }
-    }
 
-    void OnReachedEndScolling()
-    {
-        Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
-        foreach (Collider2D collider in colliders)
+        void OnReachedEndScolling()
         {
-            collider.enabled = false;
-            isEventStarted = false;
+            Collider2D[] colliders = GetComponentsInChildren<Collider2D>();
+            foreach (Collider2D collider in colliders)
+            {
+                collider.enabled = false;
+                isEventStarted = false;
+            }
         }
-    }
 
-    void CalculateCurrentTarget()
-    {
-        Vector2 target = targets[currentIndex];
-        currentTarget = new Vector3(target.x, target.y, transform.position.z);
-    }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (!isEventStarted)
-            return;
-
-        float step = speed * Time.deltaTime;
-        transform.position = Vector3.MoveTowards(transform.position, currentTarget, step);
-
-        if(transform.position == currentTarget)
+        void CalculateCurrentTarget()
         {
-            currentIndex++;
+            Vector2 target = targets[currentIndex];
+            currentTarget = new Vector3(target.x, target.y, transform.position.z);
+        }
 
-            if (currentIndex < targets.Length)
-            {
-                CalculateCurrentTarget();
 
-            } else
+        // Update is called once per frame
+        void Update()
+        {
+            if (!isEventStarted)
+                return;
+
+            float step = speed * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(transform.position, currentTarget, step);
+
+            if (transform.position == currentTarget)
             {
-                OnReachedEndScolling();
+                currentIndex++;
+
+                if (currentIndex < targets.Length)
+                {
+                    CalculateCurrentTarget();
+
+                }
+                else
+                {
+                    OnReachedEndScolling();
+                }
             }
         }
     }

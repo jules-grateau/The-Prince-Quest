@@ -1,47 +1,49 @@
-using System.Collections;
-using System.Collections.Generic;
+using Assets.Scripts.Manager;
 using UnityEngine;
 
-public class EnemyStatusController : MonoBehaviour
+namespace Assets.Scripts.Controllers.Enemy
 {
-    private EventManager eventManager;
-    private int instanceId;
-    private bool isAlive = true;
-    public int scoreValue = 50;
-    // Start is called before the first frame update
-    void Start()
+    public class EnemyStatusController : MonoBehaviour
     {
-        eventManager = EventManager.current;
-        eventManager.onPlayerSteppedOnEnemy += HandlePlayerSteppedOnEnemy;
-        eventManager.onEnemyDie += HandleEnemyDie;
-        instanceId = gameObject.GetInstanceID();
-    }
-
-    private void OnDestroy()
-    {
-        eventManager.onEnemyDie -= HandleEnemyDie;
-    }
-
-    void HandlePlayerSteppedOnEnemy(int instanceId)
-    {
-        if (isAlive && instanceId == this.instanceId)
+        private EventManager eventManager;
+        private int instanceId;
+        private bool isAlive = true;
+        public int scoreValue = 50;
+        // Start is called before the first frame update
+        void Start()
         {
-            eventManager.EnemyDie(this.instanceId);
-            Destroy(gameObject, 2);
+            eventManager = EventManager.current;
+            eventManager.onPlayerSteppedOnEnemy += HandlePlayerSteppedOnEnemy;
+            eventManager.onEnemyDie += HandleEnemyDie;
+            instanceId = gameObject.GetInstanceID();
         }
-    }
 
-    void HandleEnemyDie(int instanceId)
-    {
-        if(instanceId == this.instanceId)
+        private void OnDestroy()
         {
-            eventManager.AddScore(transform.position, scoreValue);
-            isAlive = false;
+            eventManager.onEnemyDie -= HandleEnemyDie;
         }
-    } 
-    // Update is called once per frame
-    void Update()
-    {
-        
+
+        void HandlePlayerSteppedOnEnemy(int instanceId)
+        {
+            if (isAlive && instanceId == this.instanceId)
+            {
+                eventManager.EnemyDie(this.instanceId);
+                Destroy(gameObject, 2);
+            }
+        }
+
+        void HandleEnemyDie(int instanceId)
+        {
+            if (instanceId == this.instanceId)
+            {
+                eventManager.AddScore(transform.position, scoreValue);
+                isAlive = false;
+            }
+        }
+        // Update is called once per frame
+        void Update()
+        {
+
+        }
     }
 }

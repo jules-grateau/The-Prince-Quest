@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Enum;
+using Assets.Scripts.Manager;
+using System.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts.Controllers.UI

@@ -1,32 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
+using Assets.Scripts.Manager;
 using UnityEngine;
 
-public class EnemyAnimatorController : MonoBehaviour
+namespace Assets.Scripts.Controllers.Enemy
 {
-    private EventManager eventManager;
-    private Animator animator;
-    private int instanceId;
-    private const string isDeadParameterName = "isDead";
-    // Start is called before the first frame update
-    void Start()
+    public class EnemyAnimatorController : MonoBehaviour
     {
-        eventManager = EventManager.current;
-        animator = GetComponent<Animator>();
-        eventManager.onEnemyDie += setIsDeadParameterTrue;
-        instanceId = gameObject.GetInstanceID();
-    }
-
-    private void OnDestroy()
-    {
-        eventManager.onEnemyDie -= setIsDeadParameterTrue;
-    }
-
-    void setIsDeadParameterTrue(int instanceId)
-    {
-        if(instanceId == this.instanceId)
+        private EventManager eventManager;
+        private Animator animator;
+        private int instanceId;
+        private const string isDeadParameterName = "isDead";
+        // Start is called before the first frame update
+        void Start()
         {
-            animator.SetBool(isDeadParameterName, true);
+            eventManager = EventManager.current;
+            animator = GetComponent<Animator>();
+            eventManager.onEnemyDie += setIsDeadParameterTrue;
+            instanceId = gameObject.GetInstanceID();
+        }
+
+        private void OnDestroy()
+        {
+            eventManager.onEnemyDie -= setIsDeadParameterTrue;
+        }
+
+        void setIsDeadParameterTrue(int instanceId)
+        {
+            if (instanceId == this.instanceId)
+            {
+                animator.SetBool(isDeadParameterName, true);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.Enums;
+using Assets.Scripts.Manager;
 using UnityEngine;
 
 namespace Assets.Scripts.Controllers.Trigger
