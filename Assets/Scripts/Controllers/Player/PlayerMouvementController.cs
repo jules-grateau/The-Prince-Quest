@@ -16,14 +16,14 @@ namespace Assets.Scripts.Controllers.Player
         bool _isAlive = true;
         bool _isDragging;
 
-        public float jumpForce = 3;
-        public float jumpTime = 0.5f;
-        float _jumpTimeCounter = 0f;
+        public float jumpForce = 6.5f;
 
         public float airControlSpeed = 125;
         public float speed = 4f;
         public float hitThrowSpeed = 50f;
         public float enemyBouncingSpeed = 3f;
+        public float fallMultiplier = 2.5f;
+        public float stopJumpMultiplied = 2.5f;
 
         // Start is called before the first frame update
         void Start()
@@ -40,7 +40,6 @@ namespace Assets.Scripts.Controllers.Player
 
             _inputEventManager = InputEventManager.current;
             _inputEventManager.onHorizontalInput += HandleHorizontalInput;
-            _inputEventManager.onSpaceInput += HandleSpaceInput;
             _inputEventManager.onSpaceInputDown += HandleSpaceInputDown;
             _inputEventManager.onSpaceInputUp += HandleSpaceInputUp;
             _inputEventManager.onStopPlayerInput += HandleInputStop;
@@ -58,12 +57,16 @@ namespace Assets.Scripts.Controllers.Player
             _playerEventManager.onStopDragging -= HandleStopDragging;
 
             _inputEventManager.onHorizontalInput -= HandleHorizontalInput;
-            _inputEventManager.onSpaceInput -= HandleSpaceInput;
             _inputEventManager.onSpaceInputDown -= HandleSpaceInputDown;
             _inputEventManager.onSpaceInputUp -= HandleSpaceInputUp;
             _inputEventManager.onStopPlayerInput -= HandleInputStop;
 
             _enemyEventManager.onEnemyCollidedWithPlayer -= HandleEnemyCollidedWithPlayer;
+        }
+
+        private void FixedUpdate()
+        {
+            AffectFallGravity();
         }
 
         void HandleStartDragging(int gameObjectId)
@@ -98,6 +101,7 @@ namespace Assets.Scripts.Controllers.Player
         {
             _playerRb.velocity = new Vector2(_playerRb.velocity.x, enemyBouncingSpeed);
             _playerEventManager.PlayerJump();
+            _isJumping = false;
         }
 
         private void HandlePlayerDie()
@@ -141,22 +145,6 @@ namespace Assets.Scripts.Controllers.Player
             CalculateLookDirection(horizontalInput);
         }
 
-        private void HandleSpaceInput()
-        {
-            if (!_isAlive || _isDragging)
-                return;
-            if (_jumpTimeCounter <= 0)
-            {
-                _isJumping = false;
-            }
-
-            if (_isJumping)
-            {
-                _playerRb.velocity = new Vector2(_playerRb.velocity.x, jumpForce);
-                _jumpTimeCounter -= Time.deltaTime;
-            }
-        }
-
         private void HandleSpaceInputDown()
         {
             if (!_isAlive || _isDragging)
@@ -166,15 +154,14 @@ namespace Assets.Scripts.Controllers.Player
             {
                 _playerEventManager.PlayerJump();
                 _playerRb.velocity = new Vector2(_playerRb.velocity.x, jumpForce);
+
                 _isJumping = true;
-                _jumpTimeCounter = jumpTime;
             }
         }
-
+        bool stoppedJumping;
         private void HandleSpaceInputUp()
         {
             _isJumping = false;
-            _jumpTimeCounter = 0;
         }
 
         void CalculateLookDirection(float horizontalInput)
@@ -194,6 +181,17 @@ namespace Assets.Scripts.Controllers.Player
             if (horizontalInput > 0 && lookDirection.x < 0)
             {
                 _playerRb.transform.eulerAngles = _playerRb.transform.eulerAngles - new Vector3(0, 180, 0);
+            }
+        }
+
+        void AffectFallGravity()
+        {
+            if(_playerRb.velocity.y < 0)
+            {
+                _playerRb.velocity += Vector2.up * Physics2D.gravity.y * fallMultiplier * Time.deltaTime;
+            } else if (_playerRb.velocity.y > 0 && !_isJumping)
+            {
+                _playerRb.velocity += Vector2.up * Physics2D.gravity.y * stopJumpMultiplied * Time.deltaTime;
             }
         }
     }

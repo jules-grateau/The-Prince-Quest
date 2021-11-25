@@ -1,19 +1,7 @@
 fileFormatVersion: 2
-guid: c9754b4e8a2d1a043997a82827c67632
+guid: 20e593e8a5df6f947ab449a82de8d651
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: -7424270800377155831
-    second: FlowerTop32x
-  - first:
-      213: -8686348729737240898
-    second: GrassTop32x
-  - first:
-      213: 7889144805987905935
-    second: Bottom32x
-  - first:
-      213: -6972954513835096585
-    second: Ground_TileSet_3
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -53,8 +41,8 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
-  spriteExtrude: 0
+  spriteMode: 1
+  spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
@@ -101,91 +89,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: FlowerTop32x
-      rect:
-        serializedVersion: 2
-        x: 1
-        y: 35
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 90fe633ea01b7f890800000000000000
-      internalID: -7424270800377155831
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GrassTop32x
-      rect:
-        serializedVersion: 2
-        x: 35
-        y: 35
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ebe98d04ad3e37780800000000000000
-      internalID: -8686348729737240898
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bottom32x
-      rect:
-        serializedVersion: 2
-        x: 1
-        y: 1
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f81f68e076fdb7d60800000000000000
-      internalID: 7889144805987905935
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ground_TileSet_3
-      rect:
-        serializedVersion: 2
-        x: 35
-        y: 35
-        width: 16
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7f507ef50d61b3f90800000000000000
-      internalID: -6972954513835096585
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []

@@ -5,6 +5,7 @@ namespace Assets.Scripts.Enum
     /// </summary>
     public enum LevelType
     {
+        TestLevel,
         LevelZeroOne,
         LevelZeroTwo,
         LevelZeroThree,

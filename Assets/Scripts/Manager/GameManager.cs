@@ -17,7 +17,11 @@ namespace Assets.Scripts.Manager
 
         const string LifeBoxPrefabPath = "Prefabs/Text/LifeBox";
         GameObject lifeBoxPrefab;
-        
+
+        public bool isTesting = false;
+        public LevelType firstLevel;
+        public LevelType testLevel;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -45,8 +49,17 @@ namespace Assets.Scripts.Manager
             playerLifes = 3;
             UpdateLifeText();
             _uiEventManager.OpenScreen(ScreenType.LoadingScreen);
-            _levelEventManager.LoadLevel(LevelType.LevelZeroOne);
-            //_levelEventManager.LoadLevel(LevelType.LevelOneOne);
+
+            if(isTesting)
+            {
+                _levelEventManager.LoadLevel(testLevel);
+            }
+            else
+            {
+                _levelEventManager.LoadLevel(firstLevel);
+            }
+
+
             _uiEventManager.ActivateButton(ButtonType.RestartLevel);
             _uiEventManager.OpenScreen(ScreenType.UI);
             GameStateEventManager.current.StartGame();
