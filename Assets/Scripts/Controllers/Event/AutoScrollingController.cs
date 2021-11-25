@@ -7,10 +7,10 @@ namespace Assets.Scripts.Controllers.Event
     public class AutoScrollingController : MonoBehaviour
     {
         public Vector2[] targets;
+        public float speed = 0.5f;
 
         Vector3 _currentTarget;
         int _currentIndex = 0;
-        float _speed = 0.5f;
         
         bool _isEventStarted = false;
         
@@ -66,7 +66,7 @@ namespace Assets.Scripts.Controllers.Event
             if (!_isEventStarted)
                 return;
 
-            float step = _speed * Time.deltaTime;
+            float step = speed * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, _currentTarget, step);
 
             if (transform.position == _currentTarget)
