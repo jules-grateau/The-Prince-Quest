@@ -1,22 +1,16 @@
 fileFormatVersion: 2
-guid: a7b750a5b8357fe4faf91a1f6aa56de5
+guid: 671d43d81e29f5e43a2910ea773d5131
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1878284260792866349
-    second: PrinceV2_Jump
+      213: 2550946679865126566
+    second: LifeSprite_0
   - first:
-      213: 191786305742957916
-    second: PrinceV2_Walk
+      213: 1394099239111510087
+    second: LifeSprite_1
   - first:
-      213: 91586603013033142
-    second: PrinceV2_Kiss
-  - first:
-      213: -2655814787084509265
-    second: PrinceV2_Dead
-  - first:
-      213: 968253831154638413
-    second: PrinceV2_Iddle
+      213: -4818530323548307092
+    second: LifeSprite_0
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -47,7 +41,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -83,7 +77,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -95,7 +89,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 2
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -106,12 +100,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PrinceV2_Jump
+      name: LifeSprite_2
       rect:
         serializedVersion: 2
-        x: 37
+        x: 0
         y: 128
-        width: 59
+        width: 128
         height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -120,19 +114,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3d9eb389a6efee5e0800000000000000
-      internalID: -1878284260792866349
+      spriteID: 6aea2566d78c66320800000000000000
+      internalID: 2550946679865126566
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PrinceV2_Walk
+      name: LifeSprite_1
       rect:
         serializedVersion: 2
-        x: 165
-        y: 256
-        width: 59
+        x: 128
+        y: 128
+        width: 128
         height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -141,61 +135,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c5de79201ac59a200800000000000000
-      internalID: 191786305742957916
+      spriteID: 74842e82fd5d85310800000000000000
+      internalID: 1394099239111510087
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PrinceV2_Kiss
+      name: LifeSprite_0
       rect:
         serializedVersion: 2
-        x: 178
-        y: 130
-        width: 30
-        height: 124
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6bcc6cab781654100800000000000000
-      internalID: 91586603013033142
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PrinceV2_Dead
-      rect:
-        serializedVersion: 2
-        x: 10
-        y: 46
-        width: 112
-        height: 30
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: faf1992b586a42bd0800000000000000
-      internalID: -2655814787084509265
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PrinceV2_Iddle
-      rect:
-        serializedVersion: 2
-        x: 52
-        y: 256
-        width: 28
+        x: 0
+        y: 0
+        width: 128
         height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -204,8 +156,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d4e126ababdef6d00800000000000000
-      internalID: 968253831154638413
+      spriteID: c61847d4334212db0800000000000000
+      internalID: -4818530323548307092
       vertices: []
       indices: 
       edges: []

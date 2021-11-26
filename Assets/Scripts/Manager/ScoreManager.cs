@@ -1,5 +1,6 @@
 using Assets.Scripts.Enum;
 using Assets.Scripts.Manager.Events;
+using System;
 using UnityEngine;
 
 namespace Assets.Scripts.Manager
@@ -55,29 +56,26 @@ namespace Assets.Scripts.Manager
 
         void InstantiateScoreBox(Vector2 position, int score)
         {
-            TextMesh text = _scoreBoxPrefab.GetComponentInChildren<TextMesh>();
-            if (text != null)
+            string text = "";
+
+            if (score >= 0)
             {
-                text.text = "";
-                if (score >= 0)
-                {
-                    text.text = "+";
-                }
-                text.text += score.ToString();
-
+                text = "+";
             }
+            text += score.ToString();
 
-            Instantiate(_scoreBoxPrefab, new Vector3(position.x, position.y, _scoreBoxPrefab.transform.position.z), Quaternion.Euler(0, 0, 0));
+
+            UIEventManager.current.DisplayFloatingText(FloatingTextType.AddScore, text, position);
         }
 
-        void HandleLoadLevel(LevelType levelType)
+        void HandleLoadLevel(LevelType levelType, Action callback)
         {
             _score += _levelScore;
             _levelScore = 0;
             UpdateScore();
         }
 
-        void HandleReloadLevel()
+        void HandleReloadLevel(Action callback)
         {
             _levelScore = 0;
             UpdateScore();

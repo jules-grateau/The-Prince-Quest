@@ -1,4 +1,5 @@
 using Assets.Scripts.Manager.Events;
+using System.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts.Controllers.Player
@@ -14,16 +15,18 @@ namespace Assets.Scripts.Controllers.Player
         bool _isGrounded = false;
         bool _isJumping = false;
         bool _isAlive = true;
+        bool _isInvulnerable = false;
         bool _isDragging;
+        bool _loseControl = false;
 
         public float jumpForce = 6.5f;
-
         public float airControlSpeed = 125;
         public float speed = 4f;
         public float hitThrowSpeed = 50f;
         public float enemyBouncingSpeed = 3f;
         public float fallMultiplier = 2.5f;
         public float stopJumpMultiplied = 2.5f;
+        public float loseControlTime = 0.5f;
 
         // Start is called before the first frame update
         void Start()
@@ -37,6 +40,7 @@ namespace Assets.Scripts.Controllers.Player
             _playerEventManager.onPlayerDie += HandlePlayerDie;
             _playerEventManager.onStartDragging += HandleStartDragging;
             _playerEventManager.onStopDragging += HandleStopDragging;
+            _playerEventManager.onPlayerInvulnerability += HandlePlayerInvulnerability;
 
             _inputEventManager = InputEventManager.current;
             _inputEventManager.onHorizontalInput += HandleHorizontalInput;
@@ -55,6 +59,7 @@ namespace Assets.Scripts.Controllers.Player
             _playerEventManager.onPlayerDie -= HandlePlayerDie;
             _playerEventManager.onStartDragging -= HandleStartDragging;
             _playerEventManager.onStopDragging -= HandleStopDragging;
+            _playerEventManager.onPlayerInvulnerability -= HandlePlayerInvulnerability;
 
             _inputEventManager.onHorizontalInput -= HandleHorizontalInput;
             _inputEventManager.onSpaceInputDown -= HandleSpaceInputDown;
@@ -69,10 +74,14 @@ namespace Assets.Scripts.Controllers.Player
             AffectFallGravity();
         }
 
+        void HandlePlayerInvulnerability(bool isInvulnerable)
+        {
+            _isInvulnerable = isInvulnerable;
+        }
         void HandleStartDragging(int gameObjectId)
         {
             _isDragging = true;
-        }
+        } 
 
         void HandleStopDragging(int gameObjectId)
         {
@@ -94,8 +103,22 @@ namespace Assets.Scripts.Controllers.Player
 
         private void HandleEnemyCollidedWithPlayer(Vector2 direction)
         {
-            _playerRb.AddForce(direction * hitThrowSpeed, ForceMode2D.Impulse);
+            if(_isAlive)
+            {
+                StartCoroutine(looseControl());
+                _playerRb.AddForce(new Vector2(direction.x, 2f) * hitThrowSpeed, ForceMode2D.Impulse);
+            }
         }
+
+        IEnumerator looseControl()
+        {
+            _loseControl = true;
+            yield return new WaitForSeconds(loseControlTime);
+            _loseControl = false;
+        }
+
+
+
 
         private void HandlePlayerSteppedOnEnemy(int instanceId)
         {
@@ -111,7 +134,7 @@ namespace Assets.Scripts.Controllers.Player
 
         private void HandleHorizontalInput(float horizontalInput)
         {
-            if (!_isAlive)
+            if (!_isAlive || _loseControl)
                 return;
 
 

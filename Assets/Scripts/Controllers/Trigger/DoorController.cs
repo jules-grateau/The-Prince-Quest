@@ -8,8 +8,10 @@ namespace Assets.Scripts.Controllers.Trigger
     {
         public LevelType levelToLoad;
 
-        private PlayerEventManager _playerEventManager;
-        private bool isPlayerDead = false;
+        PlayerEventManager _playerEventManager;
+        bool _isPlayerDead = false;
+        bool _triggered = false;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -24,18 +26,19 @@ namespace Assets.Scripts.Controllers.Trigger
 
         void handlePlayerDie()
         {
-            isPlayerDead = true;
+            _isPlayerDead = true;
         }
 
         void OnTriggerEnter2D(Collider2D collision)
         {
-            if (isPlayerDead)
+            if (_isPlayerDead || _triggered)
                 return;
 
 
             if (collision.CompareTag("Player"))
             {
                 LevelEventManager.current.DoorEnter(levelToLoad);
+                _triggered = true;
             }
         }
     }

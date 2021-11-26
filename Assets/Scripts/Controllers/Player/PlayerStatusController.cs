@@ -1,19 +1,39 @@
 using Assets.Scripts.Manager.Events;
+using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Assets.Scripts.Controllers.Player
 {
+    public class PlayerStatus
+    {
+        public int HealthPoint { get; set; }
+
+        public static PlayerStatus DefaultPlayerStatus = new PlayerStatus
+        {
+            HealthPoint = 2
+        };
+
+        public PlayerStatus Clone()
+        {
+            return new PlayerStatus { HealthPoint = HealthPoint };
+        }
+    }
     public class PlayerStatusController : MonoBehaviour
     {
         PlayerEventManager _playerEventManager;
         EnemyEventManager _enemyEventManager;
         InputEventManager _inputEventManager;
 
+        bool _isInvulnerable = false;
         bool _isAlive = true;
         int _canInteractWith;
 
+        public float invulnerabilityTime = 1f;
+        PlayerStatus _playerStatus;
+
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             _enemyEventManager = EnemyEventManager.current;
             _enemyEventManager.onEnemyCollidedWithPlayer += HandleEnemyCollidedWithPlayer;
@@ -21,6 +41,7 @@ namespace Assets.Scripts.Controllers.Player
             _playerEventManager = PlayerEventManager.current;
             _playerEventManager.onKillPlayer += HandleKillPlayer;
             _playerEventManager.onCanInteractWith += HandleCanInteractWith;
+            _playerEventManager.onSetPlayerStatus += HandleSetPlayerStatus;
 
             _inputEventManager = InputEventManager.current;
             _inputEventManager.onInteractKeyDown += HandleInteractKeyDown;
@@ -32,16 +53,29 @@ namespace Assets.Scripts.Controllers.Player
 
             _playerEventManager.onKillPlayer -= HandleKillPlayer;
             _playerEventManager.onCanInteractWith -= HandleCanInteractWith;
+            _playerEventManager.onSetPlayerStatus -= HandleSetPlayerStatus;
 
             _inputEventManager.onInteractKeyDown -= HandleInteractKeyDown;
             _inputEventManager.onInteractKeyUp -= HandleInteractKeyUp;
+        }
+
+        void HandleSetPlayerStatus(PlayerStatus playerStatus)
+        {
+            if(playerStatus != null)
+            {
+                this._playerStatus = playerStatus;
+            } else
+            {
+                this._playerStatus = PlayerStatus.DefaultPlayerStatus.Clone();
+                
+            }
+            UpdateLife();
         }
 
         void HandleCanInteractWith(int gameobjectId)
         {
             if (gameobjectId == 0 && _canInteractWith != 0)
             {
-                Debug.Log("Can't interact with the object anymore");
                 _playerEventManager.StopInteractWith(_canInteractWith);
             }
 
@@ -78,12 +112,45 @@ namespace Assets.Scripts.Controllers.Player
             PlayerDie();
 
         }
+
         void HandleEnemyCollidedWithPlayer(Vector2 direction)
         {
-            if (!_isAlive)
+            if (!_isAlive || _isInvulnerable)
                 return;
 
-            PlayerDie();
+            TakeDamage();
+            if (_playerStatus.HealthPoint <= 0 )
+            {
+                PlayerDie();
+            } else
+            {
+                StartCoroutine(Invulnerability());
+            }
+        }
+
+        void TakeDamage()
+        {
+            _playerStatus.HealthPoint--;
+
+            UpdateLife();
+        }
+
+        IEnumerator Invulnerability()
+        {
+            UpdateInvulnebirility(true);
+            yield return new WaitForSeconds(invulnerabilityTime);
+            UpdateInvulnebirility(false);
+        }
+
+        void UpdateInvulnebirility(bool isInvulnerable)
+        {
+            _playerEventManager.PlayerInvulnerability(isInvulnerable);
+            _isInvulnerable = isInvulnerable;
+        }
+
+        void UpdateLife()
+        {
+            _playerEventManager.UpdatePlayerStatus(_playerStatus);
         }
     }
 }

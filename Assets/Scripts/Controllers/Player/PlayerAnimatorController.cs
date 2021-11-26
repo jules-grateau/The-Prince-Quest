@@ -13,6 +13,7 @@ namespace Assets.Scripts.Controllers.Player
         const string IsAliveParameterName = "isAlive";
         const string IsKissingParameterName = "isKissing";
         const string IsDraggingParameterName = "isDragging";
+        const string IsInvulnerableParameterName = "isInvulnerable";
 
         // Start is called before the first frame update
         void Start()
@@ -24,6 +25,7 @@ namespace Assets.Scripts.Controllers.Player
             _playerEventManager.onIsKissing += SetKissingParameter;
             _playerEventManager.onStartDragging += SetDragParameterTrue;
             _playerEventManager.onStopDragging += SetDragParameterFalse;
+            _playerEventManager.onPlayerInvulnerability += SetIsInvulnerableParameter;
             _animator = GetComponent<Animator>();
         }
 
@@ -35,6 +37,7 @@ namespace Assets.Scripts.Controllers.Player
             _playerEventManager.onIsKissing -= SetKissingParameter;
             _playerEventManager.onStartDragging -= SetDragParameterTrue;
             _playerEventManager.onStopDragging -= SetDragParameterFalse;
+            _playerEventManager.onPlayerInvulnerability -= SetIsInvulnerableParameter;
         }
 
 
@@ -65,6 +68,11 @@ namespace Assets.Scripts.Controllers.Player
         void SetGroundedParameter(bool isGrounded)
         {
             _animator.SetBool(IsGroundedParameterName, isGrounded);
+        }
+
+        void SetIsInvulnerableParameter(bool isInvulnerable)
+        {
+            _animator.SetBool(IsInvulnerableParameterName,isInvulnerable);
         }
     }
 }

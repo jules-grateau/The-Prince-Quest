@@ -13,21 +13,21 @@ namespace Assets.Scripts.Manager.Events
             current = this;
         }
 
-        public event Action<LevelType> onLoadLevel;
-        public void LoadLevel(LevelType levelType)
+        public event Action<LevelType,Action> onLoadLevel;
+        public void LoadLevel(LevelType levelType, Action callback)
         {
             if (onLoadLevel != null)
             {
-                onLoadLevel(levelType);
+                onLoadLevel(levelType, callback);
             }
         }
 
-        public event Action onReloadLevel;
-        public void ReloadLevel()
+        public event Action<Action> onReloadLevel;
+        public void ReloadLevel(Action callback)
         {
             if (onReloadLevel != null)
             {
-                onReloadLevel();
+                onReloadLevel(callback);
             }
         }
 

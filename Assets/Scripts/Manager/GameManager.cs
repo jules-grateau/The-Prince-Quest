@@ -1,3 +1,4 @@
+using Assets.Scripts.Controllers.Player;
 using Assets.Scripts.Enum;
 using Assets.Scripts.Manager.Events;
 using UnityEngine;
@@ -11,16 +12,16 @@ namespace Assets.Scripts.Manager
         PlayerEventManager _playerEventManager;
         LevelEventManager _levelEventManager;
 
-        bool isGamePaused = true;
-        bool isGameStarted = false;
-        int playerLifes = 0;
-
-        const string LifeBoxPrefabPath = "Prefabs/Text/LifeBox";
-        GameObject lifeBoxPrefab;
+        bool _isGamePaused = true;
+        bool _isGameStarted = false;
+        int _playerLifes = 0;
+        PlayerStatus _playerStatus = PlayerStatus.DefaultPlayerStatus.Clone();
+        PlayerStatus _currLevelInitPlayerStatus;
 
         public bool isTesting = false;
         public LevelType firstLevel;
         public LevelType testLevel;
+        public int initPlayerLifes = 3;
 
         // Start is called before the first frame update
         void Start()
@@ -34,30 +35,25 @@ namespace Assets.Scripts.Manager
 
             _playerEventManager = PlayerEventManager.current;
             _playerEventManager.onPlayerDie += HandlePlayerDie;
-            _playerEventManager.onAddLife += HandleAddLife;
+            _playerEventManager.onTakeBonus += HandleTakeBonus;
+            _playerEventManager.onUpdatePlayerStatus += HandleUpdatePlayerStatus;
 
             _levelEventManager = LevelEventManager.current;
             _levelEventManager.onDoorEnter += HandleDoorEnter;
-
-
-            lifeBoxPrefab = Resources.Load<GameObject>(LifeBoxPrefabPath);
         }
 
         void StartGame()
         {
-            isGameStarted = true;
-            playerLifes = 3;
+            _playerStatus = null;
+            _currLevelInitPlayerStatus = null;
+            _isGameStarted = true;
+            _playerLifes = initPlayerLifes;
+
             UpdateLifeText();
             _uiEventManager.OpenScreen(ScreenType.LoadingScreen);
 
-            if(isTesting)
-            {
-                _levelEventManager.LoadLevel(testLevel);
-            }
-            else
-            {
-                _levelEventManager.LoadLevel(firstLevel);
-            }
+            LevelType levelToLoad = isTesting ? testLevel : firstLevel;
+            _levelEventManager.LoadLevel(levelToLoad, OnLoadEndCallback);
 
 
             _uiEventManager.ActivateButton(ButtonType.RestartLevel);
@@ -68,14 +64,14 @@ namespace Assets.Scripts.Manager
 
         void ResumeGame()
         {
-            isGamePaused = false;
+            _isGamePaused = false;
             Time.timeScale = 1;
             GameStateEventManager.current.ResumeGame();
         }
 
         void PauseGame()
         {
-            isGamePaused = true;
+            _isGamePaused = true;
             Time.timeScale = 0;
             _uiEventManager.ActivateButton(ButtonType.ResumeGame);
             GameStateEventManager.current.PauseGame();
@@ -85,16 +81,16 @@ namespace Assets.Scripts.Manager
         {
             _uiEventManager.OpenScreen(ScreenType.LoadingScreen);
             PauseGame();
-            _levelEventManager.ReloadLevel();
+            _levelEventManager.ReloadLevel(OnReloadLevel);
             ResumeGame();
             _uiEventManager.OpenScreen(ScreenType.UI);
         }
 
         void HandleOnEscapeInput()
         {
-            if (isGameStarted)
+            if (_isGameStarted)
             {
-                if (isGamePaused)
+                if (_isGamePaused)
                 {
                     ResumeGame();
                     _uiEventManager.OpenScreen(ScreenType.UI);
@@ -132,8 +128,8 @@ namespace Assets.Scripts.Manager
 
         void HandlePlayerDie()
         {
-            playerLifes -= 1;
-            if (playerLifes >= 0)
+            _playerLifes -= 1;
+            if (_playerLifes >= 0)
             {
                 UpdateLifeText();
                 _uiEventManager.OpenScreen(ScreenType.DeathScreen);
@@ -144,27 +140,54 @@ namespace Assets.Scripts.Manager
             }
         }
 
-        void HandleAddLife(Vector2 position)
+        void HandleTakeBonus(Vector2 position)
         {
-            playerLifes++;
-            UpdateLifeText();
-            if (lifeBoxPrefab != null)
+            if(_playerStatus.HealthPoint < PlayerStatus.DefaultPlayerStatus.HealthPoint)
             {
-                Instantiate(lifeBoxPrefab, new Vector3(position.x, position.y, lifeBoxPrefab.transform.position.z),
-                    Quaternion.Euler(0, 0, 0));
+                _playerStatus.HealthPoint++;
+                _playerEventManager.SetPlayerStatus(_playerStatus);
+                _uiEventManager.UpdateLife(_playerStatus.HealthPoint);
+                _uiEventManager.DisplayFloatingText(FloatingTextType.AddHealthPoint, null, position);
+            } else
+            {
+                _playerLifes++;
+                UpdateLifeText();
+                _uiEventManager.DisplayFloatingText(FloatingTextType.AddLife, null, position);
+            }
+
+        }
+
+        void HandleUpdatePlayerStatus(PlayerStatus playerStatus)
+        {
+            if(playerStatus != null)
+            {
+                _playerStatus = playerStatus;
+                _uiEventManager.UpdateLife(_playerStatus.HealthPoint);
             }
         }
 
         void UpdateLifeText()
         {
-            _uiEventManager.UpdateTextElement(UiTextElementType.Life, "x" + playerLifes);
+            _uiEventManager.UpdateTextElement(UiTextElementType.Life, "x" + _playerLifes);
         }
 
         void HandleDoorEnter(LevelType levelType)
         {
             _uiEventManager.OpenScreen(ScreenType.LoadingScreen);
-            _levelEventManager.LoadLevel(levelType);
+            _levelEventManager.LoadLevel(levelType, OnLoadEndCallback);
             _uiEventManager.OpenScreen(ScreenType.UI);
+        }
+
+        void OnLoadEndCallback()
+        {
+            _playerEventManager.SetPlayerStatus(_playerStatus);
+            _currLevelInitPlayerStatus = _playerStatus?.Clone();
+        }
+
+        void OnReloadLevel()
+        {
+            _playerStatus = _currLevelInitPlayerStatus?.Clone();
+            _playerEventManager.SetPlayerStatus(_playerStatus);
         }
     }
 }

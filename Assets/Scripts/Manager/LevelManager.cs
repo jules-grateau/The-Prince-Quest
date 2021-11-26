@@ -1,5 +1,6 @@
 using Assets.Scripts.Enum;
 using Assets.Scripts.Manager.Events;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -52,16 +53,17 @@ namespace Assets.Scripts.Manager
             }
         }
 
-        void HandleOnReloadLevel()
+        void HandleOnReloadLevel(Action callback)
         {
             if (_currentLevelInstance != null)
             {
                 Destroy(_currentLevelInstance);
                 _currentLevelInstance = Instantiate(_currentLevel);
+                callback();
             }
         }
 
-        void HandleLoadLevel(LevelType levelType)
+        void HandleLoadLevel(LevelType levelType, Action callback)
         {
             Level level;
             if (!levelDictionary.TryGetValue(levelType, out level))
@@ -75,6 +77,7 @@ namespace Assets.Scripts.Manager
             _currentLevel = levelToLoad;
             _currentLevelInstance = Instantiate(levelToLoad);
             UIEventManager.current.UpdateTextElement(UiTextElementType.Level, level.Name);
+            callback();
         }
     }
 }

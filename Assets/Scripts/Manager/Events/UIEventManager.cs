@@ -68,12 +68,30 @@ namespace Assets.Scripts.Manager.Events
             }
         }
 
+        public event Action<int> onUpdateLife;
+        public void UpdateLife(int life)
+        {
+            if(onUpdateLife != null)
+            {
+                onUpdateLife(life);
+            }
+        }
+
         public event Action onCloseTutorialMessage;
         public void CloseTutorialMessage()
         {
             if (onCloseTutorialMessage != null)
             {
                 onCloseTutorialMessage();
+            }
+        }
+
+        public event Action<FloatingTextType, string, Vector2> onDisplayFloatingText;
+        public void DisplayFloatingText(FloatingTextType type, string text, Vector2 position)
+        {
+            if(onDisplayFloatingText != null)
+            {
+                onDisplayFloatingText(type, text, position);
             }
         }
     }

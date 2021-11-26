@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Controllers.Player;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -51,12 +52,12 @@ namespace Assets.Scripts.Manager.Events
             }
         }
 
-        public event Action<Vector2> onAddLife;
-        public void AddLife(Vector2 position)
+        public event Action<Vector2> onTakeBonus;
+        public void TakeBonus(Vector2 position)
         {
-            if (onAddLife != null)
+            if (onTakeBonus != null)
             {
-                onAddLife(position);
+                onTakeBonus(position);
             }
         }
 
@@ -138,6 +139,33 @@ namespace Assets.Scripts.Manager.Events
             if (onStopKissing != null)
             {
                 onStopKissing();
+            }
+        }
+
+        public event Action<bool> onPlayerInvulnerability;
+        public void PlayerInvulnerability(bool isInvulnerable)
+        {
+            if(onPlayerInvulnerability != null)
+            {
+                onPlayerInvulnerability(isInvulnerable);
+            }
+        }
+
+        public event Action<PlayerStatus> onSetPlayerStatus;
+        public void SetPlayerStatus(PlayerStatus playerStatus)
+        {
+            if(onSetPlayerStatus != null)
+            {
+                onSetPlayerStatus(playerStatus);
+            }
+        }
+
+        public event Action<PlayerStatus> onUpdatePlayerStatus;
+        public void UpdatePlayerStatus(PlayerStatus playerStatus)
+        {
+            if (onUpdatePlayerStatus != null)
+            {
+                onUpdatePlayerStatus(playerStatus);
             }
         }
     }
