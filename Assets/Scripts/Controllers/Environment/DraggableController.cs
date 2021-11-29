@@ -10,15 +10,17 @@ namespace Assets.Scripts.Controllers.Environment
         
         Rigidbody2D _rb;
         Rigidbody2D _rbToFollow;
-        
-        Vector2 _positionOffset;
-        Vector2 _draggingDirection;
+        float _initMass;
+        float xOffset;
+
+        public float forceMultiplier = 1f;
 
         // Use this for initialization
         void Awake()
         {
             _playerEventManager = PlayerEventManager.current;
             _rb = GetComponent<Rigidbody2D>();
+            _initMass = _rb.mass;
             _playerEventManager.onStartInteractWith += HandleStartInteractWith;
             _playerEventManager.onStopInteractWith += HandleStopInteractWith;
         }
@@ -42,7 +44,7 @@ namespace Assets.Scripts.Controllers.Environment
         {
             if (gameObject.GetInstanceID() == gameobjectId)
             {
-                _rbToFollow = null;
+                StopDragging();
                 _playerEventManager.StopDragging(gameobjectId);
             }
         }
@@ -50,28 +52,24 @@ namespace Assets.Scripts.Controllers.Environment
         void StartDragging(GameObject interactionFrom)
         {
             _rbToFollow = interactionFrom.GetComponent<Rigidbody2D>();
-            _positionOffset = new Vector2(_rb.transform.position.x - _rbToFollow.transform.position.x, 0);
-            _draggingDirection = _positionOffset.normalized;
+            if(_rbToFollow != null)
+            {
+                _rb.mass = 0;
+                xOffset = _rb.position.x - _rbToFollow.position.x;
+            }
+        }
+
+        void StopDragging()
+        {
+            _rbToFollow = null;
+            _rb.mass = _initMass;
         }
 
         private void FixedUpdate()
         {
             if(_rbToFollow != null)
             {
-                Vector2 rbToFollowDirection = _rbToFollow.velocity.normalized;
-                //If we are pushing the object, the rb to follow might enter
-                //in collision with the draggable rb, making the draggable following the
-                //rb to Follow not working.
-                //Therefor, we follow if we go in the opposite direction
-                //Otherwise we add force on the draggable
-                if (rbToFollowDirection == _draggingDirection)
-                {
-                    _rb.AddForce(_draggingDirection * _rb.mass/1.75f, ForceMode2D.Impulse);
-                } else if(rbToFollowDirection.x != 0)
-                {
-                    _rb.MovePosition((Vector2)_rbToFollow.transform.position + _positionOffset);
-                }
-
+                _rb.MovePosition(new Vector2(_rbToFollow.position.x + xOffset, _rb.position.y));
             }
         }
     }

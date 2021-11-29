@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e06a66387115f64e96ac4fbccd7ba86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceMultiplier: 0
 --- !u!198 &8533206267304388542
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4938,7 +4939,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  SpeedBreak: 1.5
+  speedBreak: 3
+  particulPlayTime: 1
+  destoryTime: 2
 --- !u!114 &6502359867388735498
 MonoBehaviour:
   m_ObjectHideFlags: 0
