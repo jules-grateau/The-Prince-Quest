@@ -9,14 +9,19 @@ namespace Assets.Scripts.Controllers.Player
         Rigidbody2D _playerRb;
         BoxCollider2D _boxCollider;
         bool _isAlive = true;
+        bool _isInvulnerable = false;
         bool _isDragging = false;
         GameObject _lookDirectionObject;
+        GameObject _feet;
 
         public float groundCollisionWidthMultiplier = 0.95f;
         public float groundCollisionHeight = 0.10f;
         public float interacteDistance = 0.5f;
         public LayerMask groundLayer;
         public LayerMask enemyLayer;
+
+        const string FeetGameObjectName = "Feet";
+        const string LookDirectionGameObjectName = "LookDirection";
 
         // Start is called before the first frame update
         void Start()
@@ -25,9 +30,11 @@ namespace Assets.Scripts.Controllers.Player
             _playerEventManager.onPlayerDie += HandlePlayerDie;
             _playerEventManager.onStartDragging += HandleStartDragging;
             _playerEventManager.onStopDragging += HandleStopDragging;
+            _playerEventManager.onPlayerInvulnerability += HandlePlayerInvulnerability;
             _boxCollider = GetComponent<BoxCollider2D>();
             _playerRb = GetComponent<Rigidbody2D>();
-            _lookDirectionObject = transform.GetChild(0).gameObject;
+            _lookDirectionObject = transform.Find(LookDirectionGameObjectName)?.gameObject;
+            _feet = transform.Find(FeetGameObjectName)?.gameObject;
         }
 
         private void OnDestroy()
@@ -35,6 +42,7 @@ namespace Assets.Scripts.Controllers.Player
             _playerEventManager.onPlayerDie -= HandlePlayerDie;
             _playerEventManager.onStartDragging -= HandleStartDragging;
             _playerEventManager.onStartDragging -= HandleStopDragging;
+            _playerEventManager.onPlayerInvulnerability -= HandlePlayerInvulnerability;
         }
 
         void Update()
@@ -73,8 +81,8 @@ namespace Assets.Scripts.Controllers.Player
 
         void CalculateGroundColision()
         {
-            Vector2 boxPoint = _playerRb.position + new Vector2(_boxCollider.offset.x, -_boxCollider.size.y);
-            Vector2 boxSize = new Vector2(_boxCollider.size.x * groundCollisionWidthMultiplier, groundCollisionHeight);
+            Vector2 boxPoint = _feet.transform.position;
+            Vector2 boxSize = new Vector2(_boxCollider.size.x, groundCollisionHeight);
             // Collider to detected collision with ground, to check if grounded
             Collider2D groundOverlapBox = Physics2D.OverlapBox(boxPoint
                 , boxSize, transform.rotation.y, groundLayer);
@@ -85,9 +93,12 @@ namespace Assets.Scripts.Controllers.Player
 
         void CalculateEnemyColision()
         {
+            if (_isInvulnerable)
+                return;
+
             // Collider to detected collision with ground, to check if grounded
-            Collider2D enemyOverlapBox = Physics2D.OverlapBox(_playerRb.position + _boxCollider.offset + Vector2.down
-                , new Vector2(_boxCollider.size.x * 2, 0.10f), 0, enemyLayer);
+            Collider2D enemyOverlapBox = Physics2D.OverlapBox(_feet.transform.position, 
+                new Vector2(_boxCollider.size.x * 2, 0.05f), 0, enemyLayer);
             if (enemyOverlapBox != null)
             {
                 _playerEventManager.PlayerSteppedOnEnemy(enemyOverlapBox.gameObject.GetInstanceID());
@@ -133,6 +144,12 @@ namespace Assets.Scripts.Controllers.Player
         void HandleStopDragging(int goId)
         {
             _isDragging = false;
+        }
+
+        void HandlePlayerInvulnerability(bool isInvulnerable)
+        {
+            Physics2D.IgnoreLayerCollision(gameObject.layer,  LayerMask.NameToLayer("Enemies"), isInvulnerable);
+            _isInvulnerable = isInvulnerable;
         }
     }
 }
