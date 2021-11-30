@@ -4,13 +4,13 @@ TextureImporter:
   internalIDToNameTable:
   - first:
       213: -7424270800377155831
-    second: FlowerTop32x
+    second: Ground_TileSet_0
   - first:
       213: -8686348729737240898
-    second: GrassTop32x
+    second: Ground_TileSet_1
   - first:
       213: 7889144805987905935
-    second: Bottom32x
+    second: Ground_TileSet_2
   - first:
       213: -6972954513835096585
     second: Ground_TileSet_3
@@ -54,11 +54,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 0
+  spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 128
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -103,15 +103,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: FlowerTop32x
+      name: Ground_TileSet_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 35
-        width: 32
-        height: 32
+        x: 0
+        y: 128
+        width: 128
+        height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -124,15 +124,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GrassTop32x
+      name: Ground_TileSet_1
       rect:
         serializedVersion: 2
-        x: 35
-        y: 35
-        width: 32
-        height: 32
+        x: 128
+        y: 128
+        width: 128
+        height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -145,15 +145,15 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Bottom32x
+      name: Ground_TileSet_2
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1
-        width: 32
-        height: 32
+        x: 0
+        y: 0
+        width: 128
+        height: 128
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -169,10 +169,10 @@ TextureImporter:
       name: Ground_TileSet_3
       rect:
         serializedVersion: 2
-        x: 35
-        y: 35
-        width: 16
-        height: 32
+        x: 128
+        y: 0
+        width: 128
+        height: 128
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
