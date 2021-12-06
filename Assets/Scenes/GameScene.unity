@@ -3555,9 +3555,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5ffa83ac7e18b84eb1af8dd4717bad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTesting: 0
+  isTesting: 1
   firstLevel: 1
-  testLevel: 0
+  testLevel: 5
   initPlayerLifes: 99
 --- !u!1 &1651608818
 GameObject:

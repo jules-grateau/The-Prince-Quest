@@ -45697,17 +45697,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7801353614993267627}
     m_Modifications:
+    - target: {fileID: 2593678928903182252, guid: 789b67dcc230f41409ea66caeb67bce3, type: 3}
+      propertyPath: m_Mass
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 3386227144929749657, guid: 789b67dcc230f41409ea66caeb67bce3, type: 3}
+      propertyPath: velocityMultiplier
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5245275388038952693, guid: 789b67dcc230f41409ea66caeb67bce3, type: 3}
       propertyPath: m_RootOrder
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5245275388038952693, guid: 789b67dcc230f41409ea66caeb67bce3, type: 3}
       propertyPath: m_LocalScale.x
-      value: 5
+      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 5245275388038952693, guid: 789b67dcc230f41409ea66caeb67bce3, type: 3}
       propertyPath: m_LocalScale.y
-      value: 5
+      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 5245275388038952693, guid: 789b67dcc230f41409ea66caeb67bce3, type: 3}
       propertyPath: m_LocalPosition.x

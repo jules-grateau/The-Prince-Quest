@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e06a66387115f64e96ac4fbccd7ba86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceMultiplier: 0
+  velocityMultiplier: 1
 --- !u!198 &8533206267304388542
 ParticleSystem:
   m_ObjectHideFlags: 0
