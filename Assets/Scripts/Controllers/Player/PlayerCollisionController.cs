@@ -50,10 +50,17 @@ namespace Assets.Scripts.Controllers.Player
             if (!_isAlive)
                 return;
 
+            CalculateInteractable();
+        }
+
+        private void FixedUpdate()
+        {
+            if (!_isAlive)
+                return;
+
             CalculateGroundColision();
             CalculateEnemyColision();
             CalculateIsCrushed();
-            CalculateInteractable();
         }
 
         void CalculateInteractable()
@@ -114,24 +121,27 @@ namespace Assets.Scripts.Controllers.Player
             Collider2D[] overlapBox = Physics2D.OverlapBoxAll(_playerRb.position + _boxCollider.offset, _boxCollider.size, 0);
             bool isPushedLeft = false;
             bool isPushedRight = false;
+
             foreach (Collider2D collider in overlapBox)
             {
                 if (collider.isTrigger)
                     return;
 
-                if (collider.transform.position.x < transform.position.x)
+                var colliderPosition = collider.ClosestPoint(transform.position);
+                if (colliderPosition.x < transform.position.x)
                 {
                     isPushedLeft = true;
                 }
-                if (collider.transform.position.x > transform.position.x)
+                if (colliderPosition.x > transform.position.x)
                 {
                     isPushedRight = true;
                 }
             }
 
+
             if (isPushedLeft && isPushedRight)
             {
-                _playerEventManager.PlayerDie();
+                _playerEventManager.KillPlayer();
             }
         }
 

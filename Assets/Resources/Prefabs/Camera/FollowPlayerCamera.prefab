@@ -99,8 +99,9 @@ GameObject:
   - component: {fileID: 2958548406460955332}
   - component: {fileID: 2958548406460955334}
   - component: {fileID: 7794021412645223761}
+  - component: {fileID: -3818012837854916231}
   m_Layer: 0
-  m_Name: CM vcam1
+  m_Name: FollowPlayerCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -185,5 +186,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 012c282670b981f4fa948900d784e4bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerGameObjectPath: Player
-  CameraBoundariesGameObjectPath: CameraRail/CameraBoundaries
+--- !u!114 &-3818012837854916231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2958548406460955339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a8a05de0ac134f4f9d01bef6b9da077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
