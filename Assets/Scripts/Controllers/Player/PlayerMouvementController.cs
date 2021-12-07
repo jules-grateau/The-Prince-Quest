@@ -18,10 +18,13 @@ namespace Assets.Scripts.Controllers.Player
         bool _isInvulnerable = false;
         bool _isDragging;
         bool _loseControl = false;
+        Vector2 _velocitySmoothDamp;
 
         public float jumpForce = 6.5f;
         public float airControlSpeed = 125;
         public float speed = 4f;
+        public float accelerationDelta = 0.1f;
+        public float decelerationDelta = 0.2f;
         public float hitThrowSpeed = 50f;
         public float enemyBouncingSpeed = 3f;
         public float fallMultiplier = 2.5f;
@@ -148,8 +151,9 @@ namespace Assets.Scripts.Controllers.Player
 
             if (_isGrounded)
             {
-                //We give a specific velocity to the character when on ground
-                _playerRb.velocity = new Vector2(horizontalInput * actualSpeed, _playerRb.velocity.y);
+                float delta = horizontalInput == 0 ? decelerationDelta : accelerationDelta;
+                Vector2 targetVelocity = new Vector2(horizontalInput * actualSpeed, _playerRb.velocity.y);
+                _playerRb.velocity = Vector2.SmoothDamp(_playerRb.velocity, targetVelocity,ref _velocitySmoothDamp,delta);
             }
             else
             {
@@ -163,7 +167,7 @@ namespace Assets.Scripts.Controllers.Player
                 }
             }
 
-            bool isWalking = _isGrounded && _playerRb.velocity.x != 0;
+            bool isWalking = _isGrounded && Mathf.Abs(_playerRb.velocity.x) > 0.1;
             _playerEventManager.Walking(isWalking);
             CalculateLookDirection(horizontalInput);
         }

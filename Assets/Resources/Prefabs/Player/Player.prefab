@@ -205,6 +205,8 @@ MonoBehaviour:
   jumpForce: 6.5
   airControlSpeed: 125
   speed: 4
+  accelerationDelta: 0.1
+  decelerationDelta: 0.1
   hitThrowSpeed: 100
   enemyBouncingSpeed: 11.5
   fallMultiplier: 1.75

@@ -45702,6 +45702,10 @@ PrefabInstance:
       value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 3386227144929749657, guid: 789b67dcc230f41409ea66caeb67bce3, type: 3}
+      propertyPath: xMinOffset
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3386227144929749657, guid: 789b67dcc230f41409ea66caeb67bce3, type: 3}
       propertyPath: velocityMultiplier
       value: 1
       objectReference: {fileID: 0}

@@ -11,16 +11,16 @@ namespace Assets.Scripts.Controllers.Environment
         Rigidbody2D _rb;
         Rigidbody2D _rbToFollow;
         float xOffset;
-
-        Vector2 _holdDirection;
-
-        public float velocityMultiplier = 10f;
+        float xMinOffset;
+        public float xRelativeMinOffset = 0.5f;
 
         // Use this for initialization
         void Awake()
         {
             _playerEventManager = PlayerEventManager.current;
             _rb = GetComponent<Rigidbody2D>();
+            xMinOffset = xRelativeMinOffset * gameObject.transform.localScale.x;
+
             _playerEventManager.onStartInteractWith += HandleStartInteractWith;
             _playerEventManager.onStopInteractWith += HandleStopInteractWith;
         }
@@ -55,7 +55,10 @@ namespace Assets.Scripts.Controllers.Environment
             if(_rbToFollow != null)
             {
                 xOffset = _rb.position.x - _rbToFollow.position.x;
-                _holdDirection = new Vector2(xOffset, 0).normalized;
+                if(Mathf.Abs(xOffset) < xMinOffset)
+                {
+                    xOffset = xOffset > 0 ? xMinOffset : -xMinOffset; 
+                }
             }
         }
 
@@ -69,14 +72,7 @@ namespace Assets.Scripts.Controllers.Environment
         {
             if(_rbToFollow != null)
             {
-                var followDirection = new Vector2(_rbToFollow.velocity.x, 0).normalized;
-                if(_holdDirection == followDirection)
-                {
-                    _rb.velocity = new Vector2(_rbToFollow.velocity.x * velocityMultiplier, _rb.velocity.y);
-                } else
-                {
-                    _rb.MovePosition(new Vector2(_rbToFollow.position.x + xOffset, _rb.position.y));
-                }
+                _rb.MovePosition(new Vector2(_rbToFollow.position.x + xOffset, _rb.position.y));
             }
         }
     }
