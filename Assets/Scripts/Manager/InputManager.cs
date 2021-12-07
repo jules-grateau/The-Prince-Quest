@@ -5,9 +5,6 @@ namespace Assets.Scripts.Manager
 {
     public class InputManager : MonoBehaviour
     {
-        public float spaceKeyForcePerFrameFixed = 0.1f;
-        public float maxSpaceKeyForce = 1f;
-
         private GameStateEventManager _gameStateEventManager;
         private InputEventManager _inputEventManager;
         private bool _isGamePaused = true;

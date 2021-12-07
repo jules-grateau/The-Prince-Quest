@@ -202,13 +202,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 241908596de7f5748a486229e7c64e93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 6.5
+  jumpForce: 8
   airControlSpeed: 125
-  speed: 4
-  accelerationDelta: 0.1
-  decelerationDelta: 0.1
+  speed: 5
+  accelerationDelta: 0.2
+  decelerationDelta: 0.15
   hitThrowSpeed: 100
-  enemyBouncingSpeed: 11.5
+  enemyBouncingSpeed: 14
   fallMultiplier: 1.75
   stopJumpMultiplied: 1.75
   loseControlTime: 0.5

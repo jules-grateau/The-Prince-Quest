@@ -97,8 +97,12 @@ namespace Assets.Scripts.Controllers.Player
                 return;
 
             // Collider to detected collision with ground, to check if grounded
-            Collider2D enemyOverlapBox = Physics2D.OverlapBox(_feet.transform.position, 
-                new Vector2(_boxCollider.size.x * 2, 0.05f), 0, enemyLayer);
+            Collider2D enemyOverlapBox = Physics2D.OverlapCircle(_feet.transform.position,
+                _boxCollider.size.x, enemyLayer);
+            Debug.DrawRay(_feet.transform.position, Vector2.right * _boxCollider.size.x);
+            Debug.DrawRay(_feet.transform.position, Vector2.left * _boxCollider.size.x);
+            Debug.DrawRay(_feet.transform.position, Vector2.up * _boxCollider.size.x);
+            Debug.DrawRay(_feet.transform.position, Vector2.down * _boxCollider.size.x);
             if (enemyOverlapBox != null)
             {
                 _playerEventManager.PlayerSteppedOnEnemy(enemyOverlapBox.gameObject.GetInstanceID());
