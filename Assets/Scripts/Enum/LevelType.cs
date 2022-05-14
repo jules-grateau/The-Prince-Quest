@@ -10,6 +10,7 @@ namespace Assets.Scripts.Enum
         LevelZeroTwo,
         LevelZeroThree,
         LevelZeroFour,
-        LevelOneOne
+        LevelOneOne,
+        LevelOneTwo
     }
 }
